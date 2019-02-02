@@ -46,6 +46,11 @@
     margin-bottom: 30px;
   }
 
+  #bg-inputs
+  {
+    background-color: white;
+    border: 1px solid lightgrey;
+  }
   .btn-cadastre-se {
 
     margin-top: 20px;
@@ -96,14 +101,7 @@
 
 </style>
 
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('#data').mask('00/00/0000');
-    $('#cpf').mask('000000000-00'); 
-    $('#rg').mask('00000000-00'); 
-    $('#celular').mask('(00)00000-0000');
-  });
-</script>
+
 </head>
 <body>      
   @section('navbar')
@@ -125,7 +123,7 @@
           <div class="col">
             <input  class="form-control mr-sm-2 inputs {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email" type="email" placeholder="E-mail" aria-label="E-mail">
             @if($errors->has('email'))
-            <div class="invalid-feedback">
+            <div id="bg-inputs" style="position:fixed; z-index:999;" class="invalid-feedback ">
               {{ $errors->first('email') }}
             </div>
             @endif
@@ -133,7 +131,7 @@
           <div class="col">
             <input  class="form-control mr-sm-2 inputs {{ $errors->has('email') ? 'is-invalid' : '' }}" name="senha" type="password" placeholder="Senha" aria-label="Senha">
             @if($errors->has('senha'))
-            <div class="invalid-feedback">
+            <div id="bg-inputs" style="position:fixed; z-index:999;" class="invalid-feedback ">
               {{ $errors->first('senha') }}
             </div>
             @endif
@@ -207,5 +205,13 @@
   </footer>
 
   @show
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#data').mask('00/00/0000');
+      $('#cpf').mask('000000000-00'); 
+      $('#rg').mask('00000000-00'); 
+      $('#celular').mask('(00)00000-0000');
+    });
+  </script>
 </body>
 </html>

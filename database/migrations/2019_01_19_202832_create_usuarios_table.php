@@ -24,6 +24,7 @@ class CreateUsuariosTable extends Migration
             $table->string('rg', 13)->unique();
             $table->string('cpf', 13)->unique();
             $table->boolean('tipo_usuario');
+            $table->string('remember_token', 100)->nullable();
             $table->softDeletes();
             $table->timestamps();
             });

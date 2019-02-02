@@ -144,8 +144,9 @@ public function valida(Request $request)
 
     $mensagens = 
             [   //mensagens do email e senha
-            'email.required' => 'É necessário inserir o email!',
-            'senha.required' => 'É necessário inserir a senha!',
+            'email.required' => 'É necessário inserir o e-mail!',
+            'email' => 'É necessário inserir um e-mail válido!',
+            'senha.required' => 'É necessário inserir a senha!'
             ];
 
     $request->validate($regras, $mensagens);

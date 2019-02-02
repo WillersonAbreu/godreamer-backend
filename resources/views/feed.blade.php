@@ -19,7 +19,7 @@
         <div class="row">        
             <div class="input-group col">
                 <div class="input-group-append">
-                    <a class="dropdown-toggle btn" type="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bem vindo, {{ $nome }}</a>
+                    <a class="dropdown-toggle btn" type="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bem vindo, {{$usuario->nome}}</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item " href="#">Editar Perfil</a>                  
                         <a class="dropdown-item" href="/">Sair</a>
@@ -46,76 +46,82 @@
                 <a class="nav-link" href="#">Grupos</a> 
             </nav>
         </div>        
-        <div class="col-md-7">
+        <div class="col">
             <span class="badge badge-default">Feed</span>
-            <div style="margin-bottom: 10px;" class="card">
-                <h5 class="card-header">
-                    Novo post
-                </h5>
-                <div class="card-body">
-                    <p class="card-text">
-                        Conteúdo do post
-                    </p>
+            <div>
+
+                @if(session()->has('sucesso_post'))
+                <div class="alert alert-success">
+                    {{session()->get('sucesso_post')}}
                 </div>
-                <div class="card-footer">
-                    Data do post(automático)
+                @endif
+
+                @if(session()->has('sucesso_delete'))
+                <div class="alert alert-success">
+                    {{ session()->get('sucesso_delete') }}
+                </div>                         
+                @endif
+
+
+                <button style="margin-bottom: 10px;" type="button" data-toggle="modal" data-target="#modalPost" class="btn btn-outline-success justify-content-middle">
+                    Nova Postagem
+                </button>
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                 <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Novo Post</h5>
+
+                        </div>
+                        <form name="formPost" id="formPost" method="GET" action="/feed/postar/{{$usuario->id}}">
+                            <div class="modal-body">                            
+                                <div>
+                                    @csrf
+                                    <div>
+                                        <label>Digite seu post:
+                                            <input class="form-control" type="text" name="post" placeholder="Digite seu post, desabafe..." >
+                                        </label>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Postar</button>
+                            </div>
+                        </form>  
+                    </div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 10px;" class="card">
-                <h5 class="card-header">
-                    Novo post
-                </h5>
-                <div class="card-body">
-                    <p class="card-text">
-                        Conteúdo do post
-                    </p>
-                </div>
-                <div class="card-footer">
-                    Data do post(automático)
-                </div>
-            </div>
-
-            <div style="margin-bottom: 10px;" class="card">
-                <h5 class="card-header">
-                    Novo post
-                </h5>
-                <div class="card-body">
-                    <p class="card-text">
-                        Conteúdo do post
-                    </p>
-                </div>
-                <div class="card-footer">
-                    Data do post(automático)
-                </div>
-            </div>
-
-            <div class="card" style="margin-bottom: 10px;">
-                <h5 class="card-header">
-                    Nome de quem postou
-                </h5>
-                <div class="card-body">
-                    <p class="card-text">
-                        Conteúdo do post
-                    </p>
-                </div>
-                <div class="card-footer">
-                    Data do post
-                </div>
-            </div>
         </div>
-        <div class="col-md-3" >
-            
-                <div>
-                    <ul class="list-group bordered" style="position: fixed;">
-                        <span class="badge badge-default">Amigos Online</span>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="" style="padding-right: 10px;">Nome do Amigo</a>
-                            <span class="badge badge-primary badge-pill">Qtd. de msg n lidas</span>
-                        </li>        
-                    </ul>
-                </div>
+        @foreach ($posts as $p)
+        <div style="margin-bottom: 10px;" class="card">
+
+            <p class="card-header">Postado por: {{$usuario->nome}}<a class="float-right"  href="/feed/deletar/{{$p->id}}">Apagar Post</a></p>  
+            <div class="card-body">
+                <p class="card-text">{{$p->post}}</p>
+            </div>
+            <div class="card-footer">
+                Postado em: {{ \Carbon\Carbon::parse($p->data_post)->format('d-m-Y') }} às: {{\Carbon\Carbon::parse($p->data_post)->format('H:m') }}
+            </div>
+        </div>     
+        @endforeach
+    </div>
+    <div class="col-md-3" >
+
+        <div>
+            <ul class="list-group bordered" style="position: fixed;">
+                <span class="badge badge-default">Amigos Online</span>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="" style="padding-right: 10px;">Nome do Amigo</a>
+                    <span class="badge badge-primary badge-pill">Qtd. de msg n lidas</span>
+                </li>        
+            </ul>
         </div>
+    </div>
 </div>
 </div>
 
