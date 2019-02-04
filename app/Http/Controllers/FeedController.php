@@ -31,19 +31,13 @@ class FeedController extends Controller
         $post = new Post;
 
         $post->id_usuario = $id;
-        $post->post = $request->post;
-        
-        //Buscando os posts do usuário
-        $posts = Post::where('id_usuario', $id)->get();    
+        $post->post = $request->post;        
 
-        //Buscando dados do usuário pelo ID
-        $usuario = Usuario::find($id);
-
-        if (isset($post->id_usuario) && isset($post->post)) 
+        if (isset($request->post) && isset($post->id_usuario)) 
         {   
             $post->save();
 
-            return redirect()->back()->with('successo_post', 'Recarregue a página e veja o seu novo post');      
+            return redirect('/feed/' . $id)->with('postado', 'Seu post foi registrado com sucesso!');
         }
 
         
@@ -54,12 +48,11 @@ class FeedController extends Controller
         //Buscando o post para deletar
         $post = Post::where('id', $id); 
 
-        if (isset($post)) 
-        {
+        
             $post->delete();
-    
-            return redirect()->back()->with('successo_delete', 'Post apagado com sucesso!');   
-        }
+
+            return redirect()->back()->with('deletado', 'Post apagado com sucesso!');   
+
     }
 }
 
