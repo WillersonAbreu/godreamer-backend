@@ -14,10 +14,11 @@ class CreateAmigosTable extends Migration
     public function up()
     {
         Schema::create('amigos', function (Blueprint $table) {
-            $table->increments('id_usuario_seguidor');
+            $table->increments('id');
             $table->integer('id_usuario');
-            $table->integer('amigo_id_usuario');
-            $table->dateTime('data_amizade')->useCurrent();
+            $table->integer('usuario_id')->unsigned();
+            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->timestamp('data_amizade')->useCurrent();
             $table->timestamps();
         });
     }

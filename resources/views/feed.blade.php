@@ -19,7 +19,7 @@
         <div class="row">        
             <div class="input-group col">
                 <div class="input-group-append">
-                    <a class="dropdown-toggle btn" type="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bem vindo, {{$usuario->nome}}</a>
+                    <a class="dropdown-toggle btn" type="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bem vindo, </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item " href="#">Editar Perfil</a>                  
                         <a class="dropdown-item" href="/">Sair</a>
@@ -63,14 +63,14 @@
                         <h5 class="modal-title" id="exampleModalLabel">Novo Post</h5>
 
                     </div>
-                    <form name="formPost" id="formPost" method="POST" action="/feed/postar/{{$usuario->id}}">
+                    <form name="formPost" id="formPost" method="POST" action="/feed/postar/">
                         <div class="modal-body">                            
                             <div>
                                 @csrf
                                 <div>
-                                    <label>Digite seu post:
-                                        <input class="form-control" type="text" name="post" placeholder="Digite seu post, desabafe..." >
-                                    </label>
+                                    <label for="#text-area">Digite seu post:</label>
+                                    <textarea id="text-area" class="form-control" type="text" name="post" placeholder="Digite seu post..."></textarea> 
+                                    
                                 </div>
                             </div>   
                         </div>
@@ -103,18 +103,28 @@
     </div>
     @endif
 
-    @foreach ($posts as $p)
-    <div style="margin-bottom: 10px;" class="card">
+<h1>Pegando array do usuario</h1>
+    @foreach ($usuario as $u)
+    {{$u->nome}}<br>
+    {{$u->email}}<br>
+    {{$u->celular}}<br>
 
-        <p class="card-header">Postado por: {{$usuario->nome}}<a class="float-right"  href="/feed/deletar/{{$p->id}}">Apagar Post</a></p>  
-        <div class="card-body">
-            <p class="card-text">{{$p->post}}</p>
-        </div>
-        <div class="card-footer">
-            Postado em: {{ \Carbon\Carbon::parse($p->data_post)->format('d-m-Y') }} às: {{\Carbon\Carbon::parse($p->data_post)->format('H:m') }}
-        </div>
-    </div>     
     @endforeach
+
+<h1>Pegando array dos post</h1>
+    @foreach ($usuario as $u)
+
+    {{$u->posts}}<br>
+
+    @endforeach
+
+<h1>Pegando array dos amigos</h1>
+    @foreach ($usuario as $u)
+
+    {{$u->amigos}}<br>
+
+    @endforeach
+
 </div>
 <div class="col-md-3" >
 

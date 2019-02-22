@@ -15,9 +15,9 @@ class CreatePostTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_usuario');
+            $table->integer('usuario_id');
             $table->string('post');
-            $table->dateTime('data_post')->useCurrent();
+            $table->timestamp('data_post')->useCurrent();
             $table->timestamps();
         });
     }
