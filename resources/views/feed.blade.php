@@ -53,87 +53,87 @@
                     </div>
                 </nav>
             </div>        
-            <div class="col-md-7" style="padding-top: 15px;">                
-                <span class="badge badge-default">Feed</span>
-                <div>
-                    
-                    <button style="margin-bottom: 10px;" type="button" data-toggle="modal" data-target="#modalPost" class="btn btn-outline-success justify-content-middle">
-                        Nova Postagem
-                    </button>                  
-                    
-                    <!-- Modal -->
-                    <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+            <div class="col-md-7" style="padding-top: 15px;">
+                <center>               
+                    <span class="badge badge-default">Feed</span>
+                    <div>
                         
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Novo Post</h5>
+                        <button style="margin-bottom: 10px;" type="button" data-toggle="modal" data-target="#modalPost" class="btn btn-outline-success justify-content-middle">
+                            Nova Postagem
+                        </button>                  
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+                            
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Novo Post</h5>
+                                        
+                                    </div>
                                     
-                                </div>
-                                
-                                @foreach ($usuario as $u)
-                                <form name="formPost" id="formPost" method="POST" action="/feed/postar/{{$u->id}}" enctype="multipart/form-data">
-                                    
-                                    @endforeach
-                                    <div class="modal-body">                            
-                                        <div>
-                                            @method('POST')
-                                            @csrf
+                                    @foreach ($usuario as $u)
+                                    <form name="formPost" id="formPost" method="POST" action="/feed/postar/{{$u->id}}" enctype="multipart/form-data">
+                                        
+                                        @endforeach
+                                        <div class="modal-body">                            
                                             <div>
-                                                <label for="#text-area">Digite seu post:</label>
-                                                <textarea id="text-area" class="form-control" type="text" name="post" rows="8" placeholder="Digite seu post..."></textarea> 
-                                                
-                                            </div>
-                                        </div>   
-                                    </div>
-                                    <div class="modal-footer">
-                                        <div class="custom-file">
-                                            <input type="file" name="imagem" accept="image/*" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                            <label class="custom-file-label" for="inputGroupFile01"><span class="glyphicon glyphicon-picture"></span></label>
+                                                @method('POST')
+                                                @csrf
+                                                <div>
+                                                    <label for="#text-area">Digite seu post:</label>
+                                                    <textarea id="text-area" class="form-control" type="text" name="post" rows="8" placeholder="Digite seu post..."></textarea> 
+                                                    
+                                                </div>
+                                            </div>   
                                         </div>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Postar</button>
-                                    </div>
-                                </form>  
+                                        <div class="modal-footer">
+                                            <div class="custom-file">
+                                                <input type="file" name="imagem" accept="image/*" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                                <label class="custom-file-label" for="inputGroupFile01"><span class="glyphicon glyphicon-picture"></span></label>
+                                            </div>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Postar</button>
+                                        </div>
+                                    </form>  
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
+                    @if($errors->has('post'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ $errors->first('post') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+                    @if($errors->has('imagem'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ $errors->first('imagem') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+                    @if(session()->has('postado'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session()->get('postado') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
                     
-                </div>
-                @if($errors->has('post'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ $errors->first('post') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                @if($errors->has('imagem'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ $errors->first('imagem') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                @if(session()->has('postado'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session()->get('postado') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                
-                @if(session()->has('deletado'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session()->get('deletado') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                <!--
+                    @if(session()->has('deletado'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session()->get('deletado') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
                     @foreach ($post as $p)
                     <div class="card text-center" style="margin-bottom: 10px;">
                         <div class="card-header">
@@ -150,36 +150,35 @@
                         </div>
                     </div>                
                     @endforeach 
-                -->
-                @foreach ($post_amigos as $pa)
-                <div class="card text-center" style="margin-bottom: 10px;">
-                    <div class="card-header">
-                        <span class="float-left">Postado Por: {{ $pa->nome }}</span> <a class="float-right" href="">X</a>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ $pa->post }}</p>
-                        @if ($pa->url_img)
-                        <img style="width: 100%; height: 100%;" src="{{asset('ImgPosts\\').$pa->url_img}}" alt="..." class="rounded">                       
-                        @endif                        
-                    </div>
-                    <div class="card-footer text-muted">
-                        <span class="float-left">
-                            Postado em: {{ date( 'd/m/Y H:i' , strtotime($pa->data_post))
-                            .' às: '.date( 'H:i' , strtotime($pa->data_post))}}
-                        </span>
-                        <div class="float-right">
-                            <a href="#">Curtir</a>
-                            <span>|</span>
-                            <a href="#">Comentar</a>
-                            <span>|</span>
-                            <a href="#">Compartilhar</a>
+                    @foreach ($post_amigos as $pa)
+                    <div class="card text-center" style="margin-bottom: 10px;">
+                        <div class="card-header">
+                            <span class="float-left">Postado Por: {{ $pa->nome }}</span> <a class="float-right" href="">X</a>
                         </div>
-                    </div>
-                </div> 
-                @endforeach
-                
+                        <div class="card-body">
+                            <p class="card-text">{{ $pa->post }}</p>
+                            @if ($pa->url_img)
+                            <img style="width: 100%; height: 100%;" src="{{asset('ImgPosts\\').$pa->url_img}}" alt="..." class="rounded">                       
+                            @endif                        
+                        </div>
+                        <div class="card-footer text-muted">
+                            <span class="float-left">
+                                Postado em: {{ date( 'd/m/Y H:i' , strtotime($pa->data_post))
+                                .' às: '.date( 'H:i' , strtotime($pa->data_post))}}
+                            </span>
+                            <div class="float-right">
+                                <a href="#">Curtir</a>
+                                <span>|</span>
+                                <a href="#">Comentar</a>
+                                <span>|</span>
+                                <a href="#">Compartilhar</a>
+                            </div>
+                        </div>
+                    </div> 
+                    @endforeach
+                </center>
             </div>
-            <div class="col-md-3" >
+            <div class="col-sm-3" >
                 <div class="chat-sidebar rounded" style="margin-top: 80px;">                    
                     <center><p>Chat</p></center>
                     @if ($amigos == null)
