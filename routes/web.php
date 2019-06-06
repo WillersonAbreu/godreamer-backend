@@ -14,7 +14,7 @@ Route::get('cadastrese', function () {
 Route::put('cadastrese/salvar', 'UsuarioController@salvar');
 
 //Rota para realizar login
-Route::put('validarusuario', 'UsuarioController@valida');
+//Route::put('validarusuario', 'UsuarioController@valida');
 
 
 //Rotas do Feed

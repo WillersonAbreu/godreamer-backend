@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class FeedController extends Controller
 {   
+    function __construct(Request $request)
+    {
+       /* if (!$request->session()->exists('id'))
+        {
+            return redirect('/')->with('naologado', 'Você precisa fazer login!');
+        }
+       */
+    }
+    
     public function Index($id)
     {
         //Buscando dados do usuário pelo ID
