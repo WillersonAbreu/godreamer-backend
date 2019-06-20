@@ -21,8 +21,6 @@ class CreateUsuariosTable extends Migration
             $table->string('endereco', 200);
             $table->string('celular', 14)->unique();
             $table->datetime('data_nasc');
-            $table->string('rg', 13)->unique();
-            $table->string('cpf', 13)->unique();
             $table->boolean('tipo_usuario');
             $table->string('remember_token', 100)->nullable();
             $table->softDeletes();

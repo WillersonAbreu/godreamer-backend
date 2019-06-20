@@ -47,22 +47,13 @@ class Login
             $usuario_senha = $usu_email->senha;
         }
         if(isset($usuario_email))
-        {
-             //Testando se foi encontrado algo no banco ou não
+        {   session_start();
+            //Testando se foi encontrado algo no banco ou não
             if ($usuario_email == $email && $usuario_senha == $senha)
             {
-                $sessao = $request->session()->put('email', $request->input('email'));
-                $request->session()->put('email', $email);
-                $sessao = $request->session()->get('email');
-
-                if (!isset($sessao))
-                {
-                    return redirect('/')->with('facalogin', 'Por favor faça login');
-                }
-                else
-                {
-                    return redirect('/feed/' . $usuario_id)->with('sessao');
-                }
+                $_SESSION['email'] = $email;
+                $_SESSION['senha'] = $senha;
+                return redirect('/feed/' . $usuario_id);
             }
             else
             {
