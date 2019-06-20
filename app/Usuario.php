@@ -11,8 +11,13 @@ class Usuario extends Model
     	return $this->hasMany('App\Post');
     }
 
-        public function amigos()
+    public function amigos()
     {
     	return $this->hasMany('App\Amigo');
+    }
+
+    public function imagens()
+    {
+    	return $this->hasMany('App\Imagem');
     }
 }

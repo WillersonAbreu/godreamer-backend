@@ -2,21 +2,24 @@
 
 use App\Usuario;
 
-
+//Rota index
 Route::any('/', function () {
 	return view('index');
 });
 
+//Rotas para cadastro
 Route::get('cadastrese', function () {
 	return view('cadastrese');
 });
-
 Route::put('cadastrese/salvar', 'UsuarioController@salvar');
 
-Route::put('validarusuario', 'UsuarioController@valida');
+//Rota usuários
+Route::put('validarusuario')->middleware('login');
+Route::put('logout')->middleware('logout');
 
-Route::get('feed/{id}','FeedController@Index');
 
-Route::post('feed/postar/{id}','FeedController@postar');
+//Rotas do Feed
+Route::get('feed/{id}','FeedController@Index')->middleware('sessao');
+Route::post('feed/postar/{id}','FeedController@postar')->middleware('sessao');
+Route::get('feed/deletar/{id_post}','FeedController@deletar')->middleware('sessao');
 
-Route::get('feed/deletar/{id_post}','FeedController@deletar');

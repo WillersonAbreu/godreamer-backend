@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAmigosTable extends Migration
+class CreateImagen extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,10 @@ class CreateAmigosTable extends Migration
      */
     public function up()
     {
-        Schema::create('amigos', function (Blueprint $table) {
-<<<<<<< HEAD
+        Schema::create('imagens', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_usuario');
             $table->integer('usuario_id')->unsigned();
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
-=======
-            $table->increments('id_amizade');
-            $table->integer('id_usuario');
-            $table->integer('usuario_id');
->>>>>>> feed
-            $table->timestamp('data_amizade')->useCurrent();
+            $table->string('url_imagem');
             $table->timestamps();
         });
     }
@@ -36,6 +28,6 @@ class CreateAmigosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('amigos');
+        Schema::dropIfExists('imagen');
     }
 }

@@ -177,7 +177,7 @@ return [
 
         //...
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-
+        Musonza\Chat\ChatServiceProvider::class,
         // ...
         Collective\Html\HtmlServiceProvider::class
     // ...
@@ -232,7 +232,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
          // ...
         'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Chat' => Musonza\Chat\Facades\ChatFacade::class
     // ...
 
     ],
