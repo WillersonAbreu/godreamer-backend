@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>GoDreamer</title>
-    
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}" crossorigin="anonymous">
     <script src="{{asset('js/app.js')}}" type="text/javascript" crossorigin="anonymous"></script>
     <script src="{{asset('js/jquery.mask.min.js')}}" type="text/javascript" crossorigin="anonymous"></script>
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-    
-    
-    
+
+
+
     <!-- Styles -->
     <style>
         @font-face{font-family:'Glyphicons Halflings';src:url('https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot');src:url('https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),url('https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff') format('woff'),url('https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf') format('truetype'),url('https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;}
         .glyphicon-picture:before{content:"\e060";}
-        
+
         html, body {
             background-color: #fff;
             color: #636b6f;
@@ -29,51 +29,51 @@
             height: 100vh;
             margin: 0;
         }
-        
-        
+
+
         .content {
             text-align: center;
         }
-        
+
         .title {
             font-size: 42px;
         }
-        
-        
+
+
         .m-b-md {
             margin-bottom: 30px;
         }
-        
+
         #bg-inputs
         {
             background-color: white;
-            border: 1px solid lightgrey;
+            border-radius: 3px;
         }
         .btn-cadastre-se {
-            
+
             margin-top: 20px;
             margin-bottom: 20px;
-            
+
         }
-        
+
         .btn-login:hover {
             background-color: blue;
         }
-        
+
         .btn-login {
             border-color: black;
             color: black;
         }
-        
+
         .inputs {
             border-color: black;
         }
-        
+
         .nav-shadow {
             box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.5);
             margin-bottom: 10px;
         }
-        
+
         .nav-footer-shadow {
             box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
         }
@@ -81,37 +81,37 @@
             width: 50%;
             height: 370px;
         }
-        
+
         .titulo-pt1 {
             color: #30d9aa ;
-            
+
         }
-        
+
         .titulo-pt2 {
-            
+
             color: #ffe55c ;
         }
-        
+
         .titulo-carrossel {
             color: black;
             text-shadow: 2px 2px 2px white;
         }
-        
+
         @media only screen and (max-width : 540px)
         {
             .chat-sidebar
             {
                 display: none !important;
             }
-            
+
             .chat-popup
             {
                 display: none !important;
             }
         }
-        
-        
-        
+
+
+
         .chat-sidebar
         {
             width: 200px;
@@ -123,7 +123,7 @@
             padding-bottom: 10px;
             border: 1px solid rgba(29, 49, 91, .3);
         }
-        
+
         .sidebar-name
         {
             padding-left: 10px;
@@ -131,12 +131,12 @@
             margin-bottom: 4px;
             font-size: 15px;
         }
-        
+
         .sidebar-name span
         {
             padding-left: 5px;
         }
-        
+
         .sidebar-name a
         {
             display: block;
@@ -144,19 +144,19 @@
             text-decoration: none;
             color: inherit;
         }
-        
+
         .sidebar-name:hover
         {
             background-color:#e1e2e5;
         }
-        
+
         .sidebar-name img
         {
             width: 38px;
             height: 38px;
             vertical-align:middle;
         }
-        
+
         .popup-box
         {
             display: none;
@@ -167,7 +167,7 @@
             background-color: rgb(237, 239, 244);
             width: 300px;
         }
-        
+
         .popup-box .popup-head
         {
             border-radius: 5px;
@@ -178,30 +178,30 @@
             font-size: 14px;
             clear: both;
         }
-        
+
         .popup-box .popup-head .popup-head-left
         {
             float: left;
         }
-        
+
         .popup-box .popup-head .popup-head-right
         {
             float: right;
             opacity: 0.5;
         }
-        
+
         .popup-box .popup-head .popup-head-right a
         {
             text-decoration: none;
             color: inherit;
         }
-        
+
         .popup-box .popup-messages
         {
             height: 93%;
             overflow-y: scroll;
         }
-        
+
         footer.fixar-rodape{
             box-shadow: 1px 1px 1px 1px (0,0,0,0.5);
             bottom: 0;
@@ -211,10 +211,10 @@
             width: 100%;
             box-shadow: 0px -1px 5px 0px rgba(0,0,0,0.2);
         }
-        
+
     </style>
-    
-    
+
+
 </head>
 <body>
     @section('navbar')
@@ -223,10 +223,10 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
             <ul class="navbar-nav mr-auto">
-                
+
             </ul>
             @section('formlogin')
             <form class="form-inline my-2 my-lg-0" method="POST" action="/validarusuario">
@@ -256,12 +256,12 @@
         </div>
     </nav>
     @show
-    
+
     @section('body')
     <center style="margin-bottom: 50px; margin-top: 85px;">
         <div class="row" style="width: 100%;" >
             <div class="col" style="width: 100%; height: 450px;">
-                
+
                 @if(session()->has('semsessao'))
                 <div style="width: 40%" class="alert alert-danger">
                     {{ session()->get('semsessao') }}
@@ -284,7 +284,7 @@
         </div>
     </center>
     @show
-    
+
     @section('footer')
     <footer class="bg-light fixar-rodape">
         <p style="padding-top: 10px;">&copy; <span class="titulo-pt1">Go<strong class="titulo-pt2">Dreamer</strong></span> todos os direitos reservados 2019</p>
@@ -297,7 +297,7 @@
             $('#rg').mask('00000000-00');
             $('#celular').mask('(00)00000-0000');
         });
-        
+
         /*Tentar implementar depois
         $('#abrirChat').click(function(id, id2){
             id
@@ -313,21 +313,21 @@
             });
         });
         */
-        
-        
+
+
         //this function can remove a array element.
         Array.remove = function(array, from, to) {
             var rest = array.slice((to || from) + 1 || array.length);
             array.length = from < 0 ? array.length + from : from;
             return array.push.apply(array, rest);
         };
-        
+
         //this variable represents the total number of popups can be displayed according to the viewport width
         var total_popups = 0;
-        
+
         //arrays of popups ids
         var popups = [];
-        
+
         //this is used to close a popup
         function close_popup(id)
         {
@@ -336,21 +336,21 @@
                 if(id == popups[iii])
                 {
                     Array.remove(popups, iii);
-                    
+
                     document.getElementById(id).style.display = "none";
-                    
+
                     calculate_popups();
-                    
+
                     return;
                 }
             }
         }
-        
+
         //displays the popups. Displays based on the maximum number of popups that can be displayed on the current viewport width
         function display_popups()
         {
             var right = 220;
-            
+
             var iii = 0;
             for(iii; iii < total_popups; iii++)
             {
@@ -362,33 +362,33 @@
                     element.style.display = "block";
                 }
             }
-            
+
             for(var jjj = iii; jjj < popups.length; jjj++)
             {
                 var element = document.getElementById(popups[jjj]);
                 element.style.display = "none";
             }
         }
-        
+
         //creates markup for a new popup. Adds the id to popups array.
         function register_popup(id, name)
         {
-            
+
             for(var iii = 0; iii < popups.length; iii++)
             {
                 //already registered. Bring it to front.
                 if(id == popups[iii])
                 {
                     Array.remove(popups, iii);
-                    
+
                     popups.unshift(id);
-                    
+
                     calculate_popups();
-                    
+
                     return;
                 }
             }
-            
+
             var element = '<div class="popup-box chat-popup" id="'+ id +'">';
                 element = element + '<div class="popup-head">';
                     element = element + '<div class="popup-head-left">'+ name +'</div>';
@@ -404,15 +404,15 @@
                                     element = element + '</div>'
                                     element = element + '</div>'
                                     element = element + '</form> </div></div>';
-                                    
+
                                     document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
-                                    
+
                                     popups.unshift(id);
-                                    
+
                                     calculate_popups();
-                                    
+
                                 }
-                                
+
                                 //calculate the total number of popups suitable and then populate the toatal_popups variable.
                                 function calculate_popups()
                                 {
@@ -427,16 +427,15 @@
                                         //320 is width of a single popup box
                                         total_popups = parseInt(width/320);
                                     }
-                                    
+
                                     display_popups();
-                                    
+
                                 }
-                                
+
                                 //recalculate when window is loaded and also when window is resized.
                                 window.addEventListener("resize", calculate_popups);
                                 window.addEventListener("load", calculate_popups);
-                                
+
                             </script>
                         </body>
                         </html>
-                        

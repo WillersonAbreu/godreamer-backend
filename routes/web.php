@@ -1,6 +1,6 @@
 <?php
 
-use App\Usuario;
+
 
 //Rota index
 Route::any('/', function () {
@@ -15,7 +15,7 @@ Route::put('cadastrese/salvar', 'UsuarioController@salvar');
 
 //Rota usuários
 Route::put('validarusuario')->middleware('login');
-Route::put('logout')->middleware('logout');
+Route::get('logout')->middleware('logout');
 
 
 //Rotas do Feed

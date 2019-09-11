@@ -15,6 +15,9 @@ class Logout
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+      session_start();
+      session_destroy();
+      return redirect('/');
+        // return $next($request);
     }
 }

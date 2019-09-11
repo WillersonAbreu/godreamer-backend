@@ -21,10 +21,8 @@ class Sessao
         if(isset($_SESSION['email']) && isset($_SESSION['senha'])){
             return $next($request);
         }else{
-            return redirect()->back()->with('semsessao', 'faça login!');
+            return redirect("/")->with('semsessao', 'Você precisa realizar login!');
         }
-
-
 
     }
 }
