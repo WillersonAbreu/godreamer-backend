@@ -8,11 +8,24 @@ use Illuminate\Http\Request;
 // 	return view('cadastrese');
 // });
 
-Route::put('cadastrese', 'UsuarioController@salvar');
 
-//Rota usuários
-Route::put('validarusuario')->middleware('login');
-Route::get('logout')->middleware('logout');
+
+Route::prefix('usuarios')->group(function () {
+
+  //Rota usuários
+  Route::get('/', 'UsuarioController@index');
+
+  Route::post('create', 'UsuarioController@salvar');
+
+  Route::delete('delete', 'UsuarioController@deletar');
+
+  Route::put('validarusuario')->middleware('login');
+
+
+  Route::get('logout')->middleware('logout');
+
+});
+
 
 
 //Rotas do Feed
