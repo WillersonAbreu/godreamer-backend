@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    /*function __construct()
-    {
-        $this->middleware(\App\Http\Middleware\Login::class);
-    }*/
 
     public function index()
     {
