@@ -161,7 +161,8 @@ class UsuarioController extends Controller
               $usuario->tipo_usuario = $tipo_usuario;
 
               $usuario->save();
-              return response()->json(["message" => "User deleted successfully", "status" => 200]);
+
+              return response()->json(["message" => "User updated successfully", "status" => 200]);
             }catch(Exception $ex){
               return response()->json(["error" => $ex->getMessage(), "status" => 401]);
             }
