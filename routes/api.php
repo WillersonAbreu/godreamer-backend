@@ -15,17 +15,16 @@ Route::prefix('usuarios')->group(function () {
   //Rota usuários
   Route::get('/', 'UsuarioController@index');
 
-  Route::post('create', 'UsuarioController@salvar');
+  Route::post('create', 'UsuarioController@create');
 
-  Route::delete('delete', 'UsuarioController@deletar');
+  Route::put('update', 'UsuarioController@update');
 
-  Route::put('validarusuario')->middleware('login');
-
-
-  Route::get('logout')->middleware('logout');
+  Route::delete('delete', 'UsuarioController@delete');
 
 });
 
+Route::put('validarusuario')->middleware('login');
+Route::get('logout')->middleware('logout');
 
 
 //Rotas do Feed
