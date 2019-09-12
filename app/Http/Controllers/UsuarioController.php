@@ -80,7 +80,7 @@ class UsuarioController extends Controller
       );
 
       if ($validator->fails()) {
-      return response()->json(["error" => $validator->errors(), "status" => 401 ]);
+        return response()->json(["error" => $validator->errors(), "status" => 401 ]);
       }
 
       //Passando os dados da request do form para as variáveis
