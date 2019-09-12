@@ -32,5 +32,7 @@ Route::get('feed/{id}','FeedController@Index')->middleware('sessao');
 Route::post('feed/postar/{id}','FeedController@postar')->middleware('sessao');
 Route::get('feed/deletar/{id_post}','FeedController@deletar')->middleware('sessao');
 
-
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 

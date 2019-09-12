@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Amigo extends Model
-{   
+{
     protected $primariKey = 'id_amizade';
 
     public function usuario()

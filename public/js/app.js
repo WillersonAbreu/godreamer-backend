@@ -1762,6 +1762,19 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
+<<<<<<< HEAD
+  * Bootstrap v4.2.1 (https://getbootstrap.com/)
+  * Copyright 2011-2018 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  */
+(function (global, factory) {
+   true ? factory(exports, __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js"), __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")) :
+  undefined;
+}(this, (function (exports,Popper,$) { 'use strict';
+
+  Popper = Popper && Popper.hasOwnProperty('default') ? Popper['default'] : Popper;
+  $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
+=======
   * Bootstrap v4.3.1 (https://getbootstrap.com/)
   * Copyright 2011-2019 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -1773,6 +1786,7 @@ module.exports = {
 
   $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
   Popper = Popper && Popper.hasOwnProperty('default') ? Popper['default'] : Popper;
+>>>>>>> feed
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -1832,7 +1846,11 @@ module.exports = {
 
   /**
    * --------------------------------------------------------------------------
+<<<<<<< HEAD
+   * Bootstrap (v4.2.1): util.js
+=======
    * Bootstrap (v4.3.1): util.js
+>>>>>>> feed
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -1908,11 +1926,15 @@ module.exports = {
         selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : '';
       }
 
+<<<<<<< HEAD
+      return selector && document.querySelector(selector) ? selector : null;
+=======
       try {
         return document.querySelector(selector) ? selector : null;
       } catch (err) {
         return null;
       }
+>>>>>>> feed
     },
     getTransitionDurationFromElement: function getTransitionDurationFromElement(element) {
       if (!element) {
@@ -1992,7 +2014,11 @@ module.exports = {
    */
 
   var NAME = 'alert';
+<<<<<<< HEAD
+  var VERSION = '4.2.1';
+=======
   var VERSION = '4.3.1';
+>>>>>>> feed
   var DATA_KEY = 'bs.alert';
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
@@ -2047,8 +2073,13 @@ module.exports = {
     _proto.dispose = function dispose() {
       $.removeData(this._element, DATA_KEY);
       this._element = null;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getRootElement = function _getRootElement(element) {
       var selector = Util.getSelectorFromElement(element);
@@ -2090,8 +2121,13 @@ module.exports = {
 
     _proto._destroyElement = function _destroyElement(element) {
       $(element).detach().trigger(Event.CLOSED).remove();
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Alert._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -2157,7 +2193,11 @@ module.exports = {
    */
 
   var NAME$1 = 'button';
+<<<<<<< HEAD
+  var VERSION$1 = '4.2.1';
+=======
   var VERSION$1 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$1 = 'bs.button';
   var EVENT_KEY$1 = "." + DATA_KEY$1;
   var DATA_API_KEY$1 = '.data-api';
@@ -2243,8 +2283,13 @@ module.exports = {
     _proto.dispose = function dispose() {
       $.removeData(this._element, DATA_KEY$1);
       this._element = null;
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Button._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -2311,7 +2356,11 @@ module.exports = {
    */
 
   var NAME$2 = 'carousel';
+<<<<<<< HEAD
+  var VERSION$2 = '4.2.1';
+=======
   var VERSION$2 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$2 = 'bs.carousel';
   var EVENT_KEY$2 = "." + DATA_KEY$2;
   var DATA_API_KEY$2 = '.data-api';
@@ -2506,8 +2555,13 @@ module.exports = {
       this._isSliding = null;
       this._activeElement = null;
       this._indicatorsElement = null;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getConfig = function _getConfig(config) {
       config = _objectSpread({}, Default, config);
@@ -2551,9 +2605,13 @@ module.exports = {
         });
       }
 
+<<<<<<< HEAD
+      this._addTouchEventListeners();
+=======
       if (this._config.touch) {
         this._addTouchEventListeners();
       }
+>>>>>>> feed
     };
 
     _proto._addTouchEventListeners = function _addTouchEventListeners() {
@@ -2794,8 +2852,13 @@ module.exports = {
       if (isCycling) {
         this.cycle();
       }
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Carousel._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -2822,7 +2885,11 @@ module.exports = {
           }
 
           data[action]();
+<<<<<<< HEAD
+        } else if (_config.interval) {
+=======
         } else if (_config.interval && _config.ride) {
+>>>>>>> feed
           data.pause();
           data.cycle();
         }
@@ -2911,7 +2978,11 @@ module.exports = {
    */
 
   var NAME$3 = 'collapse';
+<<<<<<< HEAD
+  var VERSION$3 = '4.2.1';
+=======
   var VERSION$3 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$3 = 'bs.collapse';
   var EVENT_KEY$3 = "." + DATA_KEY$3;
   var DATA_API_KEY$3 = '.data-api';
@@ -3133,8 +3204,13 @@ module.exports = {
       this._element = null;
       this._triggerArray = null;
       this._isTransitioning = null;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getConfig = function _getConfig(config) {
       config = _objectSpread({}, Default$1, config);
@@ -3178,8 +3254,13 @@ module.exports = {
       if (triggerArray.length) {
         $(triggerArray).toggleClass(ClassName$3.COLLAPSED, !isOpen).attr('aria-expanded', isOpen);
       }
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Collapse._getTargetFromElement = function _getTargetFromElement(element) {
       var selector = Util.getSelectorFromElement(element);
@@ -3271,7 +3352,11 @@ module.exports = {
    */
 
   var NAME$4 = 'dropdown';
+<<<<<<< HEAD
+  var VERSION$4 = '4.2.1';
+=======
   var VERSION$4 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$4 = 'bs.dropdown';
   var EVENT_KEY$4 = "." + DATA_KEY$4;
   var DATA_API_KEY$4 = '.data-api';
@@ -3500,8 +3585,13 @@ module.exports = {
       if (this._popper !== null) {
         this._popper.scheduleUpdate();
       }
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._addEventListeners = function _addEventListeners() {
       var _this = this;
@@ -3557,6 +3647,26 @@ module.exports = {
       return $(this._element).closest('.navbar').length > 0;
     };
 
+<<<<<<< HEAD
+    _proto._getPopperConfig = function _getPopperConfig() {
+      var _this2 = this;
+
+      var offsetConf = {};
+
+      if (typeof this._config.offset === 'function') {
+        offsetConf.fn = function (data) {
+          data.offsets = _objectSpread({}, data.offsets, _this2._config.offset(data.offsets) || {});
+          return data;
+        };
+      } else {
+        offsetConf.offset = this._config.offset;
+      }
+
+      var popperConfig = {
+        placement: this._getPlacement(),
+        modifiers: {
+          offset: offsetConf,
+=======
     _proto._getOffset = function _getOffset() {
       var _this2 = this;
 
@@ -3579,6 +3689,7 @@ module.exports = {
         placement: this._getPlacement(),
         modifiers: {
           offset: this._getOffset(),
+>>>>>>> feed
           flip: {
             enabled: this._config.flip
           },
@@ -3596,8 +3707,13 @@ module.exports = {
       }
 
       return popperConfig;
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Dropdown._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -3681,8 +3797,13 @@ module.exports = {
       }
 
       return parent || element.parentNode;
+<<<<<<< HEAD
+    }; // eslint-disable-next-line complexity
+
+=======
     } // eslint-disable-next-line complexity
     ;
+>>>>>>> feed
 
     Dropdown._dataApiKeydownHandler = function _dataApiKeydownHandler(event) {
       // If not input/textarea:
@@ -3797,7 +3918,11 @@ module.exports = {
    */
 
   var NAME$5 = 'modal';
+<<<<<<< HEAD
+  var VERSION$5 = '4.2.1';
+=======
   var VERSION$5 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$5 = 'bs.modal';
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$5 = '.data-api';
@@ -3830,7 +3955,10 @@ module.exports = {
     CLICK_DATA_API: "click" + EVENT_KEY$5 + DATA_API_KEY$5
   };
   var ClassName$5 = {
+<<<<<<< HEAD
+=======
     SCROLLABLE: 'modal-dialog-scrollable',
+>>>>>>> feed
     SCROLLBAR_MEASURER: 'modal-scrollbar-measure',
     BACKDROP: 'modal-backdrop',
     OPEN: 'modal-open',
@@ -3839,7 +3967,10 @@ module.exports = {
   };
   var Selector$5 = {
     DIALOG: '.modal-dialog',
+<<<<<<< HEAD
+=======
     MODAL_BODY: '.modal-body',
+>>>>>>> feed
     DATA_TOGGLE: '[data-toggle="modal"]',
     DATA_DISMISS: '[data-dismiss="modal"]',
     FIXED_CONTENT: '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top',
@@ -3992,8 +4123,13 @@ module.exports = {
 
     _proto.handleUpdate = function handleUpdate() {
       this._adjustDialog();
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getConfig = function _getConfig(config) {
       config = _objectSpread({}, Default$3, config);
@@ -4017,11 +4153,15 @@ module.exports = {
 
       this._element.setAttribute('aria-modal', true);
 
+<<<<<<< HEAD
+      this._element.scrollTop = 0;
+=======
       if ($(this._dialog).hasClass(ClassName$5.SCROLLABLE)) {
         this._dialog.querySelector(Selector$5.MODAL_BODY).scrollTop = 0;
       } else {
         this._element.scrollTop = 0;
       }
+>>>>>>> feed
 
       if (transition) {
         Util.reflow(this._element);
@@ -4191,11 +4331,19 @@ module.exports = {
       } else if (callback) {
         callback();
       }
+<<<<<<< HEAD
+    }; // ----------------------------------------------------------------------
+    // the following methods are used to handle overflowing modals
+    // todo (fat): these should probably be refactored out of modal.js
+    // ----------------------------------------------------------------------
+
+=======
     } // ----------------------------------------------------------------------
     // the following methods are used to handle overflowing modals
     // todo (fat): these should probably be refactored out of modal.js
     // ----------------------------------------------------------------------
     ;
+>>>>>>> feed
 
     _proto._adjustDialog = function _adjustDialog() {
       var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
@@ -4280,8 +4428,13 @@ module.exports = {
       var scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
       document.body.removeChild(scrollDiv);
       return scrollbarWidth;
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Modal._jQueryInterface = function _jQueryInterface(config, relatedTarget) {
       return this.each(function () {
@@ -4373,6 +4526,8 @@ module.exports = {
   };
 
   /**
+<<<<<<< HEAD
+=======
    * --------------------------------------------------------------------------
    * Bootstrap (v4.3.1): tools/sanitizer.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -4494,19 +4649,27 @@ module.exports = {
   }
 
   /**
+>>>>>>> feed
    * ------------------------------------------------------------------------
    * Constants
    * ------------------------------------------------------------------------
    */
 
   var NAME$6 = 'tooltip';
+<<<<<<< HEAD
+  var VERSION$6 = '4.2.1';
+=======
   var VERSION$6 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$6 = 'bs.tooltip';
   var EVENT_KEY$6 = "." + DATA_KEY$6;
   var JQUERY_NO_CONFLICT$6 = $.fn[NAME$6];
   var CLASS_PREFIX = 'bs-tooltip';
   var BSCLS_PREFIX_REGEX = new RegExp("(^|\\s)" + CLASS_PREFIX + "\\S+", 'g');
+<<<<<<< HEAD
+=======
   var DISALLOWED_ATTRIBUTES = ['sanitize', 'whiteList', 'sanitizeFn'];
+>>>>>>> feed
   var DefaultType$4 = {
     animation: 'boolean',
     template: 'string',
@@ -4516,6 +4679,12 @@ module.exports = {
     html: 'boolean',
     selector: '(string|boolean)',
     placement: '(string|function)',
+<<<<<<< HEAD
+    offset: '(number|string)',
+    container: '(string|element|boolean)',
+    fallbackPlacement: '(string|array)',
+    boundary: '(string|element)'
+=======
     offset: '(number|string|function)',
     container: '(string|element|boolean)',
     fallbackPlacement: '(string|array)',
@@ -4523,6 +4692,7 @@ module.exports = {
     sanitize: 'boolean',
     sanitizeFn: '(null|function)',
     whiteList: 'object'
+>>>>>>> feed
   };
   var AttachmentMap$1 = {
     AUTO: 'auto',
@@ -4543,10 +4713,14 @@ module.exports = {
     offset: 0,
     container: false,
     fallbackPlacement: 'flip',
+<<<<<<< HEAD
+    boundary: 'scrollParent'
+=======
     boundary: 'scrollParent',
     sanitize: true,
     sanitizeFn: null,
     whiteList: DefaultWhitelist
+>>>>>>> feed
   };
   var HoverState = {
     SHOW: 'show',
@@ -4731,7 +4905,13 @@ module.exports = {
         this._popper = new Popper(this.element, tip, {
           placement: attachment,
           modifiers: {
+<<<<<<< HEAD
+            offset: {
+              offset: this.config.offset
+            },
+=======
             offset: this._getOffset(),
+>>>>>>> feed
             flip: {
               behavior: this.config.fallbackPlacement
             },
@@ -4840,8 +5020,13 @@ module.exports = {
       if (this._popper !== null) {
         this._popper.scheduleUpdate();
       }
+<<<<<<< HEAD
+    }; // Protected
+
+=======
     } // Protected
     ;
+>>>>>>> feed
 
     _proto.isWithContent = function isWithContent() {
       return Boolean(this.getTitle());
@@ -4863,15 +5048,27 @@ module.exports = {
     };
 
     _proto.setElementContent = function setElementContent($element, content) {
+<<<<<<< HEAD
+      var html = this.config.html;
+
+      if (typeof content === 'object' && (content.nodeType || content.jquery)) {
+        // Content is a DOM node or a jQuery
+        if (html) {
+=======
       if (typeof content === 'object' && (content.nodeType || content.jquery)) {
         // Content is a DOM node or a jQuery
         if (this.config.html) {
+>>>>>>> feed
           if (!$(content).parent().is($element)) {
             $element.empty().append(content);
           }
         } else {
           $element.text($(content).text());
         }
+<<<<<<< HEAD
+      } else {
+        $element[html ? 'html' : 'text'](content);
+=======
 
         return;
       }
@@ -4884,6 +5081,7 @@ module.exports = {
         $element.html(content);
       } else {
         $element.text(content);
+>>>>>>> feed
       }
     };
 
@@ -4895,6 +5093,10 @@ module.exports = {
       }
 
       return title;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
 
@@ -4914,6 +5116,7 @@ module.exports = {
 
       return offset;
     };
+>>>>>>> feed
 
     _proto._getContainer = function _getContainer() {
       if (this.config.container === false) {
@@ -4932,11 +5135,27 @@ module.exports = {
     };
 
     _proto._setListeners = function _setListeners() {
+<<<<<<< HEAD
+      var _this3 = this;
+=======
       var _this4 = this;
+>>>>>>> feed
 
       var triggers = this.config.trigger.split(' ');
       triggers.forEach(function (trigger) {
         if (trigger === 'click') {
+<<<<<<< HEAD
+          $(_this3.element).on(_this3.constructor.Event.CLICK, _this3.config.selector, function (event) {
+            return _this3.toggle(event);
+          });
+        } else if (trigger !== Trigger.MANUAL) {
+          var eventIn = trigger === Trigger.HOVER ? _this3.constructor.Event.MOUSEENTER : _this3.constructor.Event.FOCUSIN;
+          var eventOut = trigger === Trigger.HOVER ? _this3.constructor.Event.MOUSELEAVE : _this3.constructor.Event.FOCUSOUT;
+          $(_this3.element).on(eventIn, _this3.config.selector, function (event) {
+            return _this3._enter(event);
+          }).on(eventOut, _this3.config.selector, function (event) {
+            return _this3._leave(event);
+=======
           $(_this4.element).on(_this4.constructor.Event.CLICK, _this4.config.selector, function (event) {
             return _this4.toggle(event);
           });
@@ -4947,12 +5166,18 @@ module.exports = {
             return _this4._enter(event);
           }).on(eventOut, _this4.config.selector, function (event) {
             return _this4._leave(event);
+>>>>>>> feed
           });
         }
       });
       $(this.element).closest('.modal').on('hide.bs.modal', function () {
+<<<<<<< HEAD
+        if (_this3.element) {
+          _this3.hide();
+=======
         if (_this4.element) {
           _this4.hide();
+>>>>>>> feed
         }
       });
 
@@ -5051,6 +5276,9 @@ module.exports = {
     };
 
     _proto._getConfig = function _getConfig(config) {
+<<<<<<< HEAD
+      config = _objectSpread({}, this.constructor.Default, $(this.element).data(), typeof config === 'object' && config ? config : {});
+=======
       var dataAttributes = $(this.element).data();
       Object.keys(dataAttributes).forEach(function (dataAttr) {
         if (DISALLOWED_ATTRIBUTES.indexOf(dataAttr) !== -1) {
@@ -5058,6 +5286,7 @@ module.exports = {
         }
       });
       config = _objectSpread({}, this.constructor.Default, dataAttributes, typeof config === 'object' && config ? config : {});
+>>>>>>> feed
 
       if (typeof config.delay === 'number') {
         config.delay = {
@@ -5075,11 +5304,14 @@ module.exports = {
       }
 
       Util.typeCheckConfig(NAME$6, config, this.constructor.DefaultType);
+<<<<<<< HEAD
+=======
 
       if (config.sanitize) {
         config.template = sanitizeHtml(config.template, config.whiteList, config.sanitizeFn);
       }
 
+>>>>>>> feed
       return config;
     };
 
@@ -5128,8 +5360,13 @@ module.exports = {
       this.hide();
       this.show();
       this.config.animation = initConfigAnimation;
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Tooltip._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -5217,7 +5454,11 @@ module.exports = {
    */
 
   var NAME$7 = 'popover';
+<<<<<<< HEAD
+  var VERSION$7 = '4.2.1';
+=======
   var VERSION$7 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$7 = 'bs.popover';
   var EVENT_KEY$7 = "." + DATA_KEY$7;
   var JQUERY_NO_CONFLICT$7 = $.fn[NAME$7];
@@ -5300,8 +5541,13 @@ module.exports = {
 
       this.setElementContent($tip.find(Selector$7.CONTENT), content);
       $tip.removeClass(ClassName$7.FADE + " " + ClassName$7.SHOW);
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getContent = function _getContent() {
       return this.element.getAttribute('data-content') || this.config.content;
@@ -5314,8 +5560,13 @@ module.exports = {
       if (tabClass !== null && tabClass.length > 0) {
         $tip.removeClass(tabClass.join(''));
       }
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Popover._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -5404,7 +5655,11 @@ module.exports = {
    */
 
   var NAME$8 = 'scrollspy';
+<<<<<<< HEAD
+  var VERSION$8 = '4.2.1';
+=======
   var VERSION$8 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$8 = 'bs.scrollspy';
   var EVENT_KEY$8 = "." + DATA_KEY$8;
   var DATA_API_KEY$6 = '.data-api';
@@ -5527,8 +5782,13 @@ module.exports = {
       this._targets = null;
       this._activeTarget = null;
       this._scrollHeight = null;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getConfig = function _getConfig(config) {
       config = _objectSpread({}, Default$6, typeof config === 'object' && config ? config : {});
@@ -5635,8 +5895,13 @@ module.exports = {
       }).forEach(function (node) {
         return node.classList.remove(ClassName$8.ACTIVE);
       });
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     ScrollSpy._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -5711,7 +5976,11 @@ module.exports = {
    */
 
   var NAME$9 = 'tab';
+<<<<<<< HEAD
+  var VERSION$9 = '4.2.1';
+=======
   var VERSION$9 = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$9 = 'bs.tab';
   var EVENT_KEY$9 = "." + DATA_KEY$9;
   var DATA_API_KEY$7 = '.data-api';
@@ -5819,8 +6088,13 @@ module.exports = {
     _proto.dispose = function dispose() {
       $.removeData(this._element, DATA_KEY$9);
       this._element = null;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._activate = function _activate(element, container, callback) {
       var _this2 = this;
@@ -5862,10 +6136,14 @@ module.exports = {
       }
 
       Util.reflow(element);
+<<<<<<< HEAD
+      $(element).addClass(ClassName$9.SHOW);
+=======
 
       if (element.classList.contains(ClassName$9.FADE)) {
         element.classList.add(ClassName$9.SHOW);
       }
+>>>>>>> feed
 
       if (element.parentNode && $(element.parentNode).hasClass(ClassName$9.DROPDOWN_MENU)) {
         var dropdownElement = $(element).closest(Selector$9.DROPDOWN)[0];
@@ -5881,8 +6159,13 @@ module.exports = {
       if (callback) {
         callback();
       }
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Tab._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -5946,7 +6229,11 @@ module.exports = {
    */
 
   var NAME$a = 'toast';
+<<<<<<< HEAD
+  var VERSION$a = '4.2.1';
+=======
   var VERSION$a = '4.3.1';
+>>>>>>> feed
   var DATA_KEY$a = 'bs.toast';
   var EVENT_KEY$a = "." + DATA_KEY$a;
   var JQUERY_NO_CONFLICT$a = $.fn[NAME$a];
@@ -6061,8 +6348,13 @@ module.exports = {
       $.removeData(this._element, DATA_KEY$a);
       this._element = null;
       this._config = null;
+<<<<<<< HEAD
+    }; // Private
+
+=======
     } // Private
     ;
+>>>>>>> feed
 
     _proto._getConfig = function _getConfig(config) {
       config = _objectSpread({}, Default$7, $(this._element).data(), typeof config === 'object' && config ? config : {});
@@ -6095,8 +6387,13 @@ module.exports = {
       } else {
         complete();
       }
+<<<<<<< HEAD
+    }; // Static
+
+=======
     } // Static
     ;
+>>>>>>> feed
 
     Toast._jQueryInterface = function _jQueryInterface(config) {
       return this.each(function () {
@@ -6130,11 +6427,14 @@ module.exports = {
       get: function get() {
         return DefaultType$7;
       }
+<<<<<<< HEAD
+=======
     }, {
       key: "Default",
       get: function get() {
         return Default$7;
       }
+>>>>>>> feed
     }]);
 
     return Toast;
@@ -6156,7 +6456,11 @@ module.exports = {
 
   /**
    * --------------------------------------------------------------------------
+<<<<<<< HEAD
+   * Bootstrap (v4.2.1): index.js
+=======
    * Bootstrap (v4.3.1): index.js
+>>>>>>> feed
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -6193,7 +6497,11 @@ module.exports = {
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
+<<<<<<< HEAD
+})));
+=======
 }));
+>>>>>>> feed
 //# sourceMappingURL=bootstrap.js.map
 
 
@@ -36589,7 +36897,11 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 try {
+<<<<<<< HEAD
+  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
+=======
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
+>>>>>>> feed
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
@@ -36650,8 +36962,13 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
+__webpack_require__(/*! C:\xampp\htdocs\laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+=======
 __webpack_require__(/*! C:\xampp\htdocs\changeyou\resources\js\app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! C:\xampp\htdocs\changeyou\resources\sass\app.scss */"./resources/sass/app.scss");
+>>>>>>> feed
 
 
 /***/ })
