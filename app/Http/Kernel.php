@@ -60,12 +60,9 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-<<<<<<< HEAD
-=======
         'login' => \App\Http\Middleware\Login::class,
         'sessao' => \App\Http\Middleware\Sessao::class,
         'logout' => \App\Http\Middleware\Logout::class
->>>>>>> feed
     ];
 
     /**
@@ -82,9 +79,6 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
-<<<<<<< HEAD
-=======
         \App\Http\Middleware\Login::class
->>>>>>> feed
     ];
 }

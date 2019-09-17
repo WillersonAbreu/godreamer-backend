@@ -44,7 +44,6 @@ class UsuarioController extends Controller
             'tipo_usuario' => 'required',
           ],
           [
-
             //mensagens do nome
             'nome.required' => 'The user name is necessary!',
             'nome.min' => 'Name must contain at least 3 characters!',
@@ -144,10 +143,58 @@ class UsuarioController extends Controller
       $data_nasc = $data;
       $tipo_usuario = $request->tipo_usuario;
 
+      $validator = Validator::make(
+        $request->all(),
+        [
+          'nome' => 'required|min:3|max:80',
+          'email' => 'required|email|min:7|max:80',
+          'senha' => 'required|min:4|confirmed|max:20',
+          'endereco' => 'required|min:10|max:200',
+          'celular' => 'required|min:14|max:14',
+          'data_nasc' => 'required|min:10|max:10',
+          'tipo_usuario' => 'required',
+        ],
+        [
+          //mensagens do nome
+          'nome.required' => 'The user name is necessary!',
+          'nome.min' => 'Name must contain at least 3 characters!',
+          'nome.max' => 'Name must contain a maximum of 80 characters!',
+
+          //mensagens do email
+          'email.required' => 'You must enter the email!',
+          'email.email' => 'You must enter a valid email address!',
+          'email.min' => 'Email must contain at least 7 characters!',
+          'email.max' => 'Email must contain a maximum of 80 characters!',
+          //mensagens da senha
+          'senha.required' => 'Password must be entered!',
+          'senha.min' => 'Email must contain at least 4 characters!',
+          'senha.max' => 'Email must contain at least 20 characters!',
+          'senha.confirmed' => 'Password and confirmation are different',
+          //mensagens do endereco
+          'endereco.required' => 'You must enter the address!',
+          'endereco.min' => 'Address must contain at least 10 characters!',
+          'endereco.max' => 'Address must contain a maximum of 200 characters!',
+          //mensagens do celular
+          'celular.required' => 'You need to insert the mobile number!',
+          'celular.min' => 'Mobile Number must contain exactly 11 numbers',
+          'celular.max' => 'Mobile Number must contain exactly 11 numbers',
+          //mensagens da data de nascimento
+          'data_nasc.required' => 'You must enter date of birth!',
+          'data_nasc.min' => 'Date of birth must contain exactly 8 numbers!',
+          'data_nasc.max' => 'Date of birth must contain exactly 8 numbers!',
+          //mensagens do tipo de usuário
+          'tipo_usuario.required' => 'You must enter the user type!'
+        ]
+    );
+
+    if ($validator->fails()) {
+      return response()->json(["error" => $validator->errors(), "status" => 401 ]);
+    }
+
       if(!empty($id) || !$id === 0){
           $usuario = Usuario::find($id);
 
-          if($usuario === NULL){
+          if($usuario === null){
             return response()->json(["error" => 'The user with this id does not exists!', "status" => 401]);
           }else{
             try{
