@@ -27,6 +27,13 @@ Route::prefix('feed')->group(function(){
   Route::get('/{id}','FeedController@Index');
 });//->middleware('sessao');
 
+//Rotas amizade
+Route::prefix('amizade')->group(function(){
+  // Route::get('/');
+  Route::post('create', 'AmizadeController@create');
+});
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

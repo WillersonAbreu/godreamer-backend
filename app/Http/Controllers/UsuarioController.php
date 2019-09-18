@@ -38,7 +38,6 @@ class UsuarioController extends Controller
             'nome' => 'required|min:3|max:80',
             'email' => 'required|email|unique:usuarios|min:7|max:80',
             'senha' => 'required|min:4|confirmed|max:20',
-            'endereco' => 'required|min:10|max:200',
             'celular' => 'required|unique:usuarios|min:14|max:14',
             'data_nasc' => 'required|min:10|max:10',
             'tipo_usuario' => 'required',
@@ -60,10 +59,6 @@ class UsuarioController extends Controller
             'senha.min' => 'Email must contain at least 4 characters!',
             'senha.max' => 'Email must contain at least 20 characters!',
             'senha.confirmed' => 'Password and confirmation are different',
-            //mensagens do endereco
-            'endereco.required' => 'You must enter the address!',
-            'endereco.min' => 'Address must contain at least 10 characters!',
-            'endereco.max' => 'Address must contain a maximum of 200 characters!',
             //mensagens do celular
             'celular.required' => 'You need to insert the mobile number!',
             'celular.min' => 'Mobile Number must contain exactly 11 numbers',
@@ -86,7 +81,6 @@ class UsuarioController extends Controller
       $usuarios->nome = $request->nome;
       $usuarios->email = $request->email;
       $usuarios->senha = $request->senha;
-      $usuarios->endereco = $request->endereco;
       $usuarios->celular = $request->celular;
       $usuarios->data_nasc = $data;
       $usuarios->tipo_usuario = $request->tipo_usuario;
@@ -138,7 +132,6 @@ class UsuarioController extends Controller
       $nome = $request->nome;
       $email = $request->email;
       $senha = $request->senha;
-      $endereco = $request->endereco;
       $celular = $request->celular;
       $data_nasc = $data;
       $tipo_usuario = $request->tipo_usuario;
@@ -149,7 +142,6 @@ class UsuarioController extends Controller
           'nome' => 'required|min:3|max:80',
           'email' => 'required|email|min:7|max:80',
           'senha' => 'required|min:4|confirmed|max:20',
-          'endereco' => 'required|min:10|max:200',
           'celular' => 'required|min:14|max:14',
           'data_nasc' => 'required|min:10|max:10',
           'tipo_usuario' => 'required',
@@ -170,10 +162,6 @@ class UsuarioController extends Controller
           'senha.min' => 'Email must contain at least 4 characters!',
           'senha.max' => 'Email must contain at least 20 characters!',
           'senha.confirmed' => 'Password and confirmation are different',
-          //mensagens do endereco
-          'endereco.required' => 'You must enter the address!',
-          'endereco.min' => 'Address must contain at least 10 characters!',
-          'endereco.max' => 'Address must contain a maximum of 200 characters!',
           //mensagens do celular
           'celular.required' => 'You need to insert the mobile number!',
           'celular.min' => 'Mobile Number must contain exactly 11 numbers',
@@ -202,7 +190,6 @@ class UsuarioController extends Controller
               $usuario->nome = $nome;
               $usuario->email = $email;
               $usuario->senha = $senha;
-              $usuario->endereco = $endereco;
               $usuario->celular = $celular;
               $usuario->data_nasc = $data_nasc;
               $usuario->tipo_usuario = $tipo_usuario;
