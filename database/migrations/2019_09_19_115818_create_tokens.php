@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAmigosTable extends Migration
+class CreateTokens extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateAmigosTable extends Migration
      */
     public function up()
     {
-        Schema::create('amigos', function (Blueprint $table) {
-            $table->increments('id_amizade');
-            $table->integer('id_usuario');
-            $table->integer('usuario_id');
-            $table->timestamp('data_amizade')->useCurrent();
+        Schema::create('tokens', function (Blueprint $table) {
+            $table->increments('id_token');
+            $table->integer('user_id');
+            $table->string('token');
+            $table->datetime('expire_at');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateAmigosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('amigos');
+        Schema::dropIfExists('tokens');
     }
 }
