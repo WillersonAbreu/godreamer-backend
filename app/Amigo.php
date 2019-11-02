@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Amigo extends Model
 {
-    protected $primariKey = 'id_amizade';
+    protected $primaryKey = 'id_amizade';
 
     public function usuario()
     {
-    	return $this->belongsTo('App\Usuario');
+        return $this->belongsTo('App\Usuario');
     }
 
     public function posts()
     {
-    	return $this->belongsTo('App\Post');
+        return $this->belongsTo('App\Post');
     }
 }
