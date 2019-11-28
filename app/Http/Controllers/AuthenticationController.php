@@ -2,84 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Token;
+use App\BusinessObject\AuthBusinessObject;
 use Illuminate\Http\Request;
 
 class AuthenticationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+  /**
+   * @param Request $request
+   * @return Response
+   */
+  public function login(Request $request)
+  {
+    // dd($request->all());
+    try {
+      $email = $request->input('email');
+      $senha = $request->input('senha');
+      $expiredTimeSeconds = $request->input('expired_time') ?? 86400;
+      $response = (new AuthBusinessObject())->login($email, $senha, $expiredTimeSeconds);
+      if (is_null($response)) return response()->json(['error' => "Usuário e/ou senha incorretos.", "status" => 401]);
+      return response()->json($response);
+    } catch (Exception $ex) {
+      return response()->json(["error" => $ex->getMessage(), "status" => 401]);
     }
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+  /**
+   * @param Request $request
+   * @return Response
+   */
+  public function refreshToken(Request $request)
+  {
+    try {
+      $expiredTimeSeconds = $request->input('expire_time_seconds') ?? 86400;
+      // $response = (new AuthBusinessObject())->refreshToken($expiredTimeSeconds);
+      // if (is_null($response)) throw new InvalidAuthenticationCredentials("Wrong data for authentication.", 0);
+      // return response()->json($response);
+    } catch (InvalidAuthenticationCredentials $ex) {
+      // return ExceptionBuilder::build(
+      // InvalidAuthenticationCredentials::class,
+      // 401,
+      // $ex->getMessage(),
+      // $ex
+      // );
     }
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Token  $token
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Token $token)
-    {
-        //
+  /**
+   * @param Request $request
+   * @return Response
+   */
+  public function verifyToken(Request $request)
+  {
+    try {
+      // $token = $request->bearerToken();
+      // JWT::decode($token, env('JWT_SECRET_KEY'), ['HS256']);
+      // if (TokensModel::where('str_token', $token)->first()) {
+      // return response()->json(['find' => true]);
+      // } else {
+      // return response()->json(['find' => false]);
+      // }
+    } catch (SignatureInvalidException $exception) {
+      // return response()->json(['find' => false]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Token  $token
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Token $token)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Token  $token
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Token $token)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Token  $token
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Token $token)
-    {
-        //
-    }
+  }
 }

@@ -1,37 +1,41 @@
 <?php
 
 
-// Route::post('login')->middleware('login');
+Route::post('/login', 'AuthenticationController@login');
+Route::get('/verify-token', 'AuthenticationController@verifyToken');
 
-//Rotas Sessão
-// Route::put('validarusuario')->middleware('login');
-// Route::get('logout')->middleware('logout');
+Route::post('usuarios/create', 'UsuarioController@create');
 
-//Rota de Usuários
-Route::prefix('usuarios')->group(function () {
-  Route::get('/', 'UsuarioController@index');
-  Route::post('create', 'UsuarioController@create');
-  Route::put('update', 'UsuarioController@update');
-  Route::delete('delete', 'UsuarioController@delete');
-});
+Route::middleware('login')->group(function () {
+  //Renova o token do usuário
+  Route::post('/refresh-token', 'AuthenticationController@refreshToken');
 
-//Rotas de Posts
-Route::prefix('post')->group(function () {
-  Route::get('/', 'PostController@index');
-  Route::post('create', 'PostController@create');
-  Route::post('update', 'PostController@update');
-  Route::delete('delete', 'PostController@delete');
-}); //->middleware('sessao');
+  //Rota de Usuários
+  Route::prefix('usuarios')->group(function () {
+    Route::get('/', 'UsuarioController@index');
+    Route::get('/{id}', 'UsuarioController@getUserById');
+    Route::put('update', 'UsuarioController@update');
+    Route::delete('delete', 'UsuarioController@delete');
+  });
 
-//Rotas do Feed
-Route::prefix('feed')->group(function () {
-  Route::get('/{id}', 'FeedController@Index');
-  Route::get('/usuario/{id}', 'FeedController@getPostByUserId');
-}); //->middleware('sessao');
+  //Rotas de Posts
+  Route::prefix('post')->group(function () {
+    Route::get('/', 'PostController@index');
+    Route::post('create', 'PostController@create');
+    Route::post('update', 'PostController@update');
+    Route::delete('delete', 'PostController@delete');
+  }); //->middleware('sessao');
 
-//Rotas amizade
-Route::prefix('amizade')->group(function () {
-  Route::get('/{id}', 'AmizadeController@index');
-  Route::post('create', 'AmizadeController@create');
-  Route::delete('delete', 'AmizadeController@delete');
+  //Rotas do Feed
+  Route::prefix('feed')->group(function () {
+    Route::get('/{id}', 'FeedController@Index');
+    Route::get('/usuario/{id}', 'FeedController@getPostByUserId');
+  }); //->middleware('sessao');
+
+  //Rotas amizade
+  Route::prefix('amizade')->group(function () {
+    Route::get('/{id}', 'AmizadeController@index');
+    Route::post('create', 'AmizadeController@create');
+    Route::delete('delete', 'AmizadeController@delete');
+  });
 });

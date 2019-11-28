@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Usuario;
 use Validator;
-use App\Helpers\GenerateToken;
-use DateTime;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -15,7 +14,7 @@ class UsuarioController extends Controller
    */
   public function index()
   {
-    $usuarios = Usuario::all();
+    $usuarios = Usuario::all('id', 'nome', 'email', 'celular', 'data_nasc', 'tipo_usuario');
 
     if (!empty($usuarios)) {
       return response()->json($usuarios, 200);
@@ -23,6 +22,31 @@ class UsuarioController extends Controller
       return response()->json(['message' => 'Não existem usuarios', 400]);
     }
   }
+
+  /**
+   * @return json users
+   */
+  public function getUserById(int $id)
+  {
+    // dd($id);
+    $usuario = Usuario::find($id)
+      ->with(
+        [
+          'posts:id,usuario_id,url_img,data_post',
+          'amigos'
+        ]
+      )
+      ->first(); //->with(['posts', 'amigos', 'imagens']);
+
+    // dd($usuario);
+
+    if (!empty($usuario)) {
+      return response()->json($usuario, 200);
+    } else {
+      return response()->json(['message' => 'Não existem usuarios', 400]);
+    }
+  }
+
 
   /**
    * @param Request $request
@@ -81,24 +105,10 @@ class UsuarioController extends Controller
       return response()->json(["error" => $validator->errors(), "status" => 401]);
     }
 
-    // $exp = env('EXPIRED_TIME_SECONDS');
-
-    // $user = [
-    //   'nome' => $request->nome,
-    //   'expires' => (new DateTime())->modify("+{$exp} seconds")->getTimestamp(),
-    //   'senha' => $request->senha,
-    //   'email' => $request->email,
-    //   'celular' => $request->celular,
-    //   'tipo_usuario' => $request->tipo_usuario
-    // ];
-
-    // $jwtENovaSenha = GenerateToken::createToken($user);
-
     //Passando os dados da request do form para as variáveis
     $usuarios->nome = $request->nome;
     $usuarios->email = $request->email;
-    $usuarios->senha = $request->senha; //$jwtENovaSenha['novaSenha'];
-    // $usuarios->token = $request->//$jwtENovaSenha['jwt'];
+    $usuarios->senha = Hash::make($request->senha);
     $usuarios->celular = $request->celular;
     $usuarios->data_nasc = $data;
     $usuarios->tipo_usuario = $request->tipo_usuario;
