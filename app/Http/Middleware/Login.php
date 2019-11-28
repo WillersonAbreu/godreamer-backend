@@ -1,70 +1,83 @@
 <?php
+
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\DB;
-use Illuminare\Http\Request;
+
+
+use Illuminate\Support\Facades\Hash;
+use App\Usuario;
 use Closure;
+use DateTime;
 
 class Login
 {
-    /**
-    * Handle an incoming request.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \Closure  $next
-    * @return mixed
-    */
-    public function handle($request, Closure $next)
-    {
-        $regras =
-        [
-            'email' => 'required|email',
-            'senha' => 'required'
-        ];
+  /**
+   * Handle an incoming request.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \Closure  $next
+   * @return mixed
+   */
+  public function handle($request, Closure $next)
+  {
 
-        $mensagens =
-        [
-            //mensagens do email e senha
-            'email.required' => 'É necessário inserir o e-mail!',
-            'email' => 'É necessário inserir um e-mail válido!',
-            'senha.required' => 'É necessário inserir a senha!'
-        ];
+    // $regras =
+    //   [
+    //     'email' => 'required|email',
+    //     'senha' => 'required'
+    //   ];
 
-        $request->validate($regras, $mensagens);
-        //Setando as variáveis com os dados do formulário de login
-        $email = $request->email;
-        $senha = $request->senha;
+    // $mensagens =
+    //   [
+    //     //mensagens do email e senha
+    //     'email.required' => 'É necessário inserir o e-mail!',
+    //     'email' => 'É necessário inserir um e-mail válido!',
+    //     'senha.required' => 'É necessário inserir a senha!'
+    //   ];
 
+    // $request->validate($regras, $mensagens);
+    //Setando as variáveis com os dados do formulário de login
 
-        //Buscando usuário que a senha e email sejam iguais aos da request
-        $usuario_email_bd = DB::select('select * from usuarios as U where U.email = ?', [$email]);
-
-
-        //Setando variáveis com os dados encontrados no banco
-        foreach ($usuario_email_bd  as $usu_email)
-        {
-            $usuario_email = $usu_email->email;
-            $usuario_id = $usu_email->id;
-            $usuario_senha = $usu_email->senha;
-        }
-        if(isset($usuario_email))
-        {   session_start();
-            //Testando se foi encontrado algo no banco ou não
-            if ($usuario_email == $email && $usuario_senha == $senha)
-            {
-                $_SESSION['email'] = $email;
-                $_SESSION['senha'] = $senha;
-                return redirect('/feed/' . $usuario_id);
-            }
-            else
-            {
-                return redirect()->back()->with('erroemail', 'Usuário ou senha não conferem!');
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('erroemail', 'E-mail não cadastrado na base de dados!');
-        }
-
-        //return $next($request);
+    if (is_null($request->email) || is_null($request->senha)) {
+      return response()->json(["error" => "Preencha os campos corretamente!", "status" => 400]);
     }
+
+    $email = $request->email;
+
+    $usuario = Usuario::where('email', $email)->first();
+    $exp = env('EXPIRED_TIME_SECONDS');
+
+    if (is_null($usuario)) return response()->json(["error" => "Usuário não encontrado!", "status" => 401]);
+
+    // $expireTimeSeconds = $usuario->
+
+
+    // (new DateTime())->modify("+{$exp} seconds")->getTimestamp();
+
+    // dd($teste);
+
+    if ($request->senha) {
+
+      $checkHash = Hash::check(
+        $request->senha,
+        $usuario->getAttributes()['senha']
+      );
+
+      if (!$checkHash) return response()->json(["error" => "Login ou senha incorretos!", "status" => 401]);
+
+      $tokenPayload = [
+        'nome' => $usuario->nome,
+        'expires' => (new DateTime())->modify("+{$exp} seconds")->getTimestamp(),
+        'senha' => $usuario->senha,
+        'email' => $usuario->email,
+        'celular' => $usuario->celular,
+        'tipo_usuario' => $usuario->tipo_usuario
+      ];
+
+      $jwt = JWT::encode($tokenPayload, env('KEY_FOR_TOKEN'));
+
+
+
+      return response()->json(["success" => $usuario->getAttributes()['token'], "status" => 200]);
+    }
+  }
 }

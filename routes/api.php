@@ -1,8 +1,11 @@
 <?php
 
+
+// Route::post('login')->middleware('login');
+
 //Rotas Sessão
-Route::put('validarusuario')->middleware('login');
-Route::get('logout')->middleware('logout');
+// Route::put('validarusuario')->middleware('login');
+// Route::get('logout')->middleware('logout');
 
 //Rota de Usuários
 Route::prefix('usuarios')->group(function () {

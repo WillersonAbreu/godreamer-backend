@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Usuario;
 use Validator;
 use App\Helpers\GenerateToken;
+use DateTime;
 
 class UsuarioController extends Controller
 {
@@ -80,21 +81,24 @@ class UsuarioController extends Controller
       return response()->json(["error" => $validator->errors(), "status" => 401]);
     }
 
-    $user = [
-      'nome' => $request->nome,
-      'email' => $request->email,
-      'senha' => $request->senha,
-      'celular' => $request->celular,
-      'tipo_usuario' => $request->tipo_usuario
-    ];
+    // $exp = env('EXPIRED_TIME_SECONDS');
 
-    $jwtENovaSenha = GenerateToken::createToken($user);
+    // $user = [
+    //   'nome' => $request->nome,
+    //   'expires' => (new DateTime())->modify("+{$exp} seconds")->getTimestamp(),
+    //   'senha' => $request->senha,
+    //   'email' => $request->email,
+    //   'celular' => $request->celular,
+    //   'tipo_usuario' => $request->tipo_usuario
+    // ];
+
+    // $jwtENovaSenha = GenerateToken::createToken($user);
 
     //Passando os dados da request do form para as variáveis
     $usuarios->nome = $request->nome;
     $usuarios->email = $request->email;
-    $usuarios->senha = $jwtENovaSenha['novaSenha'];
-    $usuarios->token = $jwtENovaSenha['jwt'];
+    $usuarios->senha = $request->senha; //$jwtENovaSenha['novaSenha'];
+    // $usuarios->token = $request->//$jwtENovaSenha['jwt'];
     $usuarios->celular = $request->celular;
     $usuarios->data_nasc = $data;
     $usuarios->tipo_usuario = $request->tipo_usuario;
