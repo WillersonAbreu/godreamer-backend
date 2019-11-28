@@ -6,18 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
-    public function posts()
-    {
-    	return $this->hasMany('App\Post');
-    }
+  protected $fillable = array(
+    'nome',
+    'email',
+    'senha',
+    'celular',
+    'data_nasc',
+    'tipo_usuario'
+  );
 
-    public function amigos()
-    {
-    	return $this->hasMany('App\Amigo');
-    }
+  public function posts()
+  {
+    return $this->hasMany('App\Post');
+  }
 
-    public function imagens()
-    {
-    	return $this->hasMany('App\Imagem');
-    }
+  public function amigos()
+  {
+    return $this->hasMany('App\Amigo');
+  }
+
+  public function imagens()
+  {
+    return $this->hasMany('App\Imagem');
+  }
 }

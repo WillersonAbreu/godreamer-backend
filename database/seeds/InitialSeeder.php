@@ -13,23 +13,26 @@ class InitialSeeder extends Seeder
    */
   public function run()
   {
-    DB::table('usuarios')->insert([
-      'nome' => 'Willerson',
-      'email' => 'w@w.com',
-      'senha' => Hash::make('123456'),
-      'celular' => '(12)98175-5795',
-      'data_nasc' => '1992-07-29',
-      'tipo_usuario' => 1
-    ]);
+    DB::table('usuarios')->insert(
+      [
+        'nome' => 'Willerson',
+        'email' => 'w@w.com',
+        'senha' => Hash::make('123456'),
+        'celular' => '(12)98175-5795',
+        'data_nasc' => '1992-07-29',
+        'tipo_usuario' => 1
+      ],
+      [
+        'nome' => 'Rayssa',
+        'email' => 'r@r.com',
+        'senha' => Hash::make('123456'),
+        'celular' => '(12)98158-5705',
+        'data_nasc' => '1997-02-18',
+        'tipo_usuario' => 2
+      ]
+    );
 
-    DB::table('usuarios')->insert([
-      'nome' => 'Rayssa',
-      'email' => 'r@r.com',
-      'senha' => Hash::make('123456'),
-      'celular' => '(12)98158-5705',
-      'data_nasc' => '1997-02-18',
-      'tipo_usuario' => 2
-    ]);
+    // DB::table('usuarios')->insert();
 
     DB::table('posts')->insert([
       [
@@ -44,9 +47,15 @@ class InitialSeeder extends Seeder
       ]
     ]);
 
-    DB::table('amigos')->insert([
-      'id_usuario' => 1,
-      'usuario_id' => 2
-    ]);
+    DB::table('amigos')->insert(
+      [
+        'id_usuario' => 1,
+        'usuario_id' => 2
+      ],
+      [
+        'id_usuario' => 2,
+        'usuario_id' => 1
+      ]
+    );
   }
 }

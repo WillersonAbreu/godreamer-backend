@@ -20,11 +20,11 @@ class CreatePostTable extends Migration
       $table->string('url_img')->nullable();
       $table->timestamp('data_post')->useCurrent();
       $table->timestamps();
-      $table->foreign('usuario_id')
-        ->references('id')
-        ->on('usuarios')
-        ->onDelete('cascade')
-        ->onUpdate('cascade');
+      // $table->foreign('usuario_id')
+      // ->references('id')
+      // ->on('usuarios');
+      //->onDelete('cascade')
+      //->onUpdate('cascade');
     });
   }
 
