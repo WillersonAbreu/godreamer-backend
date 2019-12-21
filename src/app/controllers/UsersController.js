@@ -52,6 +52,8 @@ class UserController {
   async update(req, res) {
     const { email, currentPassword, userId } = req.body;
 
+    // return res.json(req.body);
+
     // Validation schema
     const UserSchema = Yup.object().shape({
       name: Yup.string(),
@@ -97,6 +99,28 @@ class UserController {
       return res.status(200).json({ success: 'User updated successfully' });
     } catch (error) {
       return res.status(400).json({ error: error });
+    }
+  }
+
+  async delete(req, res) {
+    const { userId } = req.body;
+
+    if (!userId)
+      return res.status(400).json({ error: `The user wasn't informed` });
+
+    const user = User.findByPk(userId);
+
+    if (!user)
+      return res
+        .status(401)
+        .json({ error: `The user with this user ID doesn't exists` });
+
+    try {
+      const { is_active } = user;
+      return res.json(is_active);
+      // await User.update();
+    } catch (error) {
+      return res.json({ error: error.message });
     }
   }
 }
