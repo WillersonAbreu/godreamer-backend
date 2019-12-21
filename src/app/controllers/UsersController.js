@@ -7,16 +7,16 @@ class UserController {
   async store(req, res) {
     // Validation schema
     const UserSchema = Yup.object({
-      name: Yup.string().required('The name of the user is required'),
+      name: Yup.string().required(),
       email: Yup.string()
         .email()
-        .required('The email is required'),
-      password: Yup.string().required('The password is required'),
+        .required(),
+      password: Yup.string().required(),
       passwordConfirmation: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
       ),
-      birthdate: Yup.date().required('The birthdate is required'),
-      user_type: Yup.number().required('The user type is required')
+      birthdate: Yup.date().required(),
+      user_type: Yup.number().required()
     });
 
     if (!(await UserSchema.isValid(req.body))) {
@@ -50,7 +50,7 @@ class UserController {
   }
 
   async update(req, res) {
-    const { email, currentPassword } = req.body;
+    const { email, currentPassword, userId } = req.body;
 
     // Validation schema
     const UserSchema = Yup.object().shape({
@@ -68,14 +68,17 @@ class UserController {
       )
     });
 
+    // Verifying if all data is correctly inserted
     if (!(await UserSchema.isValid(req.body))) {
       return res
         .status(400)
         .json({ error: 'Insert all data correctly please' });
     }
 
-    const user = await User.findByPk(req.body.userId);
+    // Finding the user by userId that iside the JWT token
+    const user = await User.findByPk(userId);
 
+    // Verfifying if the user wants to change the current email
     if (email !== user.email) {
       const userExists = await User.findOne({ where: { email } });
 
@@ -84,6 +87,7 @@ class UserController {
       }
     }
 
+    // Verfying if the user wants to change his password
     if (currentPassword && !(await user.checkPassword(currentPassword))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
@@ -92,7 +96,7 @@ class UserController {
       await user.update(req.body);
       return res.status(200).json({ success: 'User updated successfully' });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error });
     }
   }
 }
