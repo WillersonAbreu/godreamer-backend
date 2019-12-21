@@ -7,7 +7,7 @@ class UserController {
   async store(req, res) {
     // Validation schema
     const UserSchema = Yup.object({
-      name: Yup.string().required('The name of the user is required!'),
+      name: Yup.string().required('The name of the user is required'),
       email: Yup.string()
         .email()
         .required('The email is required'),
@@ -33,7 +33,9 @@ class UserController {
 
       // Check if user exists
       if (userExists) {
-        res.status(400).json({ message: 'This email is already in use!' });
+        return res
+          .status(400)
+          .json({ message: 'This email is already in use' });
       }
 
       // Creating new user
@@ -47,7 +49,52 @@ class UserController {
     }
   }
 
-  async update(req, res) {}
+  async update(req, res) {
+    const { email, currentPassword } = req.body;
+
+    // Validation schema
+    const UserSchema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      currentPassword: Yup.string().min(6),
+
+      password: Yup.string()
+        .min(6)
+        .when('currentPassword', (currentPassword, field) =>
+          currentPassword ? field.required() : field
+        ),
+      passwordConfirmation: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      )
+    });
+
+    if (!(await UserSchema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ error: 'Insert all data correctly please' });
+    }
+
+    const user = await User.findByPk(req.body.userId);
+
+    if (email !== user.email) {
+      const userExists = await User.findOne({ where: { email } });
+
+      if (userExists) {
+        return res.status(400).json({ error: 'This email is already in use' });
+      }
+    }
+
+    if (currentPassword && !(await user.checkPassword(currentPassword))) {
+      return res.status(401).json({ error: 'Password does not match' });
+    }
+
+    try {
+      await user.update(req.body);
+      return res.status(200).json({ success: 'User updated successfully' });
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }
 
 export default new UserController();
