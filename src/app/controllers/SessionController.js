@@ -14,7 +14,12 @@ class SessionController {
       return res.status(400).json({ error: 'Password does not match' });
     }
 
-    const { id, name, birthdate, user_type } = user;
+    const { id, name, birthdate, user_type, is_active } = user;
+
+    if (!is_active)
+      return res
+        .status(401)
+        .json({ error: 'This user is inactive, please activate the account' });
 
     return res.status(200).json({
       success: true,

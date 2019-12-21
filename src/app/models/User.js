@@ -10,7 +10,8 @@ class User extends Model {
         passwordConfirmation: Sequelize.VIRTUAL,
         password: Sequelize.STRING,
         birthdate: Sequelize.DATE,
-        user_type: Sequelize.BOOLEAN
+        user_type: Sequelize.BOOLEAN,
+        is_active: Sequelize.BOOLEAN
       },
       {
         sequelize

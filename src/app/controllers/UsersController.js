@@ -1,28 +1,52 @@
+import Sequelize from 'sequelize';
 import User from '../models/User';
 
 // Yup validator
 import * as Yup from 'yup';
 
 class UserController {
+  async index(req, res) {
+    try {
+      const users = await User.findAll({
+        where: { is_active: true },
+        attributes: {
+          exclude: ['password', 'is_active', 'createdAt', 'updatedAt']
+        },
+        order: [['created_at', 'DESC']]
+      });
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
   async store(req, res) {
     // Validation schema
     const UserSchema = Yup.object({
-      name: Yup.string().required(),
+      name: Yup.string()
+        .required('Is necessary insert an user name')
+        .min(3),
       email: Yup.string()
         .email()
-        .required(),
-      password: Yup.string().required(),
+        .required('Insert an valid email'),
+      password: Yup.string()
+        .required('Is necessary insert an password')
+        .min(6),
       passwordConfirmation: Yup.string().when('password', (password, field) =>
-        password ? field.required().oneOf([Yup.ref('password')]) : field
+        password
+          ? field
+              .required('The password confirmation does not match')
+              .oneOf([Yup.ref('password')])
+          : field
       ),
-      birthdate: Yup.date().required(),
-      user_type: Yup.number().required()
+      birthdate: Yup.date().required('The user birthdate is necessary'),
+      user_type: Yup.number().required('The user type is necessary')
     });
 
-    if (!(await UserSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'All information is necessary to create an account' });
+    try {
+      await UserSchema.validate(req.body);
+    } catch (error) {
+      return res.status(400).json(error.errors);
     }
 
     try {
@@ -71,10 +95,10 @@ class UserController {
     });
 
     // Verifying if all data is correctly inserted
-    if (!(await UserSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Insert all data correctly please' });
+    try {
+      await UserSchema.validate(req.body);
+    } catch (error) {
+      return res.status(400).json(error.errors);
     }
 
     // Finding the user by userId that iside the JWT token
@@ -108,7 +132,7 @@ class UserController {
     if (!userId)
       return res.status(400).json({ error: `The user wasn't informed` });
 
-    const user = User.findByPk(userId);
+    const user = await User.findByPk(userId);
 
     if (!user)
       return res
@@ -116,11 +140,48 @@ class UserController {
         .json({ error: `The user with this user ID doesn't exists` });
 
     try {
-      const { is_active } = user;
-      return res.json(is_active);
-      // await User.update();
+      await user.update({ is_active: false });
+      return res
+        .status(200)
+        .json({ message: 'The user was deleted successfully' });
     } catch (error) {
       return res.json({ error: error.message });
+    }
+  }
+
+  async getUserByEmailOrName(req, res) {
+    const { emailOrName } = req.params;
+    // Email Schema
+    const emailSchema = Yup.object().shape({
+      emailOrName: Yup.string().email()
+    });
+
+    // Check if the URL param is name or email
+    if (await emailSchema.isValid(req.params)) {
+      // return res.json({ isemail: true });
+      try {
+        const user = await User.findOne({
+          where: { email: emailOrName },
+          attributes: { exclude: ['password'] }
+        });
+
+        return res.status(200).json(user);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    }
+
+    // Else find by user name
+    try {
+      const Operator = Sequelize.Op;
+
+      const users = await User.findAll({
+        where: { name: { [Operator.like]: `%${emailOrName}%` } }
+      });
+
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
   }
 }
