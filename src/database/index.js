@@ -5,9 +5,10 @@ import databaseConfig from '../config/database';
 
 // Models
 import User from '../app/models/User';
+import ProfileImage from '../app/models/ProfileImage';
 
 // Array with all models
-const models = [User];
+const models = [User, ProfileImage];
 
 class Database {
   constructor() {
@@ -17,7 +18,9 @@ class Database {
   init() {
     this.connection = new Sequelize(databaseConfig);
 
-    models.map(model => model.init(this.connection));
+    models
+      .map(model => model.init(this.connection))
+      .map(model => model.associate && model.associate(this.connection.models));
   }
 }
 

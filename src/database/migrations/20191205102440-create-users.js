@@ -30,6 +30,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
+      profile_image_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: { model: 'profile_images', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        unique: true
+      },
       is_active: {
         allowNull: false,
         type: Sequelize.BOOLEAN,

@@ -1,5 +1,8 @@
 import Sequelize from 'sequelize';
+
+// Models
 import User from '../models/User';
+import ProfileImage from '../models/ProfileImage';
 
 // Yup validator
 import * as Yup from 'yup';
@@ -10,9 +13,22 @@ class UserController {
       const users = await User.findAll({
         where: { is_active: true },
         attributes: {
-          exclude: ['password', 'is_active', 'createdAt', 'updatedAt']
+          exclude: [
+            'password',
+            'is_active',
+            'createdAt',
+            'updatedAt',
+            'profile_image_id'
+          ]
         },
-        order: [['created_at', 'DESC']]
+        include: [
+          {
+            model: ProfileImage,
+            attributes: {
+              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
+            }
+          }
+        ]
       });
       return res.status(200).json(users);
     } catch (error) {

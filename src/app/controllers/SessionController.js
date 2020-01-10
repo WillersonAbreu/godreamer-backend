@@ -1,9 +1,19 @@
 import jwt from 'jsonwebtoken';
+import * as Yup from 'yup';
 
 import User from '../models/User';
 
 class SessionController {
   async store(req, res) {
+    const SessionSchema = Yup.object().shape({
+      email: Yup.string()
+        .email()
+        .required('Is necessary insert the email to login'),
+      password: Yup.string().required(
+        'Is necessary insert the password to login'
+      )
+    });
+
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
@@ -11,7 +21,7 @@ class SessionController {
     if (!user) return res.status(400).json({ error: 'User not found' });
 
     if (!(await user.checkPassword(password))) {
-      return res.status(400).json({ error: 'Password does not match' });
+      return res.status(401).json({ error: 'Password does not match' });
     }
 
     const { id, name, birthdate, user_type, is_active } = user;
