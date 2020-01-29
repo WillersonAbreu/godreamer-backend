@@ -6,9 +6,10 @@ import databaseConfig from '../config/database';
 // Models
 import User from '../app/models/User';
 import ProfileImage from '../app/models/ProfileImage';
+import Post from '../app/models/Post';
 
 // Array with all models
-const models = [User, ProfileImage];
+const models = [User, ProfileImage, Post];
 
 class Database {
   constructor() {

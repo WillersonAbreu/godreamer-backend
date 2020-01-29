@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 // Models
 import User from '../models/User';
 import ProfileImage from '../models/ProfileImage';
+import Post from '../models/Post';
 
 // Yup validator
 import * as Yup from 'yup';
@@ -26,6 +27,12 @@ class UserController {
             model: ProfileImage,
             attributes: {
               exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
+            }
+          },
+          {
+            model: Post,
+            attributes: {
+              exclude: ['user_id', 'str_post', 'url_image', 'created_at']
             }
           }
         ]
