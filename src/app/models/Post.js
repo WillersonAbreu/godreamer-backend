@@ -6,7 +6,8 @@ class Post extends Model {
       {
         user_id: Sequelize.INTEGER,
         str_post: Sequelize.STRING,
-        url_image: Sequelize.STRING
+        url_image: Sequelize.STRING,
+        url_video: Sequelize.STRING
       },
       {
         sequelize

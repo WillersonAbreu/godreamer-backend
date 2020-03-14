@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import routes from './routes/routes';
 
 import './database';
@@ -13,7 +14,7 @@ class App {
 
   // Registro dos middlewares da aplicação
   middlewares() {
-    this.server.use(express.json());
+    this.server.use(bodyParser.json());
   }
 
   // Registro das rotas da aplicação

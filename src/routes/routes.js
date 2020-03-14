@@ -4,14 +4,18 @@ import multer from 'multer';
 // Controllers
 import UserController from '../app/controllers/UsersController';
 import SessionController from '../app/controllers/SessionController';
+import PostController from '../app/controllers/PostController';
+import UploadProfileImageController from '../app/controllers/UploadProfileImageController';
 
 // Middlewares
 import AuthMiddleware from '../app/middlewares/AuthMiddleware';
-import MulterConfig from '../config/multer';
-import UploadProfileImageController from '../app/controllers/UploadProfileImageController';
+import MulterProfileConfig from '../app/middlewares/MulterProfileConfigMiddleware';
+
+import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
+const PostUpload = multer(MulterPostConfig);
 
 const routes = new Router();
-const ProfileUpload = multer(MulterConfig);
+const ProfileUpload = multer(MulterProfileConfig);
 
 // Authentication Routes
 routes.post('/login', SessionController.store);
@@ -36,5 +40,15 @@ routes.post(
 );
 
 routes.delete('/profile-image', UploadProfileImageController.delete);
+
+// Post routes
+routes.post('/posts', PostUpload.any(), PostController.store);
+
+// Upload images in post
+// routes.post(
+//   '/post-image',
+//   PostUpload.single(),
+//   UploadPostImageController.store
+// );
 
 module.exports = routes;
