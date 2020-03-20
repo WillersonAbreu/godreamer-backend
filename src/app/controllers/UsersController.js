@@ -28,13 +28,13 @@ class UserController {
             attributes: {
               exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
             }
-          },
-          {
-            model: Post,
-            attributes: {
-              exclude: ['user_id', 'str_post', 'url_image', 'created_at']
-            }
           }
+          // {
+          //   model: Post,
+          //   attributes: {
+          //     exclude: ['user_id', 'str_post', 'url_image', 'created_at']
+          //   }
+          // }
         ]
       });
       return res.status(200).json(users);

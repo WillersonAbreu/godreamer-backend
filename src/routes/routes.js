@@ -42,7 +42,10 @@ routes.post(
 routes.delete('/profile-image', UploadProfileImageController.delete);
 
 // Post routes
+routes.get('/posts', PostUpload.any(), PostController.index);
 routes.post('/posts', PostUpload.any(), PostController.store);
+routes.put('/posts/:id', PostUpload.any(), PostController.update);
+routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 
 // Upload images in post
 // routes.post(
