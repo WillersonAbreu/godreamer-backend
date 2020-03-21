@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 // Models
 import User from '../models/User';
 import ProfileImage from '../models/ProfileImage';
+import Friendship from '../models/Friendship';
 import Post from '../models/Post';
 
 // Yup validator
@@ -28,6 +29,9 @@ class UserController {
             attributes: {
               exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
             }
+          },
+          {
+            model: Friendship
           }
           // {
           //   model: Post,

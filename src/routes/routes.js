@@ -12,6 +12,7 @@ import AuthMiddleware from '../app/middlewares/AuthMiddleware';
 import MulterProfileConfig from '../app/middlewares/MulterProfileConfigMiddleware';
 
 import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
+import FriendshipController from '../app/controllers/FriendshipController';
 const PostUpload = multer(MulterPostConfig);
 
 const routes = new Router();
@@ -47,11 +48,10 @@ routes.post('/posts', PostUpload.any(), PostController.store);
 routes.put('/posts/:id', PostUpload.any(), PostController.update);
 routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 
-// Upload images in post
-// routes.post(
-//   '/post-image',
-//   PostUpload.single(),
-//   UploadPostImageController.store
-// );
+// Friendship routes
+routes.get('/friendship', FriendshipController.index);
+routes.post('/friendship', FriendshipController.store);
+// routes.put('/friendship', FriendshipController.update);
+// routes.delete('/friendship', FriendshipController.delete);
 
 module.exports = routes;
