@@ -2,7 +2,7 @@ module.exports = {
   dialect: 'mariadb',
   host: 'localhost',
   username: 'root',
-  password: '123',
+  password: '',
   database: 'godreamer',
   define: {
     timestamps: true,
