@@ -11,7 +11,7 @@ import Group from '../app/models/Group';
 import GroupPostRel from '../app/models/relations/GroupPostRel';
 
 // Array with all models
-const models = [User, ProfileImage, Post];
+const models = [User, ProfileImage, Post, Group, GroupPostRel];
 
 class Database {
   constructor() {
