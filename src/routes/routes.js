@@ -51,7 +51,11 @@ routes.put('/posts/:id', PostUpload.any(), PostController.update);
 routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 
 // Group routes
-routes.post('/groups', GroupUpload.single('group_image'), GroupController.store)
+routes.post(
+  '/groups',
+  GroupUpload.single('group_image'),
+  GroupController.store
+);
 
 // Upload images in post
 // routes.post(

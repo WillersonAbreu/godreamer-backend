@@ -19,15 +19,22 @@ module.exports = {
         unique: false
       },
       user_id: {
-          allowNull: true,
-          type: Sequelize.INTEGER,
-          references: { model: 'users', key: 'id' },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',
-          unique: true
-        }
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: { model: 'users', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        unique: true
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false
       }
-    );
+    });
   },
 
   down: (queryInterface, Sequelize) => {

@@ -33,18 +33,16 @@ class GroupController {
   }
 
   async store(req, res) {
-
     if (!req.file)
       return res
         .status(400)
         .json({ error: 'The file is necessary to execute the upload' });
 
     const GroupSchema = Yup.object({
-        group_name: Yup.string()
-        .typeError('Você deve inserir um texto'),
-        group_image: Yup.string()
-        .typeError('Você deve inserir um texto'),
+      group_name: Yup.string().typeError('Você deve inserir um texto'),
+      group_image: Yup.string().typeError('Você deve inserir um texto')
     });
+
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await promisify(jwt.verify)(
       token,
@@ -57,16 +55,17 @@ class GroupController {
 
     // Check if all data is correctly inserted
     try {
-        await GroupSchema.validate({ group_name, group_image });
-        
-        await Group.create({
-            group_name,
-            group_image
-        });
+      await GroupSchema.validate({ group_name, group_image });
 
-        return res.json(Group);
+      const resposta = await Group.create({
+        user_id,
+        group_name,
+        group_image
+      });
+
+      return res.status(200).json(resposta);
     } catch (error) {
-      return res.status(400).json({ error: error.errors });
+      return res.status(400).json({ error: 'Algum erro aqui' });
     }
   }
 
