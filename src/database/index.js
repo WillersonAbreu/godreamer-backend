@@ -7,6 +7,8 @@ import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import ProfileImage from '../app/models/ProfileImage';
 import Post from '../app/models/Post';
+import Group from '../app/models/Group';
+import GroupPostRel from '../app/models/relations/GroupPostRel';
 
 // Array with all models
 const models = [User, ProfileImage, Post];

@@ -6,16 +6,19 @@ import UserController from '../app/controllers/UsersController';
 import SessionController from '../app/controllers/SessionController';
 import PostController from '../app/controllers/PostController';
 import UploadProfileImageController from '../app/controllers/UploadProfileImageController';
+import GroupController from '../app/controllers/GroupController';
 
 // Middlewares
 import AuthMiddleware from '../app/middlewares/AuthMiddleware';
 import MulterProfileConfig from '../app/middlewares/MulterProfileConfigMiddleware';
-
 import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
+import MulterGroupConfig from '../app/middlewares/MulterGroupConfigMiddleware';
+
 const PostUpload = multer(MulterPostConfig);
 
 const routes = new Router();
 const ProfileUpload = multer(MulterProfileConfig);
+const GroupUpload = multer(MulterGroupConfig);
 
 // Authentication Routes
 routes.post('/login', SessionController.store);
@@ -46,6 +49,9 @@ routes.get('/posts', PostUpload.any(), PostController.index);
 routes.post('/posts', PostUpload.any(), PostController.store);
 routes.put('/posts/:id', PostUpload.any(), PostController.update);
 routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
+
+// Group routes
+routes.post('/groups', GroupUpload.single('group_image'), GroupController.store)
 
 // Upload images in post
 // routes.post(

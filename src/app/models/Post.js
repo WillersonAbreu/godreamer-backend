@@ -4,6 +4,7 @@ class Post extends Model {
   static init(sequelize) {
     super.init(
       {
+        id: Sequelize.INTEGER,
         user_id: Sequelize.INTEGER,
         str_post: Sequelize.STRING,
         url_image: Sequelize.STRING,
