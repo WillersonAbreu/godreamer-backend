@@ -30,6 +30,7 @@ class User extends Model {
   static associate(models) {
     this.belongsTo(models.ProfileImage, { foreignKey: 'id' });
     this.hasMany(models.Post);
+    this.hasMany(models.Group);
   }
 
   checkPassword(password) {

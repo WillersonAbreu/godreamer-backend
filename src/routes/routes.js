@@ -56,6 +56,7 @@ routes.post(
   GroupUpload.single('group_image'),
   GroupController.store
 );
+routes.delete('/groups/:id/:user_id', GroupController.delete);
 
 // Upload images in post
 // routes.post(

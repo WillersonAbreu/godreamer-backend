@@ -48,11 +48,11 @@ class GroupController {
       token,
       process.env.JWT_KEY
     );
-
-    const group_image = req.file.originalname;
+    
+    const group_image = req.file.filename;
     const group_name = req.body.group_name;
     const user_id = decodedToken.id;
-
+    
     // Check if all data is correctly inserted
     try {
       await GroupSchema.validate({ group_name, group_image });
@@ -65,7 +65,7 @@ class GroupController {
 
       return res.status(200).json(resposta);
     } catch (error) {
-      return res.status(400).json({ error: 'Algum erro aqui' });
+      return res.status(400).json({ error: 'Error to create the group' });
     }
   }
 
@@ -144,42 +144,31 @@ class GroupController {
   }
 
   async delete(req, res) {
-    try {
-      const post_id = req.params.id;
-      const getPost = await Post.findByPk(post_id);
 
-      // Delete the current files
-      if ((getPost.url_video, getPost.url_image)) {
-        const imageDestination = resolve(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          'temp',
-          'post_images',
-          getPost.url_image
-        );
+      const id = req.params.id;
+      const user_id = req.params.user_id;
+      const getGroup = await Group.findByPk(id);
 
-        const videoDestination = resolve(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          'temp',
-          'post_images',
-          getPost.url_video
-        );
-
-        fs.unlinkSync(imageDestination);
-        fs.unlinkSync(videoDestination);
+      if(getGroup.user_id == user_id) {
+        try {
+          if(getGroup.group_image){
+            const imageDestination = resolve(
+              __dirname,
+              '..',
+              '..',
+              '..',
+              'temp',
+              'group_images',
+              getGroup.group_image
+            );
+            fs.unlinkSync(imageDestination);
+          }
+          getGroup.destroy();
+          return res.status(200).json({ message: 'Post deleted successfully' });
+      } catch (error) {
+          return res.status(400).json({ error: 'Error' });
       }
-
-      getPost.destroy();
-
-      return res.status(200).json({ message: 'Post deleted successfully' });
-    } catch (error) {
-      return res.status(400).json({ error: 'Error to update the post' });
-    }
+    } 
   }
 }
 
