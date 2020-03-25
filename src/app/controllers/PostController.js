@@ -60,6 +60,7 @@ class PostController {
           user_id,
           str_post
         });
+        
       } else {
         const url_image = files[0] ? files[0].filename : null;
         const url_video = files[1] ? files[1].filename : null;
