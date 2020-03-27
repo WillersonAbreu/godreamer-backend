@@ -5,6 +5,7 @@ class Group extends Model {
     super.init(
       {
         group_name: Sequelize.STRING,
+        group_desc: Sequelize.STRING,
         group_image: Sequelize.STRING,
         user_id: Sequelize.INTEGER
       },

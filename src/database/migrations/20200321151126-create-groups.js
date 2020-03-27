@@ -13,9 +13,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      group_desc: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       group_image: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: false
       },
       user_id: {
