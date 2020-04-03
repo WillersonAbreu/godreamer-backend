@@ -52,6 +52,6 @@ routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 routes.get('/friendship', FriendshipController.index);
 routes.post('/friendship', FriendshipController.store);
 // routes.put('/friendship', FriendshipController.update);
-// routes.delete('/friendship', FriendshipController.delete);
+routes.delete('/friendship', FriendshipController.delete);
 
 module.exports = routes;

@@ -148,7 +148,7 @@ class PostController {
 
       return res.status(200).json({ message: 'Post updated successfully' });
     } catch (error) {
-      return res.status(400).json({ error: 'Error to update the post' });
+      return res.status(400).json({ error: error.message });
     }
   }
 
