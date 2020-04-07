@@ -159,6 +159,28 @@ class GroupController {
         return res.status(400).json({ error: 'You are not authorized to delete this group' });
     } 
   }
+
+  async getByGroupName(req, res) {
+    
+    const groupName = req.params.groupName;
+    // Group Schema
+    const GroupSchema = Yup.object({  
+      groupName: Yup.string(),
+    });
+
+    // Check if the URL param is name
+    if (await GroupSchema.validate(req.params)) {
+      try {
+        const groups = await Group.findAll({
+          where: { group_name: groupName }
+        });
+
+        return res.status(200).json(groups);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    }
+  }
 }
 
 export default new GroupController();

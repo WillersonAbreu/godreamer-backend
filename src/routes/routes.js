@@ -52,6 +52,7 @@ routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 
 // Group routes
 routes.get('/groups', GroupController.index);
+routes.get('/groups/:groupName', GroupController.getByGroupName);
 routes.post(
   '/groups',
   GroupUpload.single('group_image'),
@@ -63,6 +64,8 @@ routes.put(
   GroupController.update
 );
 routes.delete('/groups/:id', GroupController.delete);
+
+
 
 // Upload images in post
 // routes.post(
