@@ -2,6 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import routes from './routes/routes';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import './database';
 
 class App {

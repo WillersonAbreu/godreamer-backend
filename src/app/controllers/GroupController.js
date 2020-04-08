@@ -4,13 +4,12 @@ import { resolve } from 'path';
 import fs from 'fs';
 
 // Models
-import Post from '../models/Post';
-import User from '../models/User';
+import Group from '../models/Group.js';
 
 // Yup validator
 import * as Yup from 'yup';
 
-class PostController {
+class GroupController {
   async index(req, res) {
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await promisify(jwt.verify)(
@@ -20,62 +19,53 @@ class PostController {
     const user_id = decodedToken.id;
 
     try {
-      const getPosts = await Post.findAll({
+      const getGroups = await Group.findAll({
         where: {
           user_id: user_id
         },
         order: [['updated_at', 'DESC']]
       });
 
-      return res.status(200).json({ posts: getPosts });
+      return res.status(200).json({ groups: getGroups });
     } catch (error) {
-      return res.status(400).json({ error: 'error to get the posts' });
+      return res.status(400).json({ error: 'error to get the groups' });
     }
   }
 
   async store(req, res) {
-    const PostSchema = Yup.object({
-      user_id: Yup.number()
-        .typeError('É necessário inserir um inteiro')
-        .required('É necessário o ID do usuário'),
-      str_post: Yup.string().typeError('Você deve inserir um texto')
+    if (!req.file)
+      return res
+        .status(400)
+        .json({ error: 'The file is necessary to execute the upload' });
+
+    const GroupSchema = Yup.object({
+      group_name: Yup.string().typeError('Você deve inserir um texto'),
+      group_image: Yup.string().typeError('Você deve inserir um texto')
     });
+
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await promisify(jwt.verify)(
       token,
       process.env.JWT_KEY
     );
 
-    const files = req.files;
+    const group_image = req.file.originalname;
+    const group_name = req.body.group_name;
     const user_id = decodedToken.id;
-    const str_post = req.body.str_post;
 
     // Check if all data is correctly inserted
     try {
-      await PostSchema.validate({ user_id, str_post });
+      await GroupSchema.validate({ group_name, group_image });
 
-      if (files.length <= 0) {
-        console.log('No  files');
-        await Post.create({
-          user_id,
-          str_post
-        });
-        
-      } else {
-        const url_image = files[0] ? files[0].filename : null;
-        const url_video = files[1] ? files[1].filename : null;
+      const resposta = await Group.create({
+        user_id,
+        group_name,
+        group_image
+      });
 
-        await Post.create({
-          user_id,
-          str_post,
-          url_image,
-          url_video
-        });
-      }
-
-      return res.status(200).json({ message: 'Post registered successfully' });
+      return res.status(200).json(resposta);
     } catch (error) {
-      return res.status(400).json({ error: error.errors });
+      return res.status(400).json({ error: 'Algum erro aqui' });
     }
   }
 
@@ -149,7 +139,7 @@ class PostController {
 
       return res.status(200).json({ message: 'Post updated successfully' });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: 'Error to update the post' });
     }
   }
 
@@ -193,4 +183,4 @@ class PostController {
   }
 }
 
-export default new PostController();
+export default new GroupController();

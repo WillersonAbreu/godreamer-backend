@@ -28,7 +28,7 @@ class User extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.ProfileImage, { foreignKey: 'profile_image_id' });
+    this.belongsTo(models.ProfileImage, { foreignKey: 'id' });
     this.hasMany(models.Post);
     this.hasMany(models.Friendship, { foreignKey: 'user_id' });
   }
