@@ -7,6 +7,7 @@ import SessionController from '../app/controllers/SessionController';
 import PostController from '../app/controllers/PostController';
 import UploadProfileImageController from '../app/controllers/UploadProfileImageController';
 import GroupController from '../app/controllers/GroupController';
+import FeedController from '../app/controllers/FeedController';
 
 // Middlewares
 import AuthMiddleware from '../app/middlewares/AuthMiddleware';
@@ -59,8 +60,8 @@ routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 // Friendship routes
 routes.get('/friendship', FriendshipController.index);
 routes.post('/friendship', FriendshipController.store);
-// routes.put('/friendship', FriendshipController.update);
 routes.delete('/friendship', FriendshipController.delete);
+
 // Group routes
 routes.post(
   '/groups',
@@ -68,11 +69,7 @@ routes.post(
   GroupController.store
 );
 
-// Upload images in post
-// routes.post(
-//   '/post-image',
-//   PostUpload.single(),
-//   UploadPostImageController.store
-// );
+// Feed routes
+routes.get('/feed/:userName', FeedController.index);
 
 module.exports = routes;
