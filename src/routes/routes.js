@@ -18,6 +18,11 @@ const PostUpload = multer(MulterPostConfig);
 const routes = new Router();
 const ProfileUpload = multer(MulterProfileConfig);
 
+// Websocket test
+routes.get('/', (req, res) => {
+  res.sendFile(`index.html`, { root: __dirname });
+});
+
 // Authentication Routes
 routes.post('/login', SessionController.store);
 
