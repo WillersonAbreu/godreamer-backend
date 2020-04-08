@@ -11,14 +11,14 @@ class User extends Model {
         password: Sequelize.STRING,
         birthdate: Sequelize.DATE,
         user_type: Sequelize.BOOLEAN,
-        is_active: Sequelize.BOOLEAN
+        is_active: Sequelize.BOOLEAN,
       },
       {
-        sequelize
+        sequelize,
       }
     );
 
-    this.addHook('beforeSave', async user => {
+    this.addHook('beforeSave', async (user) => {
       if (user.passwordConfirmation) {
         user.password = await bcrypt.hash(user.passwordConfirmation, 8);
       }
@@ -30,7 +30,7 @@ class User extends Model {
   static associate(models) {
     this.belongsTo(models.ProfileImage, { foreignKey: 'id' });
     this.hasMany(models.Post);
-    this.hasMany(models.Friendship, { foreignKey: 'user_id' });
+    this.hasMany(models.Group);
   }
 
   checkPassword(password) {

@@ -13,9 +13,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      group_desc: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       group_image: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: false
       },
       user_id: {
@@ -24,7 +28,7 @@ module.exports = {
         references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-        unique: true
+        unique: false
       },
       created_at: {
         type: Sequelize.DATE,

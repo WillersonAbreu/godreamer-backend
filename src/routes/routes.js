@@ -63,11 +63,21 @@ routes.post('/friendship', FriendshipController.store);
 routes.delete('/friendship', FriendshipController.delete);
 
 // Group routes
+routes.get('/groups', GroupController.index);
+routes.get('/groups/:groupName', GroupController.getByGroupName);
 routes.post(
   '/groups',
   GroupUpload.single('group_image'),
   GroupController.store
 );
+routes.put(
+  '/groups/:id',
+  GroupUpload.single('group_image'), 
+  GroupController.update
+);
+routes.delete('/groups/:id', GroupController.delete);
+
+
 
 // Feed routes
 routes.get('/feed/:userName', FeedController.index);

@@ -4,9 +4,10 @@ class Group extends Model {
   static init(sequelize) {
     super.init(
       {
-        user_id: Sequelize.INTEGER,
         group_name: Sequelize.STRING,
-        group_image: Sequelize.STRING
+        group_desc: Sequelize.STRING,
+        group_image: Sequelize.STRING,
+        user_id: Sequelize.INTEGER
       },
       {
         sequelize

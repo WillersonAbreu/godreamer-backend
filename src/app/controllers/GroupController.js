@@ -16,31 +16,19 @@ class GroupController {
       token,
       process.env.JWT_KEY
     );
-    const user_id = decodedToken.id;
-
     try {
-      const getGroups = await Group.findAll({
-        where: {
-          user_id: user_id
-        },
-        order: [['updated_at', 'DESC']]
-      });
-
+      const getGroups = await Group.findAll();
       return res.status(200).json({ groups: getGroups });
     } catch (error) {
       return res.status(400).json({ error: 'error to get the groups' });
     }
-  }
+}
 
   async store(req, res) {
-    if (!req.file)
-      return res
-        .status(400)
-        .json({ error: 'The file is necessary to execute the upload' });
-
+    
     const GroupSchema = Yup.object({
       group_name: Yup.string().typeError('Você deve inserir um texto'),
-      group_image: Yup.string().typeError('Você deve inserir um texto')
+      group_desc: Yup.string().typeError('Você deve inserir um texto')
     });
 
     const [, token] = req.headers.authorization.split(' ');
@@ -48,137 +36,149 @@ class GroupController {
       token,
       process.env.JWT_KEY
     );
-
-    const group_image = req.file.originalname;
-    const group_name = req.body.group_name;
+    
+    let group_image = null;
+    const {group_name, group_desc} = req.body;
     const user_id = decodedToken.id;
-
+    
+    if (req.file) group_image = req.file.filename;
     // Check if all data is correctly inserted
     try {
-      await GroupSchema.validate({ group_name, group_image });
+      await GroupSchema.validate({ group_name, group_desc });
 
       const resposta = await Group.create({
         user_id,
         group_name,
+        group_desc,
         group_image
       });
 
       return res.status(200).json(resposta);
     } catch (error) {
-      return res.status(400).json({ error: 'Algum erro aqui' });
+      return res.status(400).json(error);
     }
   }
 
   async update(req, res) {
-    const PostSchema = Yup.object({
-      post_id: Yup.number()
-        .typeError('É necessário inserir um inteiro')
-        .required('É necessário o ID do post'),
-      user_id: Yup.number()
-        .typeError('É necessário inserir um inteiro')
-        .required('É necessário o ID do usuário'),
-      str_post: Yup.string().typeError('Você deve inserir um texto')
-    });
 
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await promisify(jwt.verify)(
       token,
       process.env.JWT_KEY
-    );
-
-    const files = req.files;
-    const post_id = req.params.id;
+    );  
+    const group_id = req.params.id;
+    const {group_name, group_desc} = req.body;
     const user_id = decodedToken.id;
-    const str_post = req.body.str_post;
+    let group_image;
 
-    try {
-      await PostSchema.validate({ post_id, user_id, str_post });
-      const getPost = await Post.findByPk(post_id);
+    if (req.file) group_image = req.file.filename;
 
-      if (!getPost) return res.status(404).json({ error: 'Post not found' });
+    const GroupSchema = Yup.object({  
+      group_name: Yup.string().typeError('É necessário inserir um texto'),
+      group_desc: Yup.string().typeError('É necessário inserir um texto'),
+      group_image: Yup.string().typeError('É necessário inserir um texto')
+    });
 
-      if (files.length <= 0) {
-        await getPost.update({ user_id, str_post });
-      } else {
-        const url_image = files[0] ? files[0].filename : null;
-        const url_video = files[1] ? files[1].filename : null;
+    const getGroup = await Group.findByPk(group_id);
 
-        // Delete the current files
-        if ((getPost.url_video, getPost.url_image)) {
-          const imageDestination = resolve(
-            __dirname,
-            '..',
-            '..',
-            '..',
-            'temp',
-            'post_images',
-            getPost.url_image
-          );
-
-          const videoDestination = resolve(
-            __dirname,
-            '..',
-            '..',
-            '..',
-            'temp',
-            'post_images',
-            getPost.url_video
-          );
-
-          fs.unlinkSync(imageDestination);
-          fs.unlinkSync(videoDestination);
-        }
-
-        await getPost.update({
-          user_id,
-          str_post,
-          url_image,
-          url_video
-        });
-      }
-
-      return res.status(200).json({ message: 'Post updated successfully' });
-    } catch (error) {
-      return res.status(400).json({ error: 'Error to update the post' });
+    if(getGroup == null){
+      return res.status(400).json({ error: 'Group not found' });
     }
-  }
+
+    if(getGroup.user_id == user_id) {
+      
+      try {
+        await GroupSchema.validate({ group_name, group_desc, group_image});  
+        
+        if (req.file) {
+           
+            if(getGroup.group_image){
+              const imageDestination = resolve(
+                __dirname,
+                '..',
+                '..',
+                '..',
+                'temp',
+                'group_images',
+                getGroup.group_image
+              );
+              fs.unlinkSync(imageDestination);
+            }
+          await getGroup.update({group_name, group_desc, group_image });
+        }else{
+          await getGroup.update({ group_name, group_desc });
+        }
+        return res.status(200).json({ message: 'Group update successfully'});
+      }catch (err){
+        return res.status(400).json({error: 'An error occurred while updating the group'});
+      }
+    }else{
+        if (req.file){
+          fs.unlinkSync(req.file.path);
+        }
+     return res.status(400).json({error: 'You are not authorized to update this group'});
+    }
+}
 
   async delete(req, res) {
-    try {
-      const post_id = req.params.id;
-      const getPost = await Post.findByPk(post_id);
 
-      // Delete the current files
-      if ((getPost.url_video, getPost.url_image)) {
-        const imageDestination = resolve(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          'temp',
-          'post_images',
-          getPost.url_image
-        );
+      const [, token] = req.headers.authorization.split(' ');
+      const decodedToken = await promisify(jwt.verify)(
+        token,
+        process.env.JWT_KEY
+      );  
 
-        const videoDestination = resolve(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          'temp',
-          'post_images',
-          getPost.url_video
-        );
-
-        fs.unlinkSync(imageDestination);
-        fs.unlinkSync(videoDestination);
+      const group_id = req.params.id;
+      const user_id = decodedToken.id;
+      const getGroup = await Group.findByPk(group_id);
+      
+      if(getGroup == null){
+        return res.status(400).json({ error: 'Group not found' });
       }
+      
+      if(getGroup.user_id == user_id) {
+        try {
+          if(getGroup.group_image){
+            const imageDestination = resolve(
+              __dirname,
+              '..',
+              '..',
+              '..',
+              'temp',
+              'group_images',
+              getGroup.group_image
+            );
+            fs.unlinkSync(imageDestination);
+          }
+          getGroup.destroy();
+          return res.status(200).json({ message: 'Post deleted successfully' });
+      } catch (error) {
+          return res.status(400).json({ error: 'Error' });
+      }
+    }else{
+        return res.status(400).json({ error: 'You are not authorized to delete this group' });
+    } 
+  }
 
-      getPost.destroy();
+  async getByGroupName(req, res) {
+    
+    const groupName = req.params.groupName;
+    // Group Schema
+    const GroupSchema = Yup.object({  
+      groupName: Yup.string(),
+    });
 
-      return res.status(200).json({ message: 'Post deleted successfully' });
-    } catch (error) {
-      return res.status(400).json({ error: 'Error to update the post' });
+    // Check if the URL param is name
+    if (await GroupSchema.validate(req.params)) {
+      try {
+        const groups = await Group.findAll({
+          where: { group_name: groupName }
+        });
+
+        return res.status(200).json(groups);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
     }
   }
 }
