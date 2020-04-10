@@ -1,5 +1,4 @@
 import app from './app';
-import dotenv from 'dotenv';
 import http from 'http';
 import io from 'socket.io';
 
@@ -13,8 +12,6 @@ io.on('connection', function (socket) {
   });
 });
 //#endregion Websocket close
-
-dotenv.config();
 
 console.log(`Your application is running on port ${process.env.PORT}`);
 http.listen(process.env.PORT);

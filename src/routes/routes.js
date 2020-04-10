@@ -72,14 +72,12 @@ routes.post(
 );
 routes.put(
   '/groups/:id',
-  GroupUpload.single('group_image'), 
+  GroupUpload.single('group_image'),
   GroupController.update
 );
 routes.delete('/groups/:id', GroupController.delete);
 
-
-
 // Feed routes
-routes.get('/feed/:userName', FeedController.index);
+routes.get('/feed/:userId', FeedController.index);
 
 module.exports = routes;
