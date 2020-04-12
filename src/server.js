@@ -2,6 +2,9 @@ import app from './app';
 import http from 'http';
 import io from 'socket.io';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 //#region Websocket Configuration
 http = http.createServer(app);
 io = io(http);

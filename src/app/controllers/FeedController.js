@@ -6,13 +6,15 @@ import FriendshipBO from '../BO/FriendshipBO';
 // Controllers
 
 class FeedController {
-  async index(req, res) {
+  async getPosts(req, res) {
     const { userId } = req.params;
 
     try {
       const friends = await FriendshipBO.getFriends(userId);
       let users = [];
+
       users.push({ user_id: userId });
+
       await friends.map((friend) => {
         users.push({ user_id: friend.id_user });
       });
@@ -46,6 +48,8 @@ class FeedController {
       return res.json({ error: error.message });
     }
   }
+
+  async getGroups() {}
 }
 
 export default new FeedController();
