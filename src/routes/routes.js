@@ -78,6 +78,10 @@ routes.put(
 routes.delete('/groups/:id', GroupController.delete);
 
 // Feed routes
-routes.get('/feed/:userId', FeedController.getPosts);
+routes.get('/feed/user/:userId', FeedController.getPosts);
+routes.get('/feed/userFeed/:userId', FeedController.getUserPosts);
+routes.get('/feed/friends', FeedController.getFriends);
+
+
 
 module.exports = routes;
