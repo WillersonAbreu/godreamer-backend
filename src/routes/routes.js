@@ -81,6 +81,9 @@ routes.delete('/groups/:id', GroupController.delete);
 // Feed routes
 routes.get('/feed/posts/:userId', FeedController.getPosts);
 routes.get('/feed/groups/:userId', FeedController.getGroups);
+routes.get('/feed/user/:userId', FeedController.getPosts);
+routes.get('/feed/userFeed/:userId', FeedController.getUserPosts);
+routes.get('/feed/friends', FeedController.getFriends);
 
 // Follow Group routes
 routes.get('/followed-groups', GroupFollowController.index);
