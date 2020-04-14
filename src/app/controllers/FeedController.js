@@ -2,6 +2,8 @@ import Post from '../models/Post';
 import User from '../models/User';
 import { Op } from 'sequelize';
 import FriendshipBO from '../BO/FriendshipBO';
+import Group from '../models/Group';
+import GroupFollow from '../models/GroupFollow';
 
 // Controllers
 
@@ -49,7 +51,20 @@ class FeedController {
     }
   }
 
-  async getGroups() {}
+  async getGroups(req, res) {
+    const { userId: user_id } = req.params;
+
+    try {
+      const followedGroups = await GroupFollow.findAll({
+        where: {
+          user_id,
+        },
+      });
+      return res.status(200).json({ followedGroups });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  }
 }
 
 export default new FeedController();

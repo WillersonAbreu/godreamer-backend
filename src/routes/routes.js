@@ -15,6 +15,7 @@ import MulterProfileConfig from '../app/middlewares/MulterProfileConfigMiddlewar
 import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
 import FriendshipController from '../app/controllers/FriendshipController';
 import MulterGroupConfig from '../app/middlewares/MulterGroupConfigMiddleware';
+import GroupFollowController from '../app/controllers/GroupFollowController';
 
 const PostUpload = multer(MulterPostConfig);
 
@@ -78,6 +79,10 @@ routes.put(
 routes.delete('/groups/:id', GroupController.delete);
 
 // Feed routes
-routes.get('/feed/:userId', FeedController.getPosts);
+routes.get('/feed/posts/:userId', FeedController.getPosts);
+routes.get('/feed/groups/:userId', FeedController.getGroups);
+
+// Follow Group routes
+routes.get('/followed-groups', GroupFollowController.index);
 
 module.exports = routes;

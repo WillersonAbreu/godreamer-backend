@@ -8,6 +8,7 @@ import Post from '../models/Post';
 
 // Yup validator
 import * as Yup from 'yup';
+import Group from '../models/Group';
 
 class UserController {
   async index(req, res) {
@@ -20,26 +21,29 @@ class UserController {
             'is_active',
             'createdAt',
             'updatedAt',
-            'profile_image_id'
-          ]
+            'profile_image_id',
+          ],
         },
         include: [
           {
             model: ProfileImage,
             attributes: {
-              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
-            }
+              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
+            },
           },
           {
-            model: Friendship
-          }
+            model: Friendship,
+          },
+          {
+            model: Group,
+          },
           // {
           //   model: Post,
           //   attributes: {
           //     exclude: ['user_id', 'str_post', 'url_image', 'created_at']
           //   }
           // }
-        ]
+        ],
       });
       return res.status(200).json(users);
     } catch (error) {
@@ -50,15 +54,9 @@ class UserController {
   async store(req, res) {
     // Validation schema
     const UserSchema = Yup.object({
-      name: Yup.string()
-        .required('Is necessary insert an user name')
-        .min(3),
-      email: Yup.string()
-        .email()
-        .required('Insert an valid email'),
-      password: Yup.string()
-        .required('Is necessary insert an password')
-        .min(6),
+      name: Yup.string().required('Is necessary insert an user name').min(3),
+      email: Yup.string().email().required('Insert an valid email'),
+      password: Yup.string().required('Is necessary insert an password').min(6),
       passwordConfirmation: Yup.string().when('password', (password, field) =>
         password
           ? field
@@ -67,7 +65,7 @@ class UserController {
           : field
       ),
       birthdate: Yup.date().required('The user birthdate is necessary'),
-      user_type: Yup.number().required('The user type is necessary')
+      user_type: Yup.number().required('The user type is necessary'),
     });
 
     try {
@@ -79,7 +77,7 @@ class UserController {
     try {
       // Looking for user where the email is equal to email from req.body
       const userExists = await User.findOne({
-        where: { email: req.body.email }
+        where: { email: req.body.email },
       });
 
       // Check if user exists
@@ -118,7 +116,7 @@ class UserController {
         ),
       passwordConfirmation: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
-      )
+      ),
     });
 
     // Verifying if all data is correctly inserted
@@ -180,7 +178,7 @@ class UserController {
     const { emailOrName } = req.params;
     // Email Schema
     const emailSchema = Yup.object().shape({
-      emailOrName: Yup.string().email()
+      emailOrName: Yup.string().email(),
     });
 
     // Check if the URL param is name or email
@@ -189,7 +187,7 @@ class UserController {
       try {
         const user = await User.findOne({
           where: { email: emailOrName },
-          attributes: { exclude: ['password'] }
+          attributes: { exclude: ['password'] },
         });
 
         return res.status(200).json(user);
@@ -203,7 +201,7 @@ class UserController {
       const Operator = Sequelize.Op;
 
       const users = await User.findAll({
-        where: { name: { [Operator.like]: `%${emailOrName}%` } }
+        where: { name: { [Operator.like]: `%${emailOrName}%` } },
       });
 
       return res.status(200).json(users);
