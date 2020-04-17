@@ -87,5 +87,7 @@ routes.get('/feed/friends', FeedController.getFriends);
 
 // Follow Group routes
 routes.get('/followed-groups', GroupFollowController.index);
+routes.post('/groups-follow', GroupFollowController.store);
+routes.delete('/unfollow-groups', GroupFollowController.delete);
 
 module.exports = routes;

@@ -13,7 +13,8 @@ module.exports = {
         {
           name: 'Willerson',
           email: 'w@w.com',
-          password: '123456',
+          password:
+            '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
           birthdate: '2019-07-29',
           user_type: 2,
           is_active: true,
@@ -23,7 +24,8 @@ module.exports = {
         {
           name: 'Rayssa',
           email: 'r@r.com',
-          password: '123456',
+          password:
+            '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
           birthdate: '2019-02-18',
           user_type: 2,
           is_active: true,
@@ -33,7 +35,8 @@ module.exports = {
         {
           name: 'Leonel',
           email: 'l@l.com',
-          password: '123456',
+          password:
+            '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
           birthdate: '2019-08-02',
           user_type: 1,
           is_active: true,
@@ -43,7 +46,8 @@ module.exports = {
         {
           name: 'Rodrigo',
           email: 'rodrigo@rodrigo.com',
-          password: '123456',
+          password:
+            '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
           birthdate: '2019-07-17',
           user_type: 1,
           is_active: true,

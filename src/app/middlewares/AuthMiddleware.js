@@ -13,11 +13,11 @@ const AuthMiddleware = async (req, res, next) => {
 
     req.body.userId = verified.id;
 
-    if (req.body.email) {
-      if (req.body.email !== verified.email) {
-        return res.status(401).json({ error: `You can't change this user` });
-      }
-    }
+    // if (req.body.email) {
+    //   if (req.body.email !== verified.email) {
+    //     return res.status(401).json({ error: `You can't change this user` });
+    //   }
+    // }
 
     return next();
   } catch (error) {
