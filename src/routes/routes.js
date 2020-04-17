@@ -82,7 +82,7 @@ routes.delete('/groups/:id', GroupController.delete);
 routes.get('/feed/posts/:userId', FeedController.getPosts);
 routes.get('/feed/groups/:userId', FeedController.getGroups);
 routes.get('/feed/user/:userId', FeedController.getPosts);
-routes.get('/feed/userFeed/:userId', FeedController.getUserPosts);
+routes.get('/feed/user-feed/:userId', FeedController.getUserPosts);
 routes.get('/feed/friends', FeedController.getFriends);
 
 // Follow Group routes
