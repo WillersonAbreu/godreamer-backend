@@ -32,6 +32,8 @@ class User extends Model {
     this.hasMany(models.Post);
     this.hasMany(models.Group);
     this.hasMany(models.Friendship);
+    this.hasOne(models.UserInfoDonation);
+    this.hasMany(models.Donation);
   }
 
   checkPassword(password) {
