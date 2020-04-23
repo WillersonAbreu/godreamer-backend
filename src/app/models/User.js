@@ -31,6 +31,9 @@ class User extends Model {
     this.belongsTo(models.ProfileImage, { foreignKey: 'id' });
     this.hasMany(models.Post);
     this.hasMany(models.Group);
+    this.hasMany(models.Friendship);
+    this.hasOne(models.UserInfoDonation);
+    this.hasMany(models.Donation);
   }
 
   checkPassword(password) {

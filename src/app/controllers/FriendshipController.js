@@ -3,7 +3,7 @@ import { promisify } from 'util';
 
 // Models
 import Friendship from '../models/Friendship';
-import { Op } from 'sequelize';
+import FriendshipBO from '../BO/FriendshipBO';
 
 class FriendshipController {
   async index(req, res) {
@@ -12,16 +12,11 @@ class FriendshipController {
       token,
       process.env.JWT_KEY
     );
+
     const user_id = decodedToken.id;
 
     try {
-      const friends = await Friendship.findAll({
-        where: { user_id },
-        attributes: {
-          exclude: ['UserId', 'updatedAt']
-        },
-        order: [['created_at', 'DESC']]
-      });
+      const friends = await FriendshipBO.getFriends(user_id);
       return res.status(200).json({ friends });
     } catch (error) {
       return res.status(400).json({ error });
@@ -39,11 +34,11 @@ class FriendshipController {
     const loggedUserData = {
       user_id,
       id_user,
-      is_active: true
+      is_active: true,
     };
     const friendUserData = {
       user_id: id_user,
-      id_user: user_id
+      id_user: user_id,
     };
     try {
       await Friendship.create(loggedUserData);
@@ -61,14 +56,14 @@ class FriendshipController {
 
     try {
       const loggedUserFriendship = await Friendship.findOne({
-        where: { user_id, id_user }
+        where: { user_id, id_user },
       });
 
       const friendFriendship = await Friendship.findOne({
         where: {
           user_id: id_user,
-          id_user: user_id
-        }
+          id_user: user_id,
+        },
       });
 
       await loggedUserFriendship.destroy();
@@ -77,7 +72,7 @@ class FriendshipController {
       return res.json({
         // logged: loggedUserFriendship,
         // friend: friendFriendship
-        message: 'Amizade desfeita com sucesso!'
+        message: 'Amizade desfeita com sucesso!',
       });
     } catch (error) {
       return res.status(400).json({ error: error.message });

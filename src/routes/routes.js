@@ -8,6 +8,8 @@ import PostController from '../app/controllers/PostController';
 import UploadProfileImageController from '../app/controllers/UploadProfileImageController';
 import GroupController from '../app/controllers/GroupController';
 import FeedController from '../app/controllers/FeedController';
+import UserInfoDonationController from '../app/controllers/UserInfoDonationController';
+import DonationController from '../app/controllers/DonationController';
 
 // Middlewares
 import AuthMiddleware from '../app/middlewares/AuthMiddleware';
@@ -15,6 +17,7 @@ import MulterProfileConfig from '../app/middlewares/MulterProfileConfigMiddlewar
 import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
 import FriendshipController from '../app/controllers/FriendshipController';
 import MulterGroupConfig from '../app/middlewares/MulterGroupConfigMiddleware';
+import GroupFollowController from '../app/controllers/GroupFollowController';
 
 const PostUpload = multer(MulterPostConfig);
 
@@ -72,14 +75,34 @@ routes.post(
 );
 routes.put(
   '/groups/:id',
-  GroupUpload.single('group_image'), 
+  GroupUpload.single('group_image'),
   GroupController.update
 );
 routes.delete('/groups/:id', GroupController.delete);
 
-
-
 // Feed routes
-routes.get('/feed/:userName', FeedController.index);
+routes.get('/feed/posts/:userId', FeedController.getPosts);
+routes.get('/feed/groups/:userId', FeedController.getGroups);
+//funcao repetida
+routes.get('/feed/user/:userId', FeedController.getPosts);
+routes.get('/feed/userFeed/:userId', FeedController.getUserPosts);
+routes.get('/feed/friends', FeedController.getFriends);
+
+//Donation routes
+routes.get('/donation/info', UserInfoDonationController.index);
+routes.post('/donation/info', UserInfoDonationController.store);
+routes.put('/donation/info', UserInfoDonationController.update);
+routes.delete('/donation/info', UserInfoDonationController.delete);
+
+routes.get('/donation/donate/', DonationController.index);
+routes.post('/donation/donate/:targetId', DonationController.store);
+routes.put('/donation/donate/:donationId', DonationController.update);
+routes.delete('/donation/donate/:donationId', DonationController.delete);
+
+
+
+// Follow Group routes
+//mesma função acima
+routes.get('/followed-groups', GroupFollowController.index);
 
 module.exports = routes;
