@@ -36,7 +36,7 @@ class User extends Model {
     this.hasMany(models.Donation);
   }
 
-  checkPassword(password) {
+  async checkPassword(password) {
     return bcrypt.compare(password, this.password);
   }
 }

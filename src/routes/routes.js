@@ -17,7 +17,7 @@ import MulterProfileConfig from '../app/middlewares/MulterProfileConfigMiddlewar
 import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
 import FriendshipController from '../app/controllers/FriendshipController';
 import MulterGroupConfig from '../app/middlewares/MulterGroupConfigMiddleware';
-import GroupFollowController from '../app/controllers/GroupFollowController';
+import FollowGroupController from '../app/controllers/FollowGroupController';
 
 const PostUpload = multer(MulterPostConfig);
 
@@ -103,6 +103,6 @@ routes.delete('/donation/donate/:donationId', DonationController.delete);
 
 // Follow Group routes
 //mesma função acima
-routes.get('/followed-groups', GroupFollowController.index);
+routes.get('/followed-groups', FollowGroupController.index);
 
 module.exports = routes;

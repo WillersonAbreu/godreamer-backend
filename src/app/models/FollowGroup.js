@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class GroupFollow extends Model {
+class FollowGroup extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -26,4 +26,4 @@ class GroupFollow extends Model {
   }
 }
 
-export default GroupFollow;
+export default FollowGroup;

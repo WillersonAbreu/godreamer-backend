@@ -7,7 +7,7 @@ import Post from '../models/Post';
 import User from '../models/User';
 import FriendshipBO from '../BO/FriendshipBO';
 import Group from '../models/Group';
-import GroupFollow from '../models/GroupFollow';
+import FollowGroup from '../models/FollowGroup';
 import Friendship from '../models/Friendship';
 import ProfileImage from '../models/ProfileImage';
 
@@ -61,7 +61,7 @@ class FeedController {
     const { userId: user_id } = req.params;
 
     try {
-      const followedGroups = await GroupFollow.findAll({
+      const followedGroups = await FollowGroup.findAll({
         where: {
           user_id,
         },

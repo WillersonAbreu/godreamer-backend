@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
 // Models
-import GroupFollow from '../models/GroupFollow';
+import FollowGroup from '../models/FollowGroup';
 
 class FriendshipController {
   async index(req, res) {
@@ -15,7 +15,7 @@ class FriendshipController {
     const user_id = decodedToken.id;
 
     try {
-      const followedGroups = await GroupFollow.findAll({
+      const followedGroups = await FollowGroup.findAll({
         where: {
           user_id,
         },
@@ -36,7 +36,7 @@ class FriendshipController {
     const user_id = decodedToken.id;
 
     try {
-      await GroupFollow.create({ group_id, user_id });
+      await FollowGroup.create({ group_id, user_id });
       return res
         .status(200)
         .json({ message: 'You are following this group now' });

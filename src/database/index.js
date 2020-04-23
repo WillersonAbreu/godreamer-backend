@@ -8,7 +8,7 @@ import User from '../app/models/User';
 import ProfileImage from '../app/models/ProfileImage';
 import Post from '../app/models/Post';
 import Friendship from '../app/models/Friendship';
-import GroupFollow from '../app/models/GroupFollow';
+import FollowGroup from '../app/models/FollowGroup';
 import UserInfoDonation from '../app/models/UserInfoDonation';
 import Donation from '../app/models/Donation';
 
@@ -16,7 +16,7 @@ import Donation from '../app/models/Donation';
 import Group from '../app/models/Group';
 
 // Array with all models
-const models = [User, ProfileImage, Post, Friendship, Group, GroupFollow, UserInfoDonation, Donation];
+const models = [User, ProfileImage, Post, Friendship, Group, FollowGroup, UserInfoDonation, Donation];
 
 class Database {
   constructor() {
