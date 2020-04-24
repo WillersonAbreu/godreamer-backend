@@ -19,10 +19,6 @@ class Friendship extends Model {
       foreignKey: 'user_id',
       foreignKeyConstraint: true
     });
-    // this.belongsTo(models.User, {
-    // foreignKey: 'id_user',
-    // foreignKeyConstraint: true
-    // });
   }
 }
 

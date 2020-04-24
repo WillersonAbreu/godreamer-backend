@@ -17,7 +17,8 @@ class Group extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKeyConstraint: true });
+    this.belongsTo(models.User, { foreignKey: 'user_id' });
+    this.hasMany(models.FollowGroup, { foreignKey: 'group_id' } );
   }
 }
 

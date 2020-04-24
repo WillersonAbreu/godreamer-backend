@@ -85,7 +85,7 @@ routes.get('/feed/posts/:userId', FeedController.getPosts);
 routes.get('/feed/groups/:userId', FeedController.getGroups);
 //funcao repetida
 routes.get('/feed/user/:userId', FeedController.getPosts);
-routes.get('/feed/userFeed/:userId', FeedController.getUserPosts);
+routes.get('/feed/user-feed/:userId', FeedController.getUserPosts);
 routes.get('/feed/friends', FeedController.getFriends);
 
 //Donation routes
@@ -102,7 +102,8 @@ routes.delete('/donation/donate/:donationId', DonationController.delete);
 
 
 // Follow Group routes
-//mesma função acima
 routes.get('/followed-groups', FollowGroupController.index);
+routes.post('/groups-follow', FollowGroupController.store);
+routes.delete('/unfollow-groups', FollowGroupController.delete);
 
 module.exports = routes;

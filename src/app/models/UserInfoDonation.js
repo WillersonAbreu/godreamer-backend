@@ -6,18 +6,17 @@ class UserInfoDonation extends Model {
       {
         information: Sequelize.STRING,
         account: Sequelize.STRING,
-        user_id: Sequelize.INTEGER
-        
+        user_id: Sequelize.INTEGER,
       },
       {
-        sequelize
+        sequelize,
       }
     );
     return this;
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKeyConstraint: true });
+    this.belongsTo(models.User, { foreignKey: 'user_id' });
   }
 }
 

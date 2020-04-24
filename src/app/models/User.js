@@ -29,11 +29,12 @@ class User extends Model {
 
   static associate(models) {
     this.belongsTo(models.ProfileImage, { foreignKey: 'id' });
-    this.hasMany(models.Post);
-    this.hasMany(models.Group);
-    this.hasMany(models.Friendship);
-    this.hasOne(models.UserInfoDonation);
-    this.hasMany(models.Donation);
+    this.hasMany(models.FollowGroup, { foreignKey: 'user_id' } );
+    this.hasMany(models.Post, {foreignKey: 'user_id'});
+    this.hasMany(models.Group, {foreignKey: 'user_id'});
+    this.hasMany(models.Friendship, {foreignKey: 'user_id'});
+    this.hasOne(models.UserInfoDonation, {foreignKey: 'user_id'});
+    this.hasMany(models.Donation, {foreignKey: 'user_id'});
   }
 
   async checkPassword(password) {
