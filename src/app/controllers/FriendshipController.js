@@ -4,6 +4,7 @@ import { promisify } from 'util';
 // Models
 import Friendship from '../models/Friendship';
 import FriendshipBO from '../BO/FriendshipBO';
+import ChatConversation from '../models/ChatConversation';
 
 class FriendshipController {
   async index(req, res) {
@@ -40,9 +41,16 @@ class FriendshipController {
       user_id: id_user,
       id_user: user_id,
     };
+
     try {
       await Friendship.create(loggedUserData);
       await Friendship.create(friendUserData);
+
+      await ChatConversation.create({
+        user_id,
+        id_user,
+      });
+
       return res
         .status(200)
         .json({ message: 'Friendship registered successfully' });
