@@ -11,12 +11,23 @@ import Friendship from '../app/models/Friendship';
 import FollowGroup from '../app/models/FollowGroup';
 import UserInfoDonation from '../app/models/UserInfoDonation';
 import Donation from '../app/models/Donation';
-
-
 import Group from '../app/models/Group';
+import ChatConversation from '../app/models/ChatConversation';
+import ChatMessage from '../app/models/ChatMessage';
 
 // Array with all models
-const models = [User, ProfileImage, Post, Friendship, Group, FollowGroup, UserInfoDonation, Donation];
+const models = [
+  User,
+  ProfileImage,
+  Post,
+  Friendship,
+  Group,
+  FollowGroup,
+  UserInfoDonation,
+  Donation,
+  ChatConversation,
+  ChatMessage,
+];
 
 class Database {
   constructor() {

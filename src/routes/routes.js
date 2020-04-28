@@ -18,6 +18,7 @@ import MulterPostConfig from '../app/middlewares/MulterPostConfigMiddleware';
 import FriendshipController from '../app/controllers/FriendshipController';
 import MulterGroupConfig from '../app/middlewares/MulterGroupConfigMiddleware';
 import FollowGroupController from '../app/controllers/FollowGroupController';
+import ChatController from '../app/controllers/ChatController';
 
 const PostUpload = multer(MulterPostConfig);
 
@@ -99,11 +100,14 @@ routes.post('/donation/donate/:targetId', DonationController.store);
 routes.put('/donation/donate/:donationId', DonationController.update);
 routes.delete('/donation/donate/:donationId', DonationController.delete);
 
-
-
 // Follow Group routes
 routes.get('/followed-groups', FollowGroupController.index);
 routes.post('/groups-follow', FollowGroupController.store);
 routes.delete('/unfollow-groups', FollowGroupController.delete);
+
+// Chat routes
+routes.get('/chat', ChatController.index);
+routes.post('/chat/:conversation_id', ChatController.store);
+routes.delete('/chat/:message_id', ChatController.delete);
 
 module.exports = routes;
