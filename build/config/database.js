@@ -1,4 +1,4 @@
-module.exports = {
+"use strict";module.exports = {
   dialect: 'mariadb',
   host: 'us-cdbr-east-06.cleardb.net', //process.env.DB_HOST,
   username: 'bf25eb18a42cba', //process.env.DB_USERNAME,
