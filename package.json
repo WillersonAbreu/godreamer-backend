@@ -22,7 +22,7 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "start": "sucrase-node index.js",
+    "start": "sucrase ./src -d /build --transforms javascript,imports ",
     "dev:start": "nodemon index.js"
   },
   "devDependencies": {
