@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
+import path from 'path';
 
 // Controllers
 import UserController from '../app/controllers/UsersController';
@@ -23,13 +24,31 @@ import ChatController from '../app/controllers/ChatController';
 const PostUpload = multer(MulterPostConfig);
 
 const routes = new Router();
+
+// Static files
+routes.get('/static/profile/:file', (req, res) => {
+  const { file } = req.params;
+  console.log(file);
+  const storedFile = path.resolve('temp', 'profile_images', `${file}`);
+  return res.sendFile(storedFile);
+});
+
+routes.get('/static/post/:file', (req, res) => {
+  const { file } = req.params;
+  console.log(file);
+  const storedFile = path.resolve('temp', 'post_images', `${file}`);
+  return res.sendFile(storedFile);
+});
+
+routes.get('/static/group/:file', (req, res) => {
+  const { file } = req.params;
+  console.log(file);
+  const storedFile = path.resolve('temp', 'group_images', `${file}`);
+  return res.sendFile(storedFile);
+});
+
 const ProfileUpload = multer(MulterProfileConfig);
 const GroupUpload = multer(MulterGroupConfig);
-
-// Websocket test
-routes.get('/', (req, res) => {
-  res.sendFile(`index.html`, { root: __dirname });
-});
 
 // Authentication Routes
 routes.post('/login', SessionController.store);

@@ -54,7 +54,8 @@ class PostController {
       const user_id = decodedToken.id;
       const str_post = req.body.str_post;
 
-      const val = await PostSchema.validate({ user_id, str_post });
+      await PostSchema.validate({ user_id, str_post });
+
       if (files) {
         if (files.length <= 0) {
           console.log('No  files');
@@ -68,7 +69,7 @@ class PostController {
         }
       }
 
-      await Post.create({
+      const savedPost = await Post.create({
         user_id,
         str_post,
         url_image,

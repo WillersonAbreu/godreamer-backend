@@ -1,5 +1,6 @@
 "use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _express = require('express');
 var _multer = require('multer'); var _multer2 = _interopRequireDefault(_multer);
+var _path = require('path'); var _path2 = _interopRequireDefault(_path);
 
 // Controllers
 var _UsersController = require('../app/controllers/UsersController'); var _UsersController2 = _interopRequireDefault(_UsersController);
@@ -23,13 +24,31 @@ var _ChatController = require('../app/controllers/ChatController'); var _ChatCon
 const PostUpload = _multer2.default.call(void 0, _MulterPostConfigMiddleware2.default);
 
 const routes = new (0, _express.Router)();
+
+// Static files
+routes.get('/static/profile/:file', (req, res) => {
+  const { file } = req.params;
+  console.log(file);
+  const storedFile = _path2.default.resolve('temp', 'profile_images', `${file}`);
+  return res.sendFile(storedFile);
+});
+
+routes.get('/static/post/:file', (req, res) => {
+  const { file } = req.params;
+  console.log(file);
+  const storedFile = _path2.default.resolve('temp', 'post_images', `${file}`);
+  return res.sendFile(storedFile);
+});
+
+routes.get('/static/group/:file', (req, res) => {
+  const { file } = req.params;
+  console.log(file);
+  const storedFile = _path2.default.resolve('temp', 'group_images', `${file}`);
+  return res.sendFile(storedFile);
+});
+
 const ProfileUpload = _multer2.default.call(void 0, _MulterProfileConfigMiddleware2.default);
 const GroupUpload = _multer2.default.call(void 0, _MulterGroupConfigMiddleware2.default);
-
-// Websocket test
-routes.get('/', (req, res) => {
-  res.sendFile(`index.html`, { root: __dirname });
-});
 
 // Authentication Routes
 routes.post('/login', _SessionController2.default.store);

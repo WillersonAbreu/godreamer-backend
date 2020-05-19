@@ -33,23 +33,41 @@ class FeedController {
 
       const posts = await Post.findAll({
         where: condition,
-        include: {
-          model: User,
-          attributes: {
-            exclude: [
-              'createdAt',
-              'updatedAt',
-              'is_active',
-              'user_type',
-              'birthdate',
-              'password',
-              'email',
+        include: [
+          {
+            model: User,
+            include: [
+              {
+                model: ProfileImage,
+                attributes: {
+                  exclude: [
+                    'id',
+                    'name',
+                    'user_id',
+                    'is_active',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                },
+              },
             ],
+            attributes: {
+              exclude: [
+                'createdAt',
+                'updatedAt',
+                'is_active',
+                'user_type',
+                'birthdate',
+                'password',
+                'email',
+              ],
+            },
           },
-        },
+        ],
         attributes: {
           exclude: ['UserId', 'updatedAt'],
         },
+        order: [['created_at', 'DESC']],
       });
       return res.status(200).json({ posts });
     } catch (error) {

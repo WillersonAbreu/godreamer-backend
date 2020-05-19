@@ -22,9 +22,9 @@ class PostController {
     try {
       const getPosts = await _Post2.default.findAll({
         where: {
-          user_id: user_id
+          user_id: user_id,
         },
-        order: [['updated_at', 'DESC']]
+        order: [['updated_at', 'DESC']],
       });
 
       return res.status(200).json({ posts: getPosts });
@@ -38,43 +38,47 @@ class PostController {
       user_id: Yup.number()
         .typeError('É necessário inserir um inteiro')
         .required('É necessário o ID do usuário'),
-      str_post: Yup.string().typeError('Você deve inserir um texto')
+      str_post: Yup.string().typeError('Você deve inserir um texto'),
     });
-    const [, token] = req.headers.authorization.split(' ');
-    const decodedToken = await _util.promisify.call(void 0, _jsonwebtoken2.default.verify)(
-      token,
-      process.env.JWT_KEY
-    );
 
-    const files = req.files;
-    const user_id = decodedToken.id;
-    const str_post = req.body.str_post;
+    const [, token] = req.headers.authorization.split(' ');
 
     // Check if all data is correctly inserted
     try {
+      const decodedToken = await _util.promisify.call(void 0, _jsonwebtoken2.default.verify)(
+        token,
+        process.env.JWT_KEY
+      );
+
+      const files = req.files;
+      const user_id = decodedToken.id;
+      const str_post = req.body.str_post;
+
       await PostSchema.validate({ user_id, str_post });
 
-      if (files.length <= 0) {
-        console.log('No  files');
-        await _Post2.default.create({
-          user_id,
-          str_post
-        });
-        
-      } else {
-        const url_image = files[0] ? files[0].filename : null;
-        const url_video = files[1] ? files[1].filename : null;
-
-        await _Post2.default.create({
-          user_id,
-          str_post,
-          url_image,
-          url_video
-        });
+      if (files) {
+        if (files.length <= 0) {
+          console.log('No  files');
+          await _Post2.default.create({
+            user_id,
+            str_post,
+          });
+        } else {
+          var url_image = files[0] ? files[0].filename : null;
+          var url_video = files[1] ? files[1].filename : null;
+        }
       }
+
+      const savedPost = await _Post2.default.create({
+        user_id,
+        str_post,
+        url_image,
+        url_video,
+      });
 
       return res.status(200).json({ message: 'Post registered successfully' });
     } catch (error) {
+      console.log(error);
       return res.status(400).json({ error: error.errors });
     }
   }
@@ -87,7 +91,7 @@ class PostController {
       user_id: Yup.number()
         .typeError('É necessário inserir um inteiro')
         .required('É necessário o ID do usuário'),
-      str_post: Yup.string().typeError('Você deve inserir um texto')
+      str_post: Yup.string().typeError('Você deve inserir um texto'),
     });
 
     const [, token] = req.headers.authorization.split(' ');
@@ -143,7 +147,7 @@ class PostController {
           user_id,
           str_post,
           url_image,
-          url_video
+          url_video,
         });
       }
 
