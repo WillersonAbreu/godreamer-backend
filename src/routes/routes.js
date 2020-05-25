@@ -11,6 +11,7 @@ import GroupController from '../app/controllers/GroupController';
 import FeedController from '../app/controllers/FeedController';
 import UserInfoDonationController from '../app/controllers/UserInfoDonationController';
 import DonationController from '../app/controllers/DonationController';
+import MetatagsController from '../app/controllers/MetatagsController';
 
 // Middlewares
 import AuthMiddleware from '../app/middlewares/AuthMiddleware';
@@ -128,5 +129,7 @@ routes.delete('/unfollow-groups', FollowGroupController.delete);
 routes.get('/chat', ChatController.index);
 routes.post('/chat/:conversation_id', ChatController.store);
 routes.delete('/chat/:message_id', ChatController.delete);
+
+routes.post('/get-metas', MetatagsController.index);
 
 module.exports = routes;
