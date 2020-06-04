@@ -29,10 +29,8 @@ class MetatagsController {
     try {
       const { body: html, url } = await got(targetUrl);
       const metadata = await metasExtractor({ html, url });
-      console.log(metadata);
       return res.json({ metadata });
     } catch (error) {
-      console.log(error);
       return res.json(null);
     }
   }

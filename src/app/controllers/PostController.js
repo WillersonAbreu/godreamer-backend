@@ -111,14 +111,29 @@ class PostController {
 
       if (!getPost) return res.status(404).json({ error: 'Post not found' });
 
+      // console.log(files);
+
       if (files.length <= 0) {
         await getPost.update({ user_id, str_post });
       } else {
-        const url_image = files[0] ? files[0].filename : null;
-        const url_video = files[1] ? files[1].filename : null;
+        var url_image = null;
+        var url_video = null;
+
+        files.map((file) => {
+          if (file.fieldname === 'url_image') {
+            url_image = file.filename;
+          }
+
+          if (file.fieldname === 'url_video') {
+            url_video = file.filename;
+          }
+        });
+
+        // const url_image = files[0] ? files[0].filename : null;
+        // const url_video = files[1] ? files[1].filename : null;
 
         // Delete the current files
-        if ((getPost.url_video, getPost.url_image)) {
+        if (url_image !== null && getPost.url_video) {
           const imageDestination = resolve(
             __dirname,
             '..',
@@ -129,6 +144,10 @@ class PostController {
             getPost.url_image
           );
 
+          fs.unlinkSync(imageDestination);
+        }
+
+        if (url_video !== null && getPost.url_video) {
           const videoDestination = resolve(
             __dirname,
             '..',
@@ -138,22 +157,24 @@ class PostController {
             'post_images',
             getPost.url_video
           );
-
-          fs.unlinkSync(imageDestination);
           fs.unlinkSync(videoDestination);
         }
 
-        await getPost.update({
-          user_id,
-          str_post,
-          url_image,
-          url_video,
-        });
+        const data = {
+          user_id: user_id,
+          str_post: str_post ? str_post : getPost.str_post,
+          url_image: url_image !== null ? url_image : getPost.url_image,
+          url_video: url_video !== null ? url_video : getPost.url_video,
+        };
+
+        await getPost.update(data);
       }
 
       return res.status(200).json({ message: 'Post updated successfully' });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res
+        .status(400)
+        .json({ error: error.message, test: 'Samerda n vai' });
     }
   }
 
