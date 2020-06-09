@@ -56,20 +56,20 @@ class PostController {
 
       await PostSchema.validate({ user_id, str_post });
 
-      if (files) {
-        if (files.length <= 0) {
-          console.log('No  files');
-          await Post.create({
-            user_id,
-            str_post,
-          });
-        } else {
-          var url_image = files[0] ? files[0].filename : null;
-          var url_video = files[1] ? files[1].filename : null;
-        }
-      }
+      var url_image = null;
+      var url_video = null;
 
-      const savedPost = await Post.create({
+      files.map((file) => {
+        if (file.fieldname === 'url_image') {
+          url_image = file.filename;
+        }
+
+        if (file.fieldname === 'url_video') {
+          url_video = file.filename;
+        }
+      });
+
+      await Post.create({
         user_id,
         str_post,
         url_image,
@@ -111,8 +111,6 @@ class PostController {
 
       if (!getPost) return res.status(404).json({ error: 'Post not found' });
 
-      // console.log(files);
-
       if (files.length <= 0) {
         await getPost.update({ user_id, str_post });
       } else {
@@ -128,9 +126,6 @@ class PostController {
             url_video = file.filename;
           }
         });
-
-        // const url_image = files[0] ? files[0].filename : null;
-        // const url_video = files[1] ? files[1].filename : null;
 
         // Delete the current files
         if (url_image !== null && getPost.url_video) {
@@ -184,17 +179,7 @@ class PostController {
       const getPost = await Post.findByPk(post_id);
 
       // Delete the current files
-      if ((getPost.url_video, getPost.url_image)) {
-        const imageDestination = resolve(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          'temp',
-          'post_images',
-          getPost.url_image
-        );
-
+      if (getPost.url_video) {
         const videoDestination = resolve(
           __dirname,
           '..',
@@ -205,8 +190,21 @@ class PostController {
           getPost.url_video
         );
 
-        fs.unlinkSync(imageDestination);
         fs.unlinkSync(videoDestination);
+      }
+
+      if (getPost.url_image) {
+        const imageDestination = resolve(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'temp',
+          'post_images',
+          getPost.url_image
+        );
+
+        fs.unlinkSync(imageDestination);
       }
 
       getPost.destroy();
