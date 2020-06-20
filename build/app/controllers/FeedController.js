@@ -90,6 +90,21 @@ class FeedController {
     }
   }
 
+  async getOwnGroups(req, res) {
+    const { userId: user_id } = req.params;
+
+    try {
+      const myGroups = await _Group2.default.findAll({
+        where: {
+          user_id,
+        },
+      });
+      return res.status(200).json({ myGroups });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  }
+
   async getUserPosts(req, res) {
     const { userId } = req.params;
 

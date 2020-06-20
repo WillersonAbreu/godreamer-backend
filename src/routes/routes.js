@@ -21,6 +21,7 @@ import FriendshipController from '../app/controllers/FriendshipController';
 import MulterGroupConfig from '../app/middlewares/MulterGroupConfigMiddleware';
 import FollowGroupController from '../app/controllers/FollowGroupController';
 import ChatController from '../app/controllers/ChatController';
+import GroupPostController from '../app/controllers/GroupPostController';
 
 const PostUpload = multer(MulterPostConfig);
 
@@ -81,6 +82,28 @@ routes.post('/posts', PostUpload.any(), PostController.store);
 routes.put('/posts/:id', PostUpload.any(), PostController.update);
 routes.delete('/posts/:id', PostUpload.any(), PostController.delete);
 
+// Group Post routes
+routes.get(
+  '/group/posts/:groupId',
+  PostUpload.any(),
+  GroupPostController.index
+);
+routes.post(
+  '/group/posts/:groupId',
+  PostUpload.any(),
+  GroupPostController.store
+);
+routes.put(
+  '/group/posts/:groupId/:postId',
+  PostUpload.any(),
+  GroupPostController.update
+);
+routes.delete(
+  '/group/posts/:groupId/:postId',
+  PostUpload.any(),
+  GroupPostController.delete
+);
+
 // Friendship routes
 routes.get('/friendship', FriendshipController.index);
 routes.post('/friendship', FriendshipController.store);
@@ -88,6 +111,7 @@ routes.delete('/friendship', FriendshipController.delete);
 
 // Group routes
 routes.get('/groups', GroupController.index);
+routes.get('/groups/by-id/:groupId', GroupController.byId);
 routes.get('/groups/:groupName', GroupController.getByGroupName);
 routes.post(
   '/groups',
@@ -104,13 +128,14 @@ routes.delete('/groups/:id', GroupController.delete);
 // Feed routes
 routes.get('/feed/posts/:userId', FeedController.getPosts);
 routes.get('/feed/groups/:userId', FeedController.getGroups);
+routes.get('/feed/own/groups/:userId', FeedController.getOwnGroups);
 //funcao repetida
 routes.get('/feed/user/:userId', FeedController.getPosts);
 routes.get('/feed/user-feed/:userId', FeedController.getUserPosts);
 routes.get('/feed/friends', FeedController.getFriends);
 
 //Donation routes
-routes.get('/donation/info', UserInfoDonationController.index);
+routes.get('/donation/info/:groupOwnerId', UserInfoDonationController.index);
 routes.post('/donation/info', UserInfoDonationController.store);
 routes.put('/donation/info', UserInfoDonationController.update);
 routes.delete('/donation/info', UserInfoDonationController.delete);

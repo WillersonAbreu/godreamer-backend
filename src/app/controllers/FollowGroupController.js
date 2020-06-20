@@ -25,16 +25,24 @@ class FollowGroupController {
           {
             model: User,
             attributes: {
-              exclude: ['id', 'password', 'birthdate', 'user_type', 'is_active', 'createdAt', 'updatedAt']
-            }
+              exclude: [
+                'id',
+                'password',
+                'birthdate',
+                'user_type',
+                'is_active',
+                'createdAt',
+                'updatedAt',
+              ],
+            },
           },
           {
             model: Group,
             attributes: {
-              exclude: ['id', 'user_id', 'createdAt', 'updatedAt']
-            }
-          }
-        ]
+              exclude: ['user_id', 'createdAt', 'updatedAt'],
+            },
+          },
+        ],
       });
       return res.status(200).json({ followedGroups });
     } catch (error) {

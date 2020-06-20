@@ -11,6 +11,7 @@ var _GroupController = require('../app/controllers/GroupController'); var _Group
 var _FeedController = require('../app/controllers/FeedController'); var _FeedController2 = _interopRequireDefault(_FeedController);
 var _UserInfoDonationController = require('../app/controllers/UserInfoDonationController'); var _UserInfoDonationController2 = _interopRequireDefault(_UserInfoDonationController);
 var _DonationController = require('../app/controllers/DonationController'); var _DonationController2 = _interopRequireDefault(_DonationController);
+var _MetatagsController = require('../app/controllers/MetatagsController'); var _MetatagsController2 = _interopRequireDefault(_MetatagsController);
 
 // Middlewares
 var _AuthMiddleware = require('../app/middlewares/AuthMiddleware'); var _AuthMiddleware2 = _interopRequireDefault(_AuthMiddleware);
@@ -103,6 +104,7 @@ routes.delete('/groups/:id', _GroupController2.default.delete);
 // Feed routes
 routes.get('/feed/posts/:userId', _FeedController2.default.getPosts);
 routes.get('/feed/groups/:userId', _FeedController2.default.getGroups);
+routes.get('/feed/own/groups/:userId', _FeedController2.default.getOwnGroups);
 //funcao repetida
 routes.get('/feed/user/:userId', _FeedController2.default.getPosts);
 routes.get('/feed/user-feed/:userId', _FeedController2.default.getUserPosts);
@@ -128,5 +130,7 @@ routes.delete('/unfollow-groups', _FollowGroupController2.default.delete);
 routes.get('/chat', _ChatController2.default.index);
 routes.post('/chat/:conversation_id', _ChatController2.default.store);
 routes.delete('/chat/:message_id', _ChatController2.default.delete);
+
+routes.post('/get-metas', _MetatagsController2.default.index);
 
 module.exports = routes;

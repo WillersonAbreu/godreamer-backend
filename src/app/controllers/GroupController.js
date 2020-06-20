@@ -8,6 +8,9 @@ import Group from '../models/Group.js';
 
 // Yup validator
 import * as Yup from 'yup';
+import User from '../models/User.js';
+import ProfileImage from '../models/ProfileImage.js';
+import UserInfoDonation from '../models/UserInfoDonation.js';
 
 class GroupController {
   async index(req, res) {
@@ -173,6 +176,48 @@ class GroupController {
       try {
         const groups = await Group.findAll({
           where: { group_name: groupName },
+        });
+
+        return res.status(200).json(groups);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    }
+  }
+
+  async byId(req, res) {
+    const groupId = req.params.groupId;
+    // Group Schema
+    const GroupSchema = Yup.object({
+      groupId: Yup.string(),
+    });
+
+    // Check if the URL param is name
+    if (await GroupSchema.validate(req.params)) {
+      try {
+        const groups = await Group.findAll({
+          where: { id: groupId },
+          include: [
+            {
+              model: User,
+              include: [
+                {
+                  model: UserInfoDonation,
+                },
+              ],
+              attributes: {
+                exclude: [
+                  'id',
+                  'password',
+                  'birthdate',
+                  'user_type',
+                  'is_active',
+                  'createdAt',
+                  'updatedAt',
+                ],
+              },
+            },
+          ],
         });
 
         return res.status(200).json(groups);

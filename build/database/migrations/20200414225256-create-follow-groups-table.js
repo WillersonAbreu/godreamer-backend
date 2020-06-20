@@ -8,7 +8,7 @@ module.exports = {
 
       Example: */
 
-    return queryInterface.createTable('group_follows', {
+    return queryInterface.createTable('follow_groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -40,6 +40,6 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
 
       Example: */
-    return queryInterface.bulkDelete('group_follows', null, {});
+    return queryInterface.bulkDelete('follow_groups', null, {});
   },
 };

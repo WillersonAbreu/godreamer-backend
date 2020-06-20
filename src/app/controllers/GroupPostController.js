@@ -4,14 +4,17 @@ import { resolve } from 'path';
 import fs from 'fs';
 
 // Models
-import Post from '../models/Post';
+import GroupPost from '../models/GroupPost';
 import User from '../models/User';
 
 // Yup validator
 import * as Yup from 'yup';
+import ProfileImage from '../models/ProfileImage';
 
-class PostController {
+class GroupPostController {
   async index(req, res) {
+    const { groupId: group_id } = req.params;
+
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await promisify(jwt.verify)(
       token,
@@ -20,9 +23,44 @@ class PostController {
     const user_id = decodedToken.id;
 
     try {
-      const getPosts = await Post.findAll({
+      const getPosts = await GroupPost.findAll({
         where: {
           user_id: user_id,
+          group_id,
+        },
+        include: [
+          {
+            model: User,
+            include: [
+              {
+                model: ProfileImage,
+                attributes: {
+                  exclude: [
+                    'id',
+                    'name',
+                    'user_id',
+                    'is_active',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                },
+              },
+            ],
+            attributes: {
+              exclude: [
+                'createdAt',
+                'updatedAt',
+                'is_active',
+                'user_type',
+                'birthdate',
+                'password',
+                'email',
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ['UserId', 'GroupId', 'user_id', 'updatedAt'],
         },
         order: [['updated_at', 'DESC']],
       });
@@ -34,6 +72,11 @@ class PostController {
   }
 
   async store(req, res) {
+    const { groupId: group_id } = req.params;
+
+    if (!group_id)
+      res.status(400).json({ error: 'É necessário fornecer o ID do grupo' });
+
     const PostSchema = Yup.object({
       user_id: Yup.number()
         .typeError('É necessário inserir um inteiro')
@@ -69,7 +112,8 @@ class PostController {
         }
       });
 
-      await Post.create({
+      await GroupPost.create({
+        group_id,
         user_id,
         str_post,
         url_image,
@@ -84,6 +128,8 @@ class PostController {
   }
 
   async update(req, res) {
+    const { postId: post_id } = req.params;
+
     const PostSchema = Yup.object({
       post_id: Yup.number()
         .typeError('É necessário inserir um inteiro')
@@ -101,13 +147,12 @@ class PostController {
     );
 
     const files = req.files;
-    const post_id = req.params.id;
     const user_id = decodedToken.id;
     const str_post = req.body.str_post;
 
     try {
       await PostSchema.validate({ post_id, user_id, str_post });
-      const getPost = await Post.findByPk(post_id);
+      const getPost = await GroupPost.findByPk(post_id);
 
       if (!getPost) return res.status(404).json({ error: 'Post not found' });
 
@@ -167,16 +212,14 @@ class PostController {
 
       return res.status(200).json({ message: 'Post updated successfully' });
     } catch (error) {
-      return res
-        .status(400)
-        .json({ error: error.message, test: 'Samerda n vai' });
+      return res.status(400).json({ error: error.message });
     }
   }
 
   async delete(req, res) {
     try {
-      const post_id = req.params.id;
-      const getPost = await Post.findByPk(post_id);
+      const { postId: post_id } = req.params;
+      const getPost = await GroupPost.findByPk(post_id);
 
       // Delete the current files
       if (getPost.url_video) {
@@ -216,4 +259,4 @@ class PostController {
   }
 }
 
-export default new PostController();
+export default new GroupPostController();

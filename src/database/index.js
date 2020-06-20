@@ -7,6 +7,7 @@ import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import ProfileImage from '../app/models/ProfileImage';
 import Post from '../app/models/Post';
+import GroupPost from '../app/models/GroupPost';
 import Friendship from '../app/models/Friendship';
 import FollowGroup from '../app/models/FollowGroup';
 import UserInfoDonation from '../app/models/UserInfoDonation';
@@ -20,6 +21,7 @@ const models = [
   User,
   ProfileImage,
   Post,
+  GroupPost,
   Friendship,
   Group,
   FollowGroup,
