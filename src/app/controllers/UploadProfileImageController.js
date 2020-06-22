@@ -2,6 +2,18 @@ import ProfileImage from '../models/ProfileImage';
 import User from '../models/User';
 
 class UploadProfileImageController {
+  async index(req, res) {
+    try {
+      const { userId } = req.body;
+
+      const profileImage = await ProfileImage.findByPk(userId);
+
+      return res.status(200).json(profileImage);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
   async store(req, res) {
     if (!req.file)
       return res
@@ -13,7 +25,7 @@ class UploadProfileImageController {
     try {
       const profileImage = await ProfileImage.create({
         name,
-        image_source
+        image_source,
       });
 
       return res.status(200).json(profileImage);
@@ -32,29 +44,29 @@ class UploadProfileImageController {
             'is_active',
             'createdAt',
             'updatedAt',
-            'profile_image_id'
-          ]
+            'profile_image_id',
+          ],
         },
         include: [
           {
             model: ProfileImage,
             attributes: {
-              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
-            }
-          }
-        ]
+              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
+            },
+          },
+        ],
       });
 
       if (!user)
         return res.status(401).json({
-          error: `The user isn't registered in database`
+          error: `The user isn't registered in database`,
         });
 
       const profileImage = await ProfileImage.findByPk(user.ProfileImage.id);
 
       if (!profileImage)
         return res.status(400).json({
-          error: `The image don't exists or has already deleted from our database`
+          error: `The image don't exists or has already deleted from our database`,
         });
 
       await profileImage.update({ is_active: false });

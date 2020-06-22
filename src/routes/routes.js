@@ -68,6 +68,8 @@ routes.get('/users', UserController.index);
 routes.get('/users/:emailOrName', UserController.getUserByEmailOrName);
 
 // Upload profile image
+routes.get('/profile-image/:userId', UploadProfileImageController.index);
+
 routes.post(
   '/profile-image',
   ProfileUpload.single('profile-image'),

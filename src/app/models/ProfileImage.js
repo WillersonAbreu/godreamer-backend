@@ -6,11 +6,11 @@ class ProfileImage extends Model {
       {
         name: Sequelize.STRING,
         image_source: Sequelize.STRING,
-        user_id: Sequelize.INTEGER,
-        is_active: Sequelize.BOOLEAN
+        // user_id: Sequelize.INTEGER,
+        is_active: Sequelize.BOOLEAN,
       },
       {
-        sequelize
+        sequelize,
       }
     );
     return this;
