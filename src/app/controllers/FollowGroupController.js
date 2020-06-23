@@ -56,14 +56,14 @@ class FollowGroupController {
       token,
       process.env.JWT_KEY
     );
-    const { group_id } = req.body;
+    const { groupId } = req.params;
     const user_id = decodedToken.id;
 
     try {
       const followedGroup = await FollowGroup.findOne({
         where: {
           user_id,
-          group_id,
+          group_id: groupId,
         },
       });
 

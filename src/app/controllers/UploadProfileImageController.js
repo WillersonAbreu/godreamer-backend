@@ -4,7 +4,7 @@ import User from '../models/User';
 class UploadProfileImageController {
   async index(req, res) {
     try {
-      const { userId } = req.body;
+      const { userId } = req.params;
 
       const profileImage = await ProfileImage.findByPk(userId);
 

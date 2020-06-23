@@ -150,7 +150,7 @@ routes.delete('/donation/donate/:donationId', DonationController.delete);
 // Follow Group routes
 routes.get('/followed-groups', FollowGroupController.index);
 routes.post('/groups-follow', FollowGroupController.store);
-routes.delete('/unfollow-groups', FollowGroupController.delete);
+routes.delete('/groups-unfollow/:groupId', FollowGroupController.delete);
 
 // Chat routes
 routes.get('/chat', ChatController.index);
