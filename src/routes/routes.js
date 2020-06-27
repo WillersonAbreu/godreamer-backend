@@ -148,7 +148,7 @@ routes.put('/donation/donate/:donationId', DonationController.update);
 routes.delete('/donation/donate/:donationId', DonationController.delete);
 
 // Follow Group routes
-routes.get('/followed-groups', FollowGroupController.index);
+routes.get('/followed-groups/:userId', FollowGroupController.index);
 routes.post('/groups-follow', FollowGroupController.store);
 routes.delete('/groups-unfollow/:groupId', FollowGroupController.delete);
 

@@ -196,6 +196,8 @@ class UserController {
 
       const users = await User.findAll({
         where: { name: { [Operator.like]: `%${emailOrName}%` } },
+        attributes: { exclude: ['password'] },
+        include: [{ model: ProfileImage }],
       });
 
       return res.status(200).json(users);

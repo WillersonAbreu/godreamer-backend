@@ -8,13 +8,13 @@ import Group from '../models/Group';
 
 class FollowGroupController {
   async index(req, res) {
-    const [, token] = req.headers.authorization.split(' ');
-    const decodedToken = await promisify(jwt.verify)(
-      token,
-      process.env.JWT_KEY
-    );
+    // const [, token] = req.headers.authorization.split(' ');
+    // const decodedToken = await promisify(jwt.verify)(
+    //   token,
+    //   process.env.JWT_KEY
+    // );
 
-    const user_id = decodedToken.id;
+    const { userId: user_id } = req.params; //decodedToken.id;
 
     try {
       const followedGroups = await FollowGroup.findAll({
