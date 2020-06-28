@@ -10,7 +10,7 @@ module.exports = {
     */
     return queryInterface.addColumn('users', 'about_user', {
       allowNull: true,
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
       defaultValue: null,
     });
   },
