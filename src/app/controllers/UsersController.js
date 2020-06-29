@@ -95,21 +95,17 @@ class UserController {
   async update(req, res) {
     const { email, currentPassword, userId } = req.body;
 
-    // return res.json(req.body);
-
     // Validation schema
     const UserSchema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
-      currentPassword: Yup.string().min(6),
 
-      password: Yup.string()
-        .min(6)
-        .when('currentPassword', (currentPassword, field) =>
-          currentPassword ? field.required() : field
-        ),
+      password: Yup.string(),
       passwordConfirmation: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+      currentPassword: Yup.string().when('password', (currentPassword, field) =>
+        currentPassword ? field.required() : field
       ),
     });
 
@@ -121,25 +117,54 @@ class UserController {
     }
 
     // Finding the user by userId that iside the JWT token
-    const user = await User.findByPk(userId);
+    let user = await User.findByPk(userId);
 
     // Verfifying if the user wants to change the current email
     if (email !== user.email) {
       const userExists = await User.findOne({ where: { email } });
 
       if (userExists) {
-        return res.status(400).json({ error: 'This email is already in use' });
+        return res.status(400).json({ error: 'Este email já está em uso' });
       }
     }
 
     // Verfying if the user wants to change his password
     if (currentPassword && !(await user.checkPassword(currentPassword))) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res
+        .status(401)
+        .json({ error: 'É necessário inserir a senha correta para alterá-la' });
     }
 
+    const data = {
+      name: req.body.name.length > 0 ? req.body.name : user.toJSON().name,
+      email: req.body.email.length > 0 ? req.body.email : user.toJSON().email,
+      password:
+        req.body.password.length > 0
+          ? req.body.password
+          : user.toJSON().password,
+      passwordConfirmation:
+        req.body.passwordConfirmation.length > 0
+          ? req.body.passwordConfirmation
+          : user.toJSON().password,
+      birthdate:
+        req.body.birthdate.length > 0
+          ? req.body.birthdate
+          : user.toJSON().birthdate,
+      user_type:
+        req.body.user_type.length > 0
+          ? req.body.user_type
+          : user.toJSON().user_type,
+      about_user:
+        req.body.about_user.length > 0
+          ? req.body.about_user
+          : user.toJSON().about_user,
+    };
+
     try {
-      await user.update(req.body);
-      return res.status(200).json({ success: 'User updated successfully' });
+      await user.update(data);
+      return res
+        .status(200)
+        .json({ success: 'Usuário atualizado com sucesso' });
     } catch (error) {
       return res.status(400).json({ error: error });
     }
@@ -196,7 +221,7 @@ class UserController {
 
       const users = await User.findAll({
         where: { name: { [Operator.like]: `%${emailOrName}%` } },
-        attributes: { exclude: ['password'] },
+        // attributes: { exclude: ['password'] },
         include: [{ model: ProfileImage }],
       });
 

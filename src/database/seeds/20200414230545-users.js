@@ -15,7 +15,7 @@ module.exports = {
           email: 'w@w.com',
           password:
             '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
-          birthdate: '2019-07-29',
+          birthdate: '1992-07-29',
           user_type: 2,
           is_active: true,
           created_at: new Date(),
@@ -26,7 +26,7 @@ module.exports = {
           email: 'r@r.com',
           password:
             '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
-          birthdate: '2019-02-18',
+          birthdate: '1997-02-18',
           user_type: 2,
           is_active: true,
           created_at: new Date(),
@@ -37,7 +37,7 @@ module.exports = {
           email: 'l@l.com',
           password:
             '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
-          birthdate: '2019-08-02',
+          birthdate: '1962-08-02',
           user_type: 1,
           is_active: true,
           created_at: new Date(),
@@ -48,7 +48,7 @@ module.exports = {
           email: 'rodrigo@rodrigo.com',
           password:
             '$2a$08$smJrLAmF6pRKfctma4fBieKqkAUkPt/nWR4GZpXHUfVX5OSZx4TtK',
-          birthdate: '2019-07-17',
+          birthdate: '1987-07-17',
           user_type: 1,
           is_active: true,
           created_at: new Date(),

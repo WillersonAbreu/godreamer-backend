@@ -109,7 +109,7 @@ routes.delete(
 // Friendship routes
 routes.get('/friendship', FriendshipController.index);
 routes.post('/friendship', FriendshipController.store);
-routes.delete('/friendship', FriendshipController.delete);
+routes.delete(`/friendship/:idUser`, FriendshipController.delete);
 
 // Group routes
 routes.get('/groups', GroupController.index);
