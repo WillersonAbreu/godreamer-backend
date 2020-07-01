@@ -31,7 +31,7 @@ class UserInfoDonationController {
     );
 
     const user_id = decodedToken.id;
-    const { information, account } = req.body;
+    const { information, account, cpf, bank_name, agency_number } = req.body;
 
     try {
       let checkinfoDonation = 0;
@@ -44,28 +44,32 @@ class UserInfoDonationController {
           information,
           account,
           user_id,
+          cpf,
+          bank_name,
+          agency_number,
         });
         return res.status(200).json(infoDonation);
       } else {
-        return res
-          .status(400)
-          .json({
-            error: "Can't create another donation info for the same user",
-          });
+        return res.status(400).json({
+          error: "Can't create another donation info for the same user",
+        });
       }
     } catch (err) {
       return res.status(400).json(err.message);
     }
   }
-  async update(req, res) {
-    const [, token] = req.headers.authorization.split(' ');
-    const decodedToken = await promisify(jwt.verify)(
-      token,
-      process.env.JWT_KEY
-    );
 
-    const user_id = decodedToken.id;
-    const { information, account } = req.body;
+  async update(req, res) {
+    // const [, token] = req.headers.authorization.split(' ');
+    // const decodedToken = await promisify(jwt.verify)(
+    //   token,
+    //   process.env.JWT_KEY
+    // );
+
+    // const user_id = decodedToken.id;
+    const { userId: user_id } = req.params;
+
+    const { information, account, cpf, bank_name, agency_number } = req.body;
 
     try {
       let checkinfoDonation = null;
@@ -87,6 +91,9 @@ class UserInfoDonationController {
       await checkinfoDonation.update({
         information,
         account,
+        cpf,
+        bank_name,
+        agency_number,
       });
       return res.status(200).json(checkinfoDonation);
     } catch (err) {

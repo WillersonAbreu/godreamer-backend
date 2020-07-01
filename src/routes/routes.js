@@ -71,8 +71,8 @@ routes.get('/users/:emailOrName', UserController.getUserByEmailOrName);
 routes.get('/profile-image/:userId', UploadProfileImageController.index);
 
 routes.post(
-  '/profile-image',
-  ProfileUpload.single('profile-image'),
+  '/profile-image/:userId',
+  ProfileUpload.single('profile_image'),
   UploadProfileImageController.store
 );
 
@@ -139,7 +139,7 @@ routes.get('/feed/friends', FeedController.getFriends);
 //Donation routes
 routes.get('/donation/info/:groupOwnerId', UserInfoDonationController.index);
 routes.post('/donation/info', UserInfoDonationController.store);
-routes.put('/donation/info', UserInfoDonationController.update);
+routes.put('/donation/info/:userId', UserInfoDonationController.update);
 routes.delete('/donation/info', UserInfoDonationController.delete);
 
 routes.get('/donation/donate/', DonationController.index);

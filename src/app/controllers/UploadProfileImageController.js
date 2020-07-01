@@ -15,20 +15,44 @@ class UploadProfileImageController {
   }
 
   async store(req, res) {
+    const { userId } = req.params;
+
+    // try {
+    //   return res.status(200).json({ profileImage });
+    // } catch (error) {
+    //   return res.status(400).json({ error: error.message });
+    // }
+
     if (!req.file)
       return res
         .status(400)
-        .json({ error: 'The file is necessary to execute the upload' });
+        .json({
+          error: 'É necessário inserir de um arquivo para realizar o upload',
+        });
 
     const { originalname: name, filename: image_source } = req.file;
 
     try {
-      const profileImage = await ProfileImage.create({
-        name,
-        image_source,
-      });
+      const profileImage = await ProfileImage.findByPk(userId);
 
-      return res.status(200).json(profileImage);
+      if (profileImage === null) {
+        await ProfileImage.create({
+          name,
+          image_source,
+        });
+
+        return res
+          .status(200)
+          .json({ message: 'Imagem de perfil registrada com sucesso' });
+      } else {
+        await profileImage.update({
+          name,
+          image_source,
+        });
+        return res
+          .status(200)
+          .json({ message: 'Imagem de perfil atualizada com sucesso' });
+      }
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }

@@ -9,6 +9,7 @@ import Post from '../models/Post';
 // Yup validator
 import * as Yup from 'yup';
 import Group from '../models/Group';
+import UserInfoDonation from '../models/UserInfoDonation';
 
 class UserController {
   async index(req, res) {
@@ -207,6 +208,7 @@ class UserController {
         const user = await User.findOne({
           where: { email: emailOrName },
           attributes: { exclude: ['password'] },
+          include: [{ model: ProfileImage }, { model: UserInfoDonation }],
         });
 
         return res.status(200).json(user);
@@ -222,7 +224,7 @@ class UserController {
       const users = await User.findAll({
         where: { name: { [Operator.like]: `%${emailOrName}%` } },
         // attributes: { exclude: ['password'] },
-        include: [{ model: ProfileImage }],
+        include: [{ model: ProfileImage }, { model: UserInfoDonation }],
       });
 
       return res.status(200).json(users);
