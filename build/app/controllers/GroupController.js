@@ -2,12 +2,16 @@
 var _util = require('util');
 var _path = require('path');
 var _fs = require('fs'); var _fs2 = _interopRequireDefault(_fs);
+var _sequelize = require('sequelize'); var _sequelize2 = _interopRequireDefault(_sequelize);
 
 // Models
 var _Groupjs = require('../models/Group.js'); var _Groupjs2 = _interopRequireDefault(_Groupjs);
 
 // Yup validator
 var _yup = require('yup'); var Yup = _interopRequireWildcard(_yup);
+var _Userjs = require('../models/User.js'); var _Userjs2 = _interopRequireDefault(_Userjs);
+var _ProfileImagejs = require('../models/ProfileImage.js'); var _ProfileImagejs2 = _interopRequireDefault(_ProfileImagejs);
+var _UserInfoDonationjs = require('../models/UserInfoDonation.js'); var _UserInfoDonationjs2 = _interopRequireDefault(_UserInfoDonationjs);
 
 class GroupController {
   async index(req, res) {
@@ -171,8 +175,51 @@ class GroupController {
     // Check if the URL param is name
     if (await GroupSchema.validate(req.params)) {
       try {
+        const Operator = _sequelize2.default.Op;
         const groups = await _Groupjs2.default.findAll({
-          where: { group_name: groupName },
+          where: { group_name: { [Operator.like]: `%${groupName}%` } },
+        });
+
+        return res.status(200).json(groups);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    }
+  }
+
+  async byId(req, res) {
+    const groupId = req.params.groupId;
+    // Group Schema
+    const GroupSchema = Yup.object({
+      groupId: Yup.string(),
+    });
+
+    // Check if the URL param is name
+    if (await GroupSchema.validate(req.params)) {
+      try {
+        const groups = await _Groupjs2.default.findAll({
+          where: { id: groupId },
+          include: [
+            {
+              model: _Userjs2.default,
+              include: [
+                {
+                  model: _UserInfoDonationjs2.default,
+                },
+              ],
+              attributes: {
+                exclude: [
+                  'id',
+                  'password',
+                  'birthdate',
+                  'user_type',
+                  'is_active',
+                  'createdAt',
+                  'updatedAt',
+                ],
+              },
+            },
+          ],
         });
 
         return res.status(200).json(groups);

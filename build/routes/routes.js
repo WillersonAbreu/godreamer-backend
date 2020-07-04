@@ -21,6 +21,7 @@ var _FriendshipController = require('../app/controllers/FriendshipController'); 
 var _MulterGroupConfigMiddleware = require('../app/middlewares/MulterGroupConfigMiddleware'); var _MulterGroupConfigMiddleware2 = _interopRequireDefault(_MulterGroupConfigMiddleware);
 var _FollowGroupController = require('../app/controllers/FollowGroupController'); var _FollowGroupController2 = _interopRequireDefault(_FollowGroupController);
 var _ChatController = require('../app/controllers/ChatController'); var _ChatController2 = _interopRequireDefault(_ChatController);
+var _GroupPostController = require('../app/controllers/GroupPostController'); var _GroupPostController2 = _interopRequireDefault(_GroupPostController);
 
 const PostUpload = _multer2.default.call(void 0, _MulterPostConfigMiddleware2.default);
 
@@ -67,9 +68,11 @@ routes.get('/users', _UsersController2.default.index);
 routes.get('/users/:emailOrName', _UsersController2.default.getUserByEmailOrName);
 
 // Upload profile image
+routes.get('/profile-image/:userId', _UploadProfileImageController2.default.index);
+
 routes.post(
-  '/profile-image',
-  ProfileUpload.single('profile-image'),
+  '/profile-image/:userId',
+  ProfileUpload.single('profile_image'),
   _UploadProfileImageController2.default.store
 );
 
@@ -81,13 +84,36 @@ routes.post('/posts', PostUpload.any(), _PostController2.default.store);
 routes.put('/posts/:id', PostUpload.any(), _PostController2.default.update);
 routes.delete('/posts/:id', PostUpload.any(), _PostController2.default.delete);
 
+// Group Post routes
+routes.get(
+  '/group/posts/:groupId',
+  PostUpload.any(),
+  _GroupPostController2.default.index
+);
+routes.post(
+  '/group/posts/:groupId',
+  PostUpload.any(),
+  _GroupPostController2.default.store
+);
+routes.put(
+  '/group/posts/:groupId/:postId',
+  PostUpload.any(),
+  _GroupPostController2.default.update
+);
+routes.delete(
+  '/group/posts/:groupId/:postId',
+  PostUpload.any(),
+  _GroupPostController2.default.delete
+);
+
 // Friendship routes
 routes.get('/friendship', _FriendshipController2.default.index);
 routes.post('/friendship', _FriendshipController2.default.store);
-routes.delete('/friendship', _FriendshipController2.default.delete);
+routes.delete(`/friendship/:idUser`, _FriendshipController2.default.delete);
 
 // Group routes
 routes.get('/groups', _GroupController2.default.index);
+routes.get('/groups/by-id/:groupId', _GroupController2.default.byId);
 routes.get('/groups/:groupName', _GroupController2.default.getByGroupName);
 routes.post(
   '/groups',
@@ -103,6 +129,7 @@ routes.delete('/groups/:id', _GroupController2.default.delete);
 
 // Feed routes
 routes.get('/feed/posts/:userId', _FeedController2.default.getPosts);
+routes.get('/feed/specific/user/:userId', _FeedController2.default.getSpecificUserPosts);
 routes.get('/feed/groups/:userId', _FeedController2.default.getGroups);
 routes.get('/feed/own/groups/:userId', _FeedController2.default.getOwnGroups);
 //funcao repetida
@@ -111,9 +138,9 @@ routes.get('/feed/user-feed/:userId', _FeedController2.default.getUserPosts);
 routes.get('/feed/friends', _FeedController2.default.getFriends);
 
 //Donation routes
-routes.get('/donation/info', _UserInfoDonationController2.default.index);
+routes.get('/donation/info/:groupOwnerId', _UserInfoDonationController2.default.index);
 routes.post('/donation/info', _UserInfoDonationController2.default.store);
-routes.put('/donation/info', _UserInfoDonationController2.default.update);
+routes.put('/donation/info/:userId', _UserInfoDonationController2.default.update);
 routes.delete('/donation/info', _UserInfoDonationController2.default.delete);
 
 routes.get('/donation/donate/', _DonationController2.default.index);
@@ -122,12 +149,13 @@ routes.put('/donation/donate/:donationId', _DonationController2.default.update);
 routes.delete('/donation/donate/:donationId', _DonationController2.default.delete);
 
 // Follow Group routes
-routes.get('/followed-groups', _FollowGroupController2.default.index);
+routes.get('/followed-groups/:userId', _FollowGroupController2.default.index);
 routes.post('/groups-follow', _FollowGroupController2.default.store);
-routes.delete('/unfollow-groups', _FollowGroupController2.default.delete);
+routes.delete('/groups-unfollow/:groupId', _FollowGroupController2.default.delete);
 
 // Chat routes
 routes.get('/chat', _ChatController2.default.index);
+routes.get('/chat/get/:conversation_id', _ChatController2.default.getConversations);
 routes.post('/chat/:conversation_id', _ChatController2.default.store);
 routes.delete('/chat/:message_id', _ChatController2.default.delete);
 

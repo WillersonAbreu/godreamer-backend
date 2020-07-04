@@ -7,6 +7,9 @@ class UserInfoDonation extends _sequelize.Model {
         information: _sequelize2.default.STRING,
         account: _sequelize2.default.STRING,
         user_id: _sequelize2.default.INTEGER,
+        cpf: _sequelize2.default.STRING,
+        bank_name: _sequelize2.default.STRING,
+        agency_number: _sequelize2.default.INTEGER,
       },
       {
         sequelize,

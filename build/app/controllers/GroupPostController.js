@@ -4,25 +4,62 @@ var _path = require('path');
 var _fs = require('fs'); var _fs2 = _interopRequireDefault(_fs);
 
 // Models
-var _Post = require('../models/Post'); var _Post2 = _interopRequireDefault(_Post);
+var _GroupPost = require('../models/GroupPost'); var _GroupPost2 = _interopRequireDefault(_GroupPost);
 var _User = require('../models/User'); var _User2 = _interopRequireDefault(_User);
 
 // Yup validator
 var _yup = require('yup'); var Yup = _interopRequireWildcard(_yup);
+var _ProfileImage = require('../models/ProfileImage'); var _ProfileImage2 = _interopRequireDefault(_ProfileImage);
 
-class PostController {
+class GroupPostController {
   async index(req, res) {
-    const [, token] = req.headers.authorization.split(' ');
-    const decodedToken = await _util.promisify.call(void 0, _jsonwebtoken2.default.verify)(
-      token,
-      process.env.JWT_KEY
-    );
-    const user_id = decodedToken.id;
+    const { groupId: group_id } = req.params;
+
+    // const [, token] = req.headers.authorization.split(' ');
+    // const decodedToken = await promisify(jwt.verify)(
+    //   token,
+    //   process.env.JWT_KEY
+    // );
+    // const user_id = decodedToken.id;
 
     try {
-      const getPosts = await _Post2.default.findAll({
+      const getPosts = await _GroupPost2.default.findAll({
         where: {
-          user_id: user_id,
+          group_id,
+        },
+        include: [
+          {
+            model: _User2.default,
+            include: [
+              {
+                model: _ProfileImage2.default,
+                attributes: {
+                  exclude: [
+                    'id',
+                    'name',
+                    'user_id',
+                    'is_active',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                },
+              },
+            ],
+            attributes: {
+              exclude: [
+                'createdAt',
+                'updatedAt',
+                'is_active',
+                'user_type',
+                'birthdate',
+                'password',
+                'email',
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ['UserId', 'GroupId', 'user_id', 'updatedAt'],
         },
         order: [['updated_at', 'DESC']],
       });
@@ -34,6 +71,11 @@ class PostController {
   }
 
   async store(req, res) {
+    const { groupId: group_id } = req.params;
+
+    if (!group_id)
+      res.status(400).json({ error: 'É necessário fornecer o ID do grupo' });
+
     const PostSchema = Yup.object({
       user_id: Yup.number()
         .typeError('É necessário inserir um inteiro')
@@ -69,7 +111,8 @@ class PostController {
         }
       });
 
-      await _Post2.default.create({
+      await _GroupPost2.default.create({
+        group_id,
         user_id,
         str_post,
         url_image,
@@ -84,6 +127,8 @@ class PostController {
   }
 
   async update(req, res) {
+    const { postId: post_id } = req.params;
+
     const PostSchema = Yup.object({
       post_id: Yup.number()
         .typeError('É necessário inserir um inteiro')
@@ -101,13 +146,12 @@ class PostController {
     );
 
     const files = req.files;
-    const post_id = req.params.id;
     const user_id = decodedToken.id;
     const str_post = req.body.str_post;
 
     try {
       await PostSchema.validate({ post_id, user_id, str_post });
-      const getPost = await _Post2.default.findByPk(post_id);
+      const getPost = await _GroupPost2.default.findByPk(post_id);
 
       if (!getPost) return res.status(404).json({ error: 'Post not found' });
 
@@ -167,16 +211,14 @@ class PostController {
 
       return res.status(200).json({ message: 'Post updated successfully' });
     } catch (error) {
-      return res
-        .status(400)
-        .json({ error: error.message, test: 'Samerda n vai' });
+      return res.status(400).json({ error: error.message });
     }
   }
 
   async delete(req, res) {
     try {
-      const post_id = req.params.id;
-      const getPost = await _Post2.default.findByPk(post_id);
+      const { postId: post_id } = req.params;
+      const getPost = await _GroupPost2.default.findByPk(post_id);
 
       // Delete the current files
       if (getPost.url_video) {
@@ -216,4 +258,4 @@ class PostController {
   }
 }
 
-exports. default = new PostController();
+exports. default = new GroupPostController();

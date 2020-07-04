@@ -12,6 +12,7 @@ class User extends _sequelize.Model {
         birthdate: _sequelize2.default.DATE,
         user_type: _sequelize2.default.BOOLEAN,
         is_active: _sequelize2.default.BOOLEAN,
+        about_user: _sequelize2.default.STRING,
       },
       {
         sequelize,

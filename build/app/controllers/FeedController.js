@@ -14,6 +14,54 @@ var _ProfileImage = require('../models/ProfileImage'); var _ProfileImage2 = _int
 // Controllers
 
 class FeedController {
+  async getSpecificUserPosts(req, res) {
+    const { userId } = req.params;
+
+    try {
+      const posts = await _Post2.default.findAll({
+        where: { user_id: userId },
+        include: [
+          {
+            model: _User2.default,
+            // include: [
+            //   {
+            //     model: ProfileImage,
+            //     attributes: {
+            //       exclude: [
+            //         'id',
+            //         'name',
+            //         'user_id',
+            //         'is_active',
+            //         'createdAt',
+            //         'updatedAt',
+            //       ],
+            //     },
+            //   },
+            // ],
+            attributes: {
+              exclude: [
+                'createdAt',
+                'updatedAt',
+                'is_active',
+                'user_type',
+                'birthdate',
+                'password',
+                'email',
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ['UserId', 'updatedAt'],
+        },
+        order: [['created_at', 'DESC']],
+      });
+      return res.status(200).json({ posts });
+    } catch (error) {
+      return res.json({ error: error.message });
+    }
+  }
+
   async getPosts(req, res) {
     const { userId } = req.params;
 

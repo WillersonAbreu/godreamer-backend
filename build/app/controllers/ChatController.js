@@ -6,7 +6,9 @@ var _ChatConversation = require('../models/ChatConversation'); var _ChatConversa
 var _ChatMessage = require('../models/ChatMessage'); var _ChatMessage2 = _interopRequireDefault(_ChatMessage);
 var _User = require('../models/User'); var _User2 = _interopRequireDefault(_User);
 
-class DonationController {
+var _sequelize = require('sequelize');
+
+class ChatController {
   async index(req, res) {
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await _util.promisify.call(void 0, _jsonwebtoken2.default.verify)(
@@ -36,12 +38,72 @@ class DonationController {
                     'is_active',
                     'createdAt',
                     'updatedAt',
+                    'about_user',
                   ],
                 },
               },
             ],
           },
         ],
+        include: [
+          {
+            model: _User2.default,
+            attributes: {
+              exclude: [
+                'email',
+                'password',
+                'birthdate',
+                'user_type',
+                'is_active',
+                'createdAt',
+                'updatedAt',
+                'about_user',
+              ],
+            },
+          },
+        ],
+      });
+
+      if (conversations.length == 0)
+        return res.status(404).json({
+          error: 'You have not started conversation with anyone yet.',
+        });
+
+      return res.status(200).json({ conversations: conversations });
+    } catch (error) {
+      return res.status(400).json(error.message);
+    }
+  }
+
+  async getConversations(req, res) {
+    try {
+      const { conversation_id } = req.params;
+      const conversations = await _ChatMessage2.default.findAll({
+        where: { conversation_id },
+        // include: [
+        //   {
+        //     model: ChatMessage,
+        //     attributes: {
+        //       exclude: ['conversation_id', 'user_id'],
+        //     },
+        //     include: [
+        //       {
+        //         model: User,
+        //         attributes: {
+        //           exclude: [
+        //             'email',
+        //             'password',
+        //             'birthdate',
+        //             'user_type',
+        //             'is_active',
+        //             'createdAt',
+        //             'updatedAt',
+        //           ],
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ],
       });
 
       if (conversations.length == 0)
@@ -146,4 +208,4 @@ class DonationController {
   }
 }
 
-exports. default = new DonationController();
+exports. default = new ChatController();

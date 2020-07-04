@@ -9,6 +9,7 @@ var _Post = require('../models/Post'); var _Post2 = _interopRequireDefault(_Post
 // Yup validator
 var _yup = require('yup'); var Yup = _interopRequireWildcard(_yup);
 var _Group = require('../models/Group'); var _Group2 = _interopRequireDefault(_Group);
+var _UserInfoDonation = require('../models/UserInfoDonation'); var _UserInfoDonation2 = _interopRequireDefault(_UserInfoDonation);
 
 class UserController {
   async index(req, res) {
@@ -95,21 +96,17 @@ class UserController {
   async update(req, res) {
     const { email, currentPassword, userId } = req.body;
 
-    // return res.json(req.body);
-
     // Validation schema
     const UserSchema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
-      currentPassword: Yup.string().min(6),
 
-      password: Yup.string()
-        .min(6)
-        .when('currentPassword', (currentPassword, field) =>
-          currentPassword ? field.required() : field
-        ),
+      password: Yup.string(),
       passwordConfirmation: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+      currentPassword: Yup.string().when('password', (currentPassword, field) =>
+        currentPassword ? field.required() : field
       ),
     });
 
@@ -121,25 +118,54 @@ class UserController {
     }
 
     // Finding the user by userId that iside the JWT token
-    const user = await _User2.default.findByPk(userId);
+    let user = await _User2.default.findByPk(userId);
 
     // Verfifying if the user wants to change the current email
     if (email !== user.email) {
       const userExists = await _User2.default.findOne({ where: { email } });
 
       if (userExists) {
-        return res.status(400).json({ error: 'This email is already in use' });
+        return res.status(400).json({ error: 'Este email já está em uso' });
       }
     }
 
     // Verfying if the user wants to change his password
     if (currentPassword && !(await user.checkPassword(currentPassword))) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res
+        .status(401)
+        .json({ error: 'É necessário inserir a senha correta para alterá-la' });
     }
 
+    const data = {
+      name: req.body.name.length > 0 ? req.body.name : user.toJSON().name,
+      email: req.body.email.length > 0 ? req.body.email : user.toJSON().email,
+      password:
+        req.body.password.length > 0
+          ? req.body.password
+          : user.toJSON().password,
+      passwordConfirmation:
+        req.body.passwordConfirmation.length > 0
+          ? req.body.passwordConfirmation
+          : user.toJSON().password,
+      birthdate:
+        req.body.birthdate.length > 0
+          ? req.body.birthdate
+          : user.toJSON().birthdate,
+      user_type:
+        req.body.user_type.length > 0
+          ? req.body.user_type
+          : user.toJSON().user_type,
+      about_user:
+        req.body.about_user.length > 0
+          ? req.body.about_user
+          : user.toJSON().about_user,
+    };
+
     try {
-      await user.update(req.body);
-      return res.status(200).json({ success: 'User updated successfully' });
+      await user.update(data);
+      return res
+        .status(200)
+        .json({ success: 'Usuário atualizado com sucesso' });
     } catch (error) {
       return res.status(400).json({ error: error });
     }
@@ -182,6 +208,7 @@ class UserController {
         const user = await _User2.default.findOne({
           where: { email: emailOrName },
           attributes: { exclude: ['password'] },
+          include: [{ model: _ProfileImage2.default }, { model: _UserInfoDonation2.default }],
         });
 
         return res.status(200).json(user);
@@ -195,7 +222,11 @@ class UserController {
       const Operator = _sequelize2.default.Op;
 
       const users = await _User2.default.findAll({
-        where: { name: { [Operator.like]: `%${emailOrName}%` } },
+        where: {
+          name: emailOrName /*{ [Operator.like]: `%${emailOrName}%` }*/,
+        },
+        // attributes: { exclude: ['password'] },
+        include: [{ model: _ProfileImage2.default }, { model: _UserInfoDonation2.default }],
       });
 
       return res.status(200).json(users);

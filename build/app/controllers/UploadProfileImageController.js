@@ -2,21 +2,57 @@
 var _User = require('../models/User'); var _User2 = _interopRequireDefault(_User);
 
 class UploadProfileImageController {
+  async index(req, res) {
+    try {
+      const { userId } = req.params;
+
+      const profileImage = await _ProfileImage2.default.findByPk(userId);
+
+      return res.status(200).json(profileImage);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
   async store(req, res) {
+    const { userId } = req.params;
+
+    // try {
+    //   return res.status(200).json({ profileImage });
+    // } catch (error) {
+    //   return res.status(400).json({ error: error.message });
+    // }
+
     if (!req.file)
       return res
         .status(400)
-        .json({ error: 'The file is necessary to execute the upload' });
+        .json({
+          error: 'É necessário inserir de um arquivo para realizar o upload',
+        });
 
     const { originalname: name, filename: image_source } = req.file;
 
     try {
-      const profileImage = await _ProfileImage2.default.create({
-        name,
-        image_source
-      });
+      const profileImage = await _ProfileImage2.default.findByPk(userId);
 
-      return res.status(200).json(profileImage);
+      if (profileImage === null) {
+        await _ProfileImage2.default.create({
+          name,
+          image_source,
+        });
+
+        return res
+          .status(200)
+          .json({ message: 'Imagem de perfil registrada com sucesso' });
+      } else {
+        await profileImage.update({
+          name,
+          image_source,
+        });
+        return res
+          .status(200)
+          .json({ message: 'Imagem de perfil atualizada com sucesso' });
+      }
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
@@ -32,29 +68,29 @@ class UploadProfileImageController {
             'is_active',
             'createdAt',
             'updatedAt',
-            'profile_image_id'
-          ]
+            'profile_image_id',
+          ],
         },
         include: [
           {
             model: _ProfileImage2.default,
             attributes: {
-              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt']
-            }
-          }
-        ]
+              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
+            },
+          },
+        ],
       });
 
       if (!user)
         return res.status(401).json({
-          error: `The user isn't registered in database`
+          error: `The user isn't registered in database`,
         });
 
       const profileImage = await _ProfileImage2.default.findByPk(user.ProfileImage.id);
 
       if (!profileImage)
         return res.status(400).json({
-          error: `The image don't exists or has already deleted from our database`
+          error: `The image don't exists or has already deleted from our database`,
         });
 
       await profileImage.update({ is_active: false });

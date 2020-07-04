@@ -7,6 +7,7 @@ var _database = require('../config/database'); var _database2 = _interopRequireD
 var _User = require('../app/models/User'); var _User2 = _interopRequireDefault(_User);
 var _ProfileImage = require('../app/models/ProfileImage'); var _ProfileImage2 = _interopRequireDefault(_ProfileImage);
 var _Post = require('../app/models/Post'); var _Post2 = _interopRequireDefault(_Post);
+var _GroupPost = require('../app/models/GroupPost'); var _GroupPost2 = _interopRequireDefault(_GroupPost);
 var _Friendship = require('../app/models/Friendship'); var _Friendship2 = _interopRequireDefault(_Friendship);
 var _FollowGroup = require('../app/models/FollowGroup'); var _FollowGroup2 = _interopRequireDefault(_FollowGroup);
 var _UserInfoDonation = require('../app/models/UserInfoDonation'); var _UserInfoDonation2 = _interopRequireDefault(_UserInfoDonation);
@@ -20,6 +21,7 @@ const models = [
   _User2.default,
   _ProfileImage2.default,
   _Post2.default,
+  _GroupPost2.default,
   _Friendship2.default,
   _Group2.default,
   _FollowGroup2.default,
