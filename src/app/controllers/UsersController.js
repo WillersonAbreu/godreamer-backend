@@ -222,7 +222,9 @@ class UserController {
       const Operator = Sequelize.Op;
 
       const users = await User.findAll({
-        where: { name: { [Operator.like]: `%${emailOrName}%` } },
+        where: {
+          name: emailOrName /*{ [Operator.like]: `%${emailOrName}%` }*/,
+        },
         // attributes: { exclude: ['password'] },
         include: [{ model: ProfileImage }, { model: UserInfoDonation }],
       });

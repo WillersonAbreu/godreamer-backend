@@ -5,19 +5,23 @@ class Friendship extends Model {
     super.init(
       {
         user_id: Sequelize.INTEGER,
-        id_user: Sequelize.INTEGER
+        id_user: Sequelize.INTEGER,
       },
       {
-        sequelize
+        sequelize,
       }
     );
     return this;
   }
 
   static associate(models) {
+    // this.belongsTo(models.User, {
+    //   foreignKey: 'user_id',
+    //   foreignKeyConstraint: true,
+    // });
     this.belongsTo(models.User, {
-      foreignKey: 'user_id',
-      foreignKeyConstraint: true
+      foreignKey: 'id_user',
+      foreignKeyConstraint: true,
     });
   }
 }

@@ -129,6 +129,7 @@ routes.delete('/groups/:id', GroupController.delete);
 
 // Feed routes
 routes.get('/feed/posts/:userId', FeedController.getPosts);
+routes.get('/feed/specific/user/:userId', FeedController.getSpecificUserPosts);
 routes.get('/feed/groups/:userId', FeedController.getGroups);
 routes.get('/feed/own/groups/:userId', FeedController.getOwnGroups);
 //funcao repetida
@@ -154,6 +155,7 @@ routes.delete('/groups-unfollow/:groupId', FollowGroupController.delete);
 
 // Chat routes
 routes.get('/chat', ChatController.index);
+routes.get('/chat/get/:conversation_id', ChatController.getConversations);
 routes.post('/chat/:conversation_id', ChatController.store);
 routes.delete('/chat/:message_id', ChatController.delete);
 

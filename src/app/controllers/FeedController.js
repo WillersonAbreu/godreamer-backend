@@ -14,6 +14,54 @@ import ProfileImage from '../models/ProfileImage';
 // Controllers
 
 class FeedController {
+  async getSpecificUserPosts(req, res) {
+    const { userId } = req.params;
+
+    try {
+      const posts = await Post.findAll({
+        where: { user_id: userId },
+        include: [
+          {
+            model: User,
+            // include: [
+            //   {
+            //     model: ProfileImage,
+            //     attributes: {
+            //       exclude: [
+            //         'id',
+            //         'name',
+            //         'user_id',
+            //         'is_active',
+            //         'createdAt',
+            //         'updatedAt',
+            //       ],
+            //     },
+            //   },
+            // ],
+            attributes: {
+              exclude: [
+                'createdAt',
+                'updatedAt',
+                'is_active',
+                'user_type',
+                'birthdate',
+                'password',
+                'email',
+              ],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ['UserId', 'updatedAt'],
+        },
+        order: [['created_at', 'DESC']],
+      });
+      return res.status(200).json({ posts });
+    } catch (error) {
+      return res.json({ error: error.message });
+    }
+  }
+
   async getPosts(req, res) {
     const { userId } = req.params;
 

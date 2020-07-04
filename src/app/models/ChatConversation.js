@@ -16,6 +16,7 @@ class ChatConversation extends Model {
 
   static associate(models) {
     this.hasMany(models.ChatMessage, { foreignKey: 'conversation_id' });
+    this.belongsTo(models.User, { foreignKey: 'id_user' });
   }
 }
 

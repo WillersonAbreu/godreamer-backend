@@ -1,4 +1,5 @@
 import Friendship from '../models/Friendship';
+import User from '../models/User';
 
 class FriendshipBO {
   async getFriends(user_id) {
@@ -8,6 +9,11 @@ class FriendshipBO {
         attributes: {
           exclude: ['UserId', 'updatedAt'],
         },
+        include: [
+          {
+            model: User,
+          },
+        ],
         order: [['created_at', 'DESC']],
       });
       return friends;

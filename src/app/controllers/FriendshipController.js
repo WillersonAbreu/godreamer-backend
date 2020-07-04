@@ -66,6 +66,11 @@ class FriendshipController {
         id_user,
       });
 
+      await ChatConversation.create({
+        user_id: id_user,
+        id_user: user_id,
+      });
+
       return res.status(200).json({
         message: 'Vocês agora são amigos',
       });

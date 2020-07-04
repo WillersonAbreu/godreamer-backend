@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import { resolve } from 'path';
 import fs from 'fs';
+import Sequelize from 'sequelize';
 
 // Models
 import Group from '../models/Group.js';
@@ -174,8 +175,9 @@ class GroupController {
     // Check if the URL param is name
     if (await GroupSchema.validate(req.params)) {
       try {
+        const Operator = Sequelize.Op;
         const groups = await Group.findAll({
-          where: { group_name: groupName },
+          where: { group_name: { [Operator.like]: `%${groupName}%` } },
         });
 
         return res.status(200).json(groups);

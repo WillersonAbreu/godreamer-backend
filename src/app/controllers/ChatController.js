@@ -6,7 +6,9 @@ import ChatConversation from '../models/ChatConversation';
 import ChatMessage from '../models/ChatMessage';
 import User from '../models/User';
 
-class DonationController {
+import { Op } from 'sequelize';
+
+class ChatController {
   async index(req, res) {
     const [, token] = req.headers.authorization.split(' ');
     const decodedToken = await promisify(jwt.verify)(
@@ -36,12 +38,72 @@ class DonationController {
                     'is_active',
                     'createdAt',
                     'updatedAt',
+                    'about_user',
                   ],
                 },
               },
             ],
           },
         ],
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: [
+                'email',
+                'password',
+                'birthdate',
+                'user_type',
+                'is_active',
+                'createdAt',
+                'updatedAt',
+                'about_user',
+              ],
+            },
+          },
+        ],
+      });
+
+      if (conversations.length == 0)
+        return res.status(404).json({
+          error: 'You have not started conversation with anyone yet.',
+        });
+
+      return res.status(200).json({ conversations: conversations });
+    } catch (error) {
+      return res.status(400).json(error.message);
+    }
+  }
+
+  async getConversations(req, res) {
+    try {
+      const { conversation_id } = req.params;
+      const conversations = await ChatMessage.findAll({
+        where: { conversation_id },
+        // include: [
+        //   {
+        //     model: ChatMessage,
+        //     attributes: {
+        //       exclude: ['conversation_id', 'user_id'],
+        //     },
+        //     include: [
+        //       {
+        //         model: User,
+        //         attributes: {
+        //           exclude: [
+        //             'email',
+        //             'password',
+        //             'birthdate',
+        //             'user_type',
+        //             'is_active',
+        //             'createdAt',
+        //             'updatedAt',
+        //           ],
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ],
       });
 
       if (conversations.length == 0)
@@ -146,4 +208,4 @@ class DonationController {
   }
 }
 
-export default new DonationController();
+export default new ChatController();
