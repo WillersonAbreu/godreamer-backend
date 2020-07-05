@@ -134,7 +134,6 @@ class GroupController {
     const group_id = req.params.id;
     const user_id = decodedToken.id;
     const getGroup = await Group.findByPk(group_id);
-
     if (getGroup == null) {
       return res.status(400).json({ error: 'Group not found' });
     }
@@ -156,7 +155,7 @@ class GroupController {
         await getGroup.destroy();
         return res.status(200).json({ message: 'Post deleted successfully' });
       } catch (error) {
-        return res.status(400).json({ error: 'Error' });
+        return res.status(400).json({ error: 'Error', t: error });
       }
     } else {
       return res

@@ -78,8 +78,22 @@ class ChatController {
   async getConversations(req, res) {
     try {
       const { conversation_id } = req.params;
+      var prox = Number(conversation_id) + 1;
+      prox = prox % 2;
+      // console.log(prox);
+
       const conversations = await ChatMessage.findAll({
-        where: { conversation_id },
+        where: {
+          [Op.or]: [
+            { conversation_id: Number(conversation_id) },
+            {
+              conversation_id:
+                prox === 0
+                  ? Number(conversation_id) + 1
+                  : Number(conversation_id) - 1,
+            },
+          ],
+        },
         // include: [
         //   {
         //     model: ChatMessage,
@@ -106,7 +120,7 @@ class ChatController {
         // ],
       });
 
-      if (conversations.length == 0)
+      if (conversations.length <= 0)
         return res.status(404).json({
           error: 'You have not started conversation with anyone yet.',
         });

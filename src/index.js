@@ -18,12 +18,12 @@ dotenv.config();
 io.on('connection', function (socket) {
   // We need to register each event that the frontend can emit
   socket.on('chatMessage', function (messageObject) {
-    console.log('message: ', messageObject);
+    socket.broadcast.emit('messageReceived', messageObject);
   });
 
   socket.on('newPost', async function (postObject) {
-    const post = await FeedBO.getUserPost(postObject);
-    socket.broadcast.emit('receivedNewPost', post.toJSON());
+    // const post = await FeedBO.getUserPost(postObject);
+    socket.broadcast.emit('receivedNewPost', true);
   });
 });
 
