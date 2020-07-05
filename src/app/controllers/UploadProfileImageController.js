@@ -35,6 +35,7 @@ class UploadProfileImageController {
 
       if (profileImage === null) {
         await ProfileImage.create({
+          id: userId,
           name,
           image_source,
         });
@@ -53,7 +54,7 @@ class UploadProfileImageController {
           .json({ message: 'Imagem de perfil atualizada com sucesso' });
       }
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error });
     }
   }
 
