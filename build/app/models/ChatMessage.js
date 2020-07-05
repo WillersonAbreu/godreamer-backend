@@ -17,7 +17,7 @@ class ChatMessage extends _sequelize.Model {
 
   static associate(models) {
     this.belongsTo(models.ChatConversation, { foreignKey: 'id' });
-    this.belongsTo(models.User, { foreignKey: 'user_id' });
+    // this.belongsTo(models.User, { foreignKey: 'user_id' });
   }
 }
 
