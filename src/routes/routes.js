@@ -66,6 +66,7 @@ routes.put('/users', UserController.update);
 routes.delete('/users', UserController.delete);
 routes.get('/users', UserController.index);
 routes.get('/users/:emailOrName', UserController.getUserByEmailOrName);
+routes.get('/search/:emailOrName', UserController.getUsersByLikeEmailOrName);
 
 // Upload profile image
 routes.get('/profile-image/:userId', UploadProfileImageController.index);

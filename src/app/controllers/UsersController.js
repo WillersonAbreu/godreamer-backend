@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
 
 // Models
 import User from '../models/User';
@@ -224,6 +224,47 @@ class UserController {
       const users = await User.findAll({
         where: {
           name: emailOrName /*{ [Operator.like]: `%${emailOrName}%` }*/,
+        },
+        // attributes: { exclude: ['password'] },
+        include: [{ model: ProfileImage }, { model: UserInfoDonation }],
+      });
+
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async getUsersByLikeEmailOrName(req, res) {
+    const { emailOrName } = req.params;
+    // Email Schema
+    const emailSchema = Yup.object().shape({
+      emailOrName: Yup.string().email(),
+    });
+
+    // Check if the URL param is name or email
+    if (await emailSchema.isValid(req.params)) {
+      // return res.json({ isemail: true });
+      try {
+        const user = await User.findAll({
+          where: { email: emailOrName },
+          attributes: { exclude: ['password'] },
+          include: [{ model: ProfileImage }, { model: UserInfoDonation }],
+        });
+
+        return res.status(200).json(user);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    }
+
+    // Else find by user name
+    try {
+      const Operator = Sequelize.Op;
+
+      const users = await User.findAll({
+        where: {
+          name: { [Operator.like]: `%${emailOrName}%` },
         },
         // attributes: { exclude: ['password'] },
         include: [{ model: ProfileImage }, { model: UserInfoDonation }],
