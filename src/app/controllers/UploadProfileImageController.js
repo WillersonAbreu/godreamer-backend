@@ -24,11 +24,9 @@ class UploadProfileImageController {
     // }
 
     if (!req.file)
-      return res
-        .status(400)
-        .json({
-          error: 'É necessário inserir de um arquivo para realizar o upload',
-        });
+      return res.status(400).json({
+        error: 'É necessário inserir de um arquivo para realizar o upload',
+      });
 
     const { originalname: name, filename: image_source } = req.file;
 
@@ -46,6 +44,7 @@ class UploadProfileImageController {
           .json({ message: 'Imagem de perfil registrada com sucesso' });
       } else {
         await profileImage.update({
+          id: userId,
           name,
           image_source,
         });
