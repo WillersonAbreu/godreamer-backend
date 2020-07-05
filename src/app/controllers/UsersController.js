@@ -89,7 +89,7 @@ class UserController {
       return res.json({ message: 'User registered successfully', status: 200 });
     } catch (error) {
       // Returning the exception error
-      return res.json({ message: error.errors[0].message, status: 400 });
+      return res.json({ message: error, status: 400 });
     }
   }
 
