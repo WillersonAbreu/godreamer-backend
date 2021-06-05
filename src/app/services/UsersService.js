@@ -10,9 +10,13 @@ import {
   includedUserAttributesFromFindQueries
 } from '../utils/services/UsersServiceUtils';
 
-
+// Validator
+import UserValidator from '../utils/validator/UsersValidator';
 class UsersService {
-
+    /**
+     * @description 
+     * @returns 
+     */
     async findAllUsers() {
       return await User.findAll({
         where: findUserWhereClause,
@@ -22,6 +26,15 @@ class UsersService {
         include: includedUserAttributesFromFindQueries,
       });
     } 
+
+    /**
+     * @description Create an user
+     */
+    async store(userData, res) {
+      await UserValidator.createUserValidate(userData);
+      const user = await User.create(userData);
+      return user;
+    }
 
 }
 

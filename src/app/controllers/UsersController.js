@@ -15,6 +15,12 @@ import UserInfoDonation from '../models/UserInfoDonation';
 import UsersService from '../services/UsersService';
 
 class UserController {
+  /**
+   * @description Return all users
+   * @param {Request} req 
+   * @param {Response} res 
+   * @returns {Array.from(User)}
+   */
   async index(req, res) {
     try {
       const users = await UsersService.findAllUsers();
@@ -24,50 +30,22 @@ class UserController {
     }
   }
 
+  /**
+   * @description Create an user
+   * @param {Request} req 
+   * @param {Response} res 
+   * @returns {User}
+   */
   async store(req, res) {
-    // Validation schema
-    const UserSchema = Yup.object({
-      name: Yup.string().required('Is necessary insert an user name').min(3),
-      email: Yup.string().email().required('Insert an valid email'),
-      password: Yup.string().required('Is necessary insert an password').min(6),
-      passwordConfirmation: Yup.string().when('password', (password, field) =>
-        password
-          ? field
-              .required('The password confirmation does not match')
-              .oneOf([Yup.ref('password')])
-          : field
-      ),
-      birthdate: Yup.date().required('The user birthdate is necessary'),
-      user_type: Yup.number().required('The user type is necessary'),
-    });
-
     try {
-      await UserSchema.validate(req.body);
-    } catch (error) {
-      return res.status(400).json(error.errors);
-    }
-
-    try {
-      // Looking for user where the email is equal to email from req.body
-      const userExists = await User.findOne({
-        where: { email: req.body.email },
-      });
-
-      // Check if user exists
-      if (userExists) {
-        return res
-          .status(400)
-          .json({ message: 'This email is already in use' });
-      }
-
-      // Creating new user
-      await User.create(req.body);
-
-      // Returning the success message
+      await UsersService.store(req.body, res);
       return res.json({ message: 'User registered successfully', status: 200 });
     } catch (error) {
-      // Returning the exception error
-      return res.json({ message: error, status: 400 });
+      if(error instanceof Yup.ValidationError){
+         return res.json({ message: error.message, status: 400 });
+      }else{
+        return res.json({ message: error.message, status: 500 });
+      }
     }
   }
 
