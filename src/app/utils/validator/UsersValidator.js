@@ -20,8 +20,9 @@ class UsersValidator {
    * @param {User} user 
    * @returns {Boolean} isValid
    */
-  async createUserValidate(userData) {
+  async createUserValidate(userData, res) {
     await this.CreateUserSchema.validate(userData);
+    await this.isEmailUsed(userData.email, res);
   }
 
   async isEmailUsed(email, res) {
@@ -32,8 +33,7 @@ class UsersValidator {
 
     // Check if user exists
     if (userExists) {
-      console.log(res);
-      return res.status(400).json({ message: "This email is already in use" });
+      return res.status(400).json({ message: "This email is already in use", status: 400 });
     }
   }
 }

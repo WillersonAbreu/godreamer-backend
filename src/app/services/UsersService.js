@@ -31,7 +31,7 @@ class UsersService {
      * @description Create an user
      */
     async store(userData, res) {
-      await UserValidator.createUserValidate(userData);
+      await UserValidator.createUserValidate(userData, res);
       const user = await User.create(userData);
       return user;
     }

@@ -39,7 +39,7 @@ class UserController {
   async store(req, res) {
     try {
       await UsersService.store(req.body, res);
-      return res.json({ message: 'User registered successfully', status: 200 });
+      return res.json({ message: 'User registered successfully', status: 201 });
     } catch (error) {
       if(error instanceof Yup.ValidationError){
          return res.json({ message: error.message, status: 400 });
