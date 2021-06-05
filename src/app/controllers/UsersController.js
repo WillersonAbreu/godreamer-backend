@@ -1,4 +1,4 @@
-import Sequelize, { Op } from 'sequelize';
+import Sequelize from 'sequelize';
 
 // Models
 import User from '../models/User';
@@ -11,35 +11,13 @@ import * as Yup from 'yup';
 import Group from '../models/Group';
 import UserInfoDonation from '../models/UserInfoDonation';
 
+// Services
+import UsersService from '../services/UsersService';
+
 class UserController {
   async index(req, res) {
     try {
-      const users = await User.findAll({
-        where: { is_active: true },
-        attributes: {
-          exclude: [
-            'password',
-            'is_active',
-            'createdAt',
-            'updatedAt',
-            'profile_image_id',
-          ],
-        },
-        include: [
-          {
-            model: ProfileImage,
-            attributes: {
-              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
-            },
-          },
-          {
-            model: Friendship,
-          },
-          {
-            model: Group,
-          },
-        ],
-      });
+      const users = await UsersService.findAllUsers();
       return res.status(200).json(users);
     } catch (error) {
       return res.status(400).json({ error: error.message });
