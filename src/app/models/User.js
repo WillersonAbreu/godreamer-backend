@@ -1,5 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
-import bcrypt from 'bcryptjs';
+import Sequelize, { Model } from 'sequelize'
+import bcrypt from 'bcryptjs'
 
 class User extends Model {
   static init(sequelize) {
@@ -16,32 +16,37 @@ class User extends Model {
       },
       {
         sequelize,
-      }
-    );
+      },
+    )
 
     this.addHook('beforeSave', async (user) => {
-      if (user.passwordConfirmation) {
-        user.password = await bcrypt.hash(user.passwordConfirmation, 8);
+      if (user.password && !user.changed()) {
+        user.password = user.password
+      } else {
+        let isPassChanged = user.changed().includes('password')
+        if (isPassChanged) {
+          user.password = await bcrypt.hash(user.password, 8)
+        }
       }
-    });
+    })
 
-    return this;
+    return this
   }
 
   static associate(models) {
-    this.belongsTo(models.ProfileImage, { foreignKey: 'id' });
-    this.hasMany(models.FollowGroup, { foreignKey: 'user_id' });
-    this.hasMany(models.Post, { foreignKey: 'user_id' });
-    this.hasMany(models.Group, { foreignKey: 'user_id' });
-    this.hasMany(models.Friendship, { foreignKey: 'user_id' });
-    this.hasOne(models.UserInfoDonation, { foreignKey: 'user_id' });
-    this.hasMany(models.Donation, { foreignKey: 'user_id' });
-    this.hasMany(models.ChatMessage, { foreignKey: 'user_id' });
+    this.belongsTo(models.ProfileImage, { foreignKey: 'id' })
+    this.hasMany(models.FollowGroup, { foreignKey: 'user_id' })
+    this.hasMany(models.Post, { foreignKey: 'user_id' })
+    this.hasMany(models.Group, { foreignKey: 'user_id' })
+    this.hasMany(models.Friendship, { foreignKey: 'user_id' })
+    this.hasOne(models.UserInfoDonation, { foreignKey: 'user_id' })
+    this.hasMany(models.Donation, { foreignKey: 'user_id' })
+    this.hasMany(models.ChatMessage, { foreignKey: 'user_id' })
   }
 
   async checkPassword(password) {
-    return bcrypt.compare(password, this.password);
+    return bcrypt.compare(password, this.password)
   }
 }
 
-export default User;
+export default User

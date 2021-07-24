@@ -38,6 +38,7 @@
     "dev:start": "nodemon index.js"
   },
   "devDependencies": {
+    "prettier": "2.3.1",
     "sequelize-cli": "^5.5.1",
     "sucrase": "^3.10.1"
   }
