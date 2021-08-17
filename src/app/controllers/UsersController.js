@@ -61,7 +61,7 @@ class UserController {
   async update(req, res) {
     try {
       await UsersService.update(req.body, res)
-      return res.status(204).json({ success: 'User updated successfully' })
+      return res.status(200).json({ success: 'User updated successfully' })
     } catch (error) {
       return res.status(400).json({ error: error.message })
     }
@@ -69,19 +69,8 @@ class UserController {
 
   async delete(req, res) {
     const { userId } = req.body
-
-    if (!userId)
-      return res.status(400).json({ error: `The user wasn't informed` })
-
-    const user = await User.findByPk(userId)
-
-    if (!user)
-      return res
-        .status(401)
-        .json({ error: `The user with this user ID doesn't exists` })
-
     try {
-      await user.update({ is_active: false })
+      await UsersService.delete(userId, res)
       return res
         .status(200)
         .json({ message: 'The user was deleted successfully' })
@@ -91,82 +80,16 @@ class UserController {
   }
 
   async getUserByEmailOrName(req, res) {
-    const { emailOrName } = req.params
-    // Email Schema
-    const emailSchema = Yup.object().shape({
-      emailOrName: Yup.string().email(),
-    })
-
-    // Check if the URL param is name or email
-    if (await emailSchema.isValid(req.params)) {
-      // return res.json({ isemail: true });
-      try {
-        const user = await User.findOne({
-          where: { email: emailOrName },
-          attributes: { exclude: ['password'] },
-          include: [{ model: ProfileImage }, { model: UserInfoDonation }],
-        })
-
-        return res.status(200).json(user)
-      } catch (error) {
-        return res.status(400).json({ error: error.message })
-      }
-    }
-
-    // Else find by user name
     try {
-      const Operator = Sequelize.Op
-
-      const users = await User.findAll({
-        where: {
-          name: emailOrName /*{ [Operator.like]: `%${emailOrName}%` }*/,
-        },
-        // attributes: { exclude: ['password'] },
-        include: [{ model: ProfileImage }, { model: UserInfoDonation }],
-      })
-
-      return res.status(200).json(users)
+      await UsersService.getUserByEmailOrName(req.params, res)
     } catch (error) {
       return res.status(400).json({ error: error.message })
     }
   }
 
   async getUsersByLikeEmailOrName(req, res) {
-    const { emailOrName } = req.params
-    // Email Schema
-    const emailSchema = Yup.object().shape({
-      emailOrName: Yup.string().email(),
-    })
-
-    // Check if the URL param is name or email
-    if (await emailSchema.isValid(req.params)) {
-      // return res.json({ isemail: true });
-      try {
-        const user = await User.findAll({
-          where: { email: emailOrName },
-          attributes: { exclude: ['password'] },
-          include: [{ model: ProfileImage }, { model: UserInfoDonation }],
-        })
-
-        return res.status(200).json(user)
-      } catch (error) {
-        return res.status(400).json({ error: error.message })
-      }
-    }
-
-    // Else find by user name
     try {
-      const Operator = Sequelize.Op
-
-      const users = await User.findAll({
-        where: {
-          name: { [Operator.like]: `%${emailOrName}%` },
-        },
-        // attributes: { exclude: ['password'] },
-        include: [{ model: ProfileImage }, { model: UserInfoDonation }],
-      })
-
-      return res.status(200).json(users)
+      await UsersService.getUsersByLikeEmailOrName(req.params, res)
     } catch (error) {
       return res.status(400).json({ error: error.message })
     }

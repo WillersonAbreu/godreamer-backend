@@ -31,6 +31,14 @@ class UsersValidator {
     ),
   })
 
+  EmailSchema = Yup.object().shape({
+    emailOrName: Yup.string().email(),
+  })
+
+  async isEmailOrNameValidate(params) {
+    return await this.EmailSchema.isValid(params)
+  }
+
   /**
    *
    * @param {User} user

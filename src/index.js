@@ -1,7 +1,7 @@
 import app from './app';
 
 // BO import
-import FeedBO from './app/BO/FeedBO';
+//import FeedBO from './app/BO/FeedBO';
 
 // For websocket
 import http from 'http';
