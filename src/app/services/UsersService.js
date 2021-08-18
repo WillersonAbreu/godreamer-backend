@@ -16,12 +16,15 @@ class UsersService {
    * @returns
    */
   async findAllUsers() {
+    let excluded = UsersServiceUtils.excludedUserAttributesFromFindQueries()
+    let included = UsersServiceUtils.includedUserAttributesFromFindQueries()
+
     return await User.findAll({
       where: findUserWhereClause,
       attributes: {
-        exclude: excludedUserAttributesFromFindQueries,
+        exclude: excluded,
       },
-      include: includedUserAttributesFromFindQueries,
+      include: included,
     })
   }
 

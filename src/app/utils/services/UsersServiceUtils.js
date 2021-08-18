@@ -18,31 +18,39 @@ class UsersServiceUtils {
   /**
    * Attributes to exclude when find users
    */
-  excludedUserAttributesFromFindQueries = [
-    'password',
-    'is_active',
-    'createdAt',
-    'updatedAt',
-    'profile_image_id',
-  ]
+  excludedUserAttributesFromFindQueries() {
+    let excluded = [
+      'password',
+      'is_active',
+      'createdAt',
+      'updatedAt',
+      'profile_image_id',
+    ]
+
+    return excluded
+  }
 
   /**
    * Attributes to include when find users
    */
-  includedUserAttributesFromFindQueries = [
-    {
-      model: ProfileImage,
-      attributes: {
-        exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
+  includedUserAttributesFromFindQueries() {
+    let included = [
+      {
+        model: ProfileImage,
+        attributes: {
+          exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
+        },
       },
-    },
-    {
-      model: Friendship,
-    },
-    {
-      model: Group,
-    },
-  ]
+      {
+        model: Friendship,
+      },
+      {
+        model: Group,
+      },
+    ]
+
+    return included
+  }
 
   /**
    * Attributes and relationships to build

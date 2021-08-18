@@ -79,14 +79,6 @@ class UserController {
     }
   }
 
-  async getUserByEmailOrName(req, res) {
-    try {
-      await UsersService.getUserByEmailOrName(req.params, res)
-    } catch (error) {
-      return res.status(400).json({ error: error.message })
-    }
-  }
-
   async getUsersByLikeEmailOrName(req, res) {
     try {
       await UsersService.getUsersByLikeEmailOrName(req.params, res)
