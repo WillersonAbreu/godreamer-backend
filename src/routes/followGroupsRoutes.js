@@ -5,7 +5,7 @@ import AuthMiddleware from '../app/middlewares/AuthMiddleware'
 const routes = new Router()
 
 // All routes below this middleware needs authorization by bearer token
-routes.use(AuthMiddleware)
+//routes.use(AuthMiddleware)
 
 // Follow Group routes
 routes.get('/followed-groups/:userId', FollowGroupController.index)

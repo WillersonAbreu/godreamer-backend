@@ -3,11 +3,10 @@ import UserController from '../app/controllers/UsersController'
 import AuthMiddleware from '../app/middlewares/AuthMiddleware'
 
 const routes = new Router()
-
 // Create User Route
 routes.post('/users', UserController.store)
 
-// All routes below this middleware needs authorization by bearer token
+// All routes before this middleware needs authorization by bearer token
 routes.use(AuthMiddleware)
 
 // Users Routes
