@@ -1,15 +1,10 @@
 // Models
-import User from '../../models/User'
-
-// Users Service
-import UsersService from '../../services/UsersService'
-
+import { response } from 'express'
 // Yup validator
 import * as Yup from 'yup'
-import { response } from 'express'
-
-// BCrypt
-import bcrypt from 'bcryptjs'
+import User from '../../models/User'
+// Users Service
+import UsersService from '../../services/UsersService'
 
 class UsersValidator {
   // Create user validation schema

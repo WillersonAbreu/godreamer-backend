@@ -1,4 +1,4 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model } from 'sequelize'
 
 class ProfileImage extends Model {
   static init(sequelize) {
@@ -11,10 +11,10 @@ class ProfileImage extends Model {
       },
       {
         sequelize,
-      }
-    );
-    return this;
+      },
+    )
+    return this
   }
 }
 
-export default ProfileImage;
+export default ProfileImage
