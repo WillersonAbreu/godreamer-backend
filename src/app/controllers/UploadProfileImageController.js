@@ -1,107 +1,80 @@
-import ProfileImage from '../models/ProfileImage';
-import User from '../models/User';
+import ProfileImage from '../models/ProfileImage'
+import User from '../models/User'
+
+// Services
+import UploadProfileImageService from '../services/UploadProfileImageService'
 
 class UploadProfileImageController {
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {File} profileImage
+   */
   async index(req, res) {
     try {
-      const { userId } = req.params;
-
-      const profileImage = await ProfileImage.findByPk(userId);
-
-      return res.status(200).json(profileImage);
+      const { userId } = req.params
+      let profileImage = await UploadProfileImageService.findById(userId, res)
+      return res.status(200).json({ status: 200, message: profileImage })
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ status: 400, error: error.message })
     }
   }
 
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response} response
+   */
   async store(req, res) {
-    const { userId } = req.params;
-
-    // try {
-    //   return res.status(200).json({ profileImage });
-    // } catch (error) {
-    //   return res.status(400).json({ error: error.message });
-    // }
-
-    if (!req.file)
-      return res.status(400).json({
-        error: 'É necessário inserir de um arquivo para realizar o upload',
-      });
-
-    const { originalname: name, filename: image_source } = req.file;
-
     try {
-      const profileImage = await ProfileImage.findByPk(userId);
-
-      if (profileImage === null) {
-        await ProfileImage.create({
-          id: userId,
-          name,
-          image_source,
-        });
-
-        return res
-          .status(200)
-          .json({ message: 'Imagem de perfil registrada com sucesso' });
-      } else {
-        await profileImage.update({
-          id: userId,
-          name,
-          image_source,
-        });
-        return res
-          .status(200)
-          .json({ message: 'Imagem de perfil atualizada com sucesso' });
-      }
+      await UploadProfileImageService.store(req, res)
+      return res
+        .status(201)
+        .json({ message: 'Profile image registered successfully', status: 201 })
     } catch (error) {
-      return res.status(400).json({ error: error });
+      return res.status(400).json({ status: 400, error: error.message })
     }
   }
 
-  async delete(req, res) {
-    const { userId } = req.body;
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response} response
+   */
+  async update(req, res) {
     try {
-      const user = await User.findByPk(userId, {
-        attributes: {
-          exclude: [
-            'password',
-            'is_active',
-            'createdAt',
-            'updatedAt',
-            'profile_image_id',
-          ],
-        },
-        include: [
-          {
-            model: ProfileImage,
-            attributes: {
-              exclude: ['user_id', 'is_active', 'createdAt', 'updatedAt'],
-            },
-          },
-        ],
-      });
+      await UploadProfileImageService.update(req, res)
+      return res
+        .status(201)
+        .json({ message: 'Profile image updated successfully', status: 200 })
+    } catch (error) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
 
-      if (!user)
-        return res.status(401).json({
-          error: `The user isn't registered in database`,
-        });
-
-      const profileImage = await ProfileImage.findByPk(user.ProfileImage.id);
-
-      if (!profileImage)
-        return res.status(400).json({
-          error: `The image don't exists or has already deleted from our database`,
-        });
-
-      await profileImage.update({ is_active: false });
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response} response
+   */
+  async delete(req, res) {
+    try {
+      await UploadProfileImageService.delete(req.params.userId, res)
 
       return res
         .status(200)
-        .json({ message: 'The profile image was deleted successfully' });
+        .json({
+          message: 'The profile image was deleted successfully',
+          status: 200,
+        })
     } catch (error) {
-      return res.status(400).error({ error: error.message });
+      return res.status(400).error({ error: error.message })
     }
   }
 }
 
-export default new UploadProfileImageController();
+export default new UploadProfileImageController()

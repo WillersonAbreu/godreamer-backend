@@ -4,16 +4,14 @@ import User from '../models/User'
 // Utils
 import UsersServiceUtils, {
   findUserWhereClause,
-  excludedUserAttributesFromFindQueries,
-  includedUserAttributesFromFindQueries,
 } from '../utils/services/UsersServiceUtils'
 
 // Validator
 import UserValidator from '../utils/validator/UsersValidator'
 class UsersService {
   /**
-   * @description
-   * @returns
+   * @description Return an user list
+   * @returns Array from @User
    */
   async findAllUsers() {
     let excluded = UsersServiceUtils.excludedUserAttributesFromFindQueries()

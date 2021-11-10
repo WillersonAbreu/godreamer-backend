@@ -21,6 +21,12 @@ routes.post(
   UploadProfileImageController.store,
 )
 
-routes.delete('/profile-image', UploadProfileImageController.delete)
+routes.patch(
+  '/profile-image/:userId',
+  ProfileUpload.single('profile_image'),
+  UploadProfileImageController.update,
+)
+
+routes.delete('/profile-image/:userId', UploadProfileImageController.delete)
 
 module.exports = routes

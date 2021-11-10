@@ -1,22 +1,11 @@
-import Sequelize from 'sequelize'
-
 // Models
 import User from '../models/User'
-import ProfileImage from '../models/ProfileImage'
-import Friendship from '../models/Friendship'
-import Post from '../models/Post'
 
 // Yup validator
 import * as Yup from 'yup'
-import Group from '../models/Group'
-import UserInfoDonation from '../models/UserInfoDonation'
 
 // Services
 import UsersService from '../services/UsersService'
-
-// Validators
-import UsersServiceUtils from '../utils/services/UsersServiceUtils'
-
 class UserController {
   /**
    * @description Return all users
@@ -42,7 +31,9 @@ class UserController {
   async store(req, res) {
     try {
       await UsersService.store(req.body, res)
-      return res.json({ message: 'User registered successfully', status: 201 })
+      return res
+        .status(201)
+        .json({ message: 'User registered successfully', status: 201 })
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         return res.json({ message: error.message, status: 400 })
