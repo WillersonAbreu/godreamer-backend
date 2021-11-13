@@ -5,3 +5,5 @@ temp
 build
 
 /src/config/database.js
+
+.env
