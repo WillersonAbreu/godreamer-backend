@@ -1,6 +1,3 @@
-import ProfileImage from '../models/ProfileImage'
-import User from '../models/User'
-
 // Services
 import UploadProfileImageService from '../services/UploadProfileImageService'
 
@@ -65,12 +62,10 @@ class UploadProfileImageController {
     try {
       await UploadProfileImageService.delete(req.params.userId, res)
 
-      return res
-        .status(200)
-        .json({
-          message: 'The profile image was deleted successfully',
-          status: 200,
-        })
+      return res.status(200).json({
+        message: 'The profile image was deleted successfully',
+        status: 200,
+      })
     } catch (error) {
       return res.status(400).error({ error: error.message })
     }

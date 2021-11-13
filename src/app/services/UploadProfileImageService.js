@@ -90,8 +90,6 @@ class UploadProfileImageService {
     UploadProfileImageValidator.isProfileImagePresent(profileImage, res)
 
     await profileImage.update({ is_active: false })
-
-    //await UploadProfileImageServiceUtils.deleteImageFileFromDisk(profileImage)
   }
 }
 
