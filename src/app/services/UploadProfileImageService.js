@@ -1,9 +1,6 @@
 // Models
 import ProfileImage from '../models/ProfileImage'
 
-// Services
-import UsersService from './UsersService'
-
 // Utils
 import UploadProfileImageValidator from '../utils/validator/UploadProfileImageValidator'
 import UploadProfileImageServiceUtils from '../utils/services/UploadProfileImageServiceUtils'
